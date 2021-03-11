@@ -1,0 +1,78 @@
+import React from 'react';
+import {Image, StyleSheet, Text, TouchableOpacity, View} from 'react-native';
+import {Company, IcFavorite} from '../../assets';
+import {Gap, Header} from '../../components';
+
+const Home = ({navigation}) => {
+  return (
+    <View style={styles.page}>
+      <Header />
+      <View style={styles.container}>
+        <View style={styles.card}>
+          <View style={styles.title}>
+            <IcFavorite />
+            <Gap width={20} />
+            <Text style={styles.stared}>Stared Companies</Text>
+          </View>
+          <View style={styles.list}>
+            <TouchableOpacity
+              activeOpacity={0.7}
+              onPress={() => navigation.navigate('HomeCompany')}>
+              <Image source={Company} style={styles.company} />
+            </TouchableOpacity>
+          </View>
+        </View>
+      </View>
+    </View>
+  );
+};
+
+export default Home;
+
+const styles = StyleSheet.create({
+  page: {
+    flex: 1,
+  },
+  container: {
+    flex: 1,
+    backgroundColor: '#FFFFFF',
+    marginTop: -20,
+    borderTopLeftRadius: 25,
+    borderTopRightRadius: 25,
+    padding: 25,
+  },
+  card: {
+    flex: 1,
+    backgroundColor: '#FFFFFF',
+    borderRadius: 10,
+    shadowColor: '#020202',
+    shadowOffset: {
+      width: 0,
+      height: 4,
+    },
+    shadowOpacity: 0.5,
+    shadowRadius: 4.65,
+    elevation: 10,
+    padding: 20,
+  },
+  title: {
+    flexDirection: 'row',
+    alignItems: 'center',
+  },
+  stared: {
+    fontFamily: 'Poppins-Regular',
+    fontSize: 16,
+    color: '#020202',
+  },
+  list: {
+    flexDirection: 'row',
+    flexWrap: 'wrap',
+    paddingTop: 10,
+  },
+  company: {
+    width: 130,
+    height: 55,
+    marginRight: 20,
+    marginBottom: 20,
+  },
+});
