@@ -28,13 +28,14 @@ const initialState = {
 };
 
 const Penugasan = ({navigation}) => {
-  const [role, setRole] = useState('');
+  const [role, setRole] = useState('Pengawas');
   const [penugasan, setPenugasan] = useState('Area Tambang SMO');
   const [currentLocation, setCurrentLocation] = useState(initialState);
   const [wmp, setWmp] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
+    console.log('------------------->>>> penugasan');
     Geolocation.getCurrentPosition(
       (position) => {
         const {latitude, longitude} = position.coords;
@@ -50,11 +51,12 @@ const Penugasan = ({navigation}) => {
       {enableHighAccuracy: true, timeout: 20000},
     );
     getData('userProfile').then((res) => {
-      setRole(res.level.lev_nama);
+      console.log('--------------->>>>', res);
+      // setRole(res.level.lev_nama);
     });
     getData('tambang').then((res) => {
-      setPenugasan(res.nama);
-      setWmp(res.wmp);
+      // setPenugasan(res.nama);
+      // setWmp(res.wmp);
     });
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);

@@ -1,18 +1,27 @@
-import React from 'react';
-import {StyleSheet, Text, View} from 'react-native';
+import React, {useEffect, useState} from 'react';
+import Moment from 'moment';
+import 'moment/locale/id';
+import {StyleSheet, Text, View, TouchableOpacity} from 'react-native';
 import DateTimePicker from '@react-native-community/datetimepicker';
 import {storeData, useForm} from '../../../utils';
 import {Gap, Select, TextInput} from '../../atoms';
 
 const ChemicalDescription = () => {
+  const [show, setShow] = useState(false);
   const [form, setForm] = useForm({
-    date_input: '',
+    date_input: new Date(),
     periodical_input: '',
     time_input_hour: '',
     time_input_minute: '',
     chemical: 'Kapur',
     purity: 'Cerah',
   });
+  const onChange = (event, selectedDate) => {
+    const currentDate = selectedDate || form.date_input;
+    console.log(currentDate);
+    setForm('date_input', currentDate);
+    setShow(false);
+  };
 
   storeData('ChemicalDescription', form);
 
@@ -23,28 +32,19 @@ const ChemicalDescription = () => {
           <Gap height={10} />
           <Text style={styles.label}>Date Input</Text>
         </View>
-        <View style={styles.containerInput}>
-          <DatePicker
-            style={styles.datePicker}
-            date={form.date_input}
-            mode="date"
-            confirmBtnText="Confirm"
-            cancelBtnText="Cancel"
-            showIcon={false}
-            format="DD MMMM YYYY"
-            customStyles={{
-              dateInput: {
-                backgroundColor: '#FFFFFF',
-                borderRadius: 10,
-                borderWidth: 1,
-                borderColor: '#286090',
-              },
-            }}
-            onDateChange={(data) => {
-              setForm('date_input', data);
-            }}
-          />
-        </View>
+        <TouchableOpacity style={styles.calendar} onPress={() => setShow(true)}>
+          <Text>{Moment(form.date_input).format('DD-MM-YYYY')}</Text>
+          {show && (
+            <DateTimePicker
+              testID="dateTimePicker"
+              value={form.date_input}
+              mode="date"
+              is24Hour={true}
+              display="default"
+              onChange={onChange}
+            />
+          )}
+        </TouchableOpacity>
       </View>
       <Gap height={20} />
       <View style={styles.container}>
@@ -159,5 +159,16 @@ const styles = StyleSheet.create({
     padding: 5,
     backgroundColor: '#FFFFFF',
     textAlign: 'center',
+  },
+  calendar: {
+    flex: 3,
+    borderWidth: 1,
+    borderColor: '#286090',
+    borderRadius: 10,
+    backgroundColor: '#FFFFFF',
+    paddingVertical: 12,
+    paddingLeft: 11,
+    marginLeft: 14,
+    marginRight: -18,
   },
 });

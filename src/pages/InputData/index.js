@@ -19,18 +19,18 @@ import {
 import {getData, storeData} from '../../utils';
 
 const InputData = ({navigation}) => {
-  const [role, setRole] = useState('');
+  const [role, setRole] = useState('Pengawas');
   const [penugasan, setPenugasan] = useState('Area Tambang LMO');
   const [wmp, setWmp] = useState('1');
   const [stepper, setStepper] = useState('ATT');
 
   useEffect(() => {
-    getData('userProfile').then((res) => {
-      setRole(res.level.lev_nama);
-    });
-    getData('tambang').then((res) => {
-      setPenugasan(res.nama);
-    });
+    // getData('userProfile').then((res) => {
+    //   setRole(res.level.lev_nama);
+    // });
+    // getData('tambang').then((res) => {
+    //   setPenugasan(res.nama);
+    // });
   }, []);
 
   storeData('wmp', wmp);

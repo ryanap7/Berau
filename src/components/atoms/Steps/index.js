@@ -40,12 +40,12 @@ const Steps = () => {
   const [token, setToken] = useState('');
 
   useEffect(() => {
-    getData('wmp').then((res) => {
-      setForm('wmp', res);
-    });
-    getData('token').then((res) => {
-      setToken(res.value);
-    });
+    // getData('wmp').then((res) => {
+    //   setForm('wmp', res);
+    // });
+    // getData('token').then((res) => {
+    //   setToken(res.value);
+    // });
   }, [setForm]);
 
   const [show, setShow] = useState(false);

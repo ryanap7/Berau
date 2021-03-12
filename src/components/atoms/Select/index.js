@@ -11,18 +11,18 @@ const Select = ({value, onSelectChange, type, enabled}) => {
   const dispatch = useDispatch();
 
   useEffect(() => {
-    getData('token').then((res) => {
-      setToken(res.value);
-    });
-    getData('tambang').then((res) => {
-      setWmp(res.wmp);
-    });
+    // getData('token').then((res) => {
+    //   setToken(res.value);
+    // });
+    // getData('tambang').then((res) => {
+    //   setWmp(res.wmp);
+    // });
   }, []);
 
   // Get Sampling Point
-  dispatch(samplingPoint(token));
+  // dispatch(samplingPoint(token));
 
-  const {samplingPointReducer} = useSelector((state) => state);
+  // const {samplingPointReducer} = useSelector((state) => state);
 
   return (
     <View style={styles.container}>
@@ -126,11 +126,16 @@ const Select = ({value, onSelectChange, type, enabled}) => {
             selectedValue={value}
             style={styles.select}
             onValueChange={(itemValue) => onSelectChange(itemValue)}>
-            {samplingPointReducer.sampling.sampling_point.map((data, index) => {
+            {/* {samplingPointReducer.sampling.sampling_point.map((data, index) => {
               return (
                 <Picker.Item key={index} label={data.nama} value={data.id} />
               );
-            })}
+            })} */}
+            <Picker.Item label="Sebelum titik Pengapuran" value="Sebelum titik Pengapuran" />
+            <Picker.Item label="Sebelum Titik Penawasan" value="Sebelum Titik Penawasan" />
+            <Picker.Item label="Pintu Masuk Sedement Pond" value="Pintu Masuk Sedement Pond" />
+            <Picker.Item label="Titik Penataan (Pintu Effluent)" value="Titik Penataan (Pintu Effluent)" />
+            <Picker.Item label="Titik Lainnya (diSPORING)" value="Titik Lainnya (diSPORING)" />
           </Picker>
         </View>
       )}
