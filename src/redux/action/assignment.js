@@ -7,7 +7,7 @@ const API_HOST = {
   url: 'https://berau.mogasacloth.com/api/v1',
 };
 
-export const samplingPoint = (token) => (dispatch) => {
+export const samplingPoint = () => (dispatch) => {
   Axios.get(`${API_HOST.url}/sampling-point`)
     .then((res) => {
       dispatch({type: 'GET_SAMPLING', value: res.data.data});

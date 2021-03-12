@@ -7,20 +7,16 @@ import {getData} from '../../../utils';
 
 const Select = ({value, onSelectChange, type, enabled}) => {
   const [wmp, setWmp] = useState([]);
-  const [token, setToken] = useState('');
   const dispatch = useDispatch();
 
   useEffect(() => {
-    // getData('token').then((res) => {
-    //   setToken(res.value);
-    // });
-    // getData('tambang').then((res) => {
-    //   setWmp(res.wmp);
-    // });
+    getData('tambang').then((res) => {
+      setWmp(res.wmp);
+    });
   }, []);
 
   // Get Sampling Point
-  // dispatch(samplingPoint(token));
+  // dispatch(samplingPoint());
 
   // const {samplingPointReducer} = useSelector((state) => state);
 
@@ -131,11 +127,26 @@ const Select = ({value, onSelectChange, type, enabled}) => {
                 <Picker.Item key={index} label={data.nama} value={data.id} />
               );
             })} */}
-            <Picker.Item label="Sebelum titik Pengapuran" value="Sebelum titik Pengapuran" />
-            <Picker.Item label="Sebelum Titik Penawasan" value="Sebelum Titik Penawasan" />
-            <Picker.Item label="Pintu Masuk Sedement Pond" value="Pintu Masuk Sedement Pond" />
-            <Picker.Item label="Titik Penataan (Pintu Effluent)" value="Titik Penataan (Pintu Effluent)" />
-            <Picker.Item label="Titik Lainnya (diSPORING)" value="Titik Lainnya (diSPORING)" />
+            <Picker.Item
+              label="Sebelum titik Pengapuran"
+              value="Sebelum titik Pengapuran"
+            />
+            <Picker.Item
+              label="Sebelum Titik Penawasan"
+              value="Sebelum Titik Penawasan"
+            />
+            <Picker.Item
+              label="Pintu Masuk Sedement Pond"
+              value="Pintu Masuk Sedement Pond"
+            />
+            <Picker.Item
+              label="Titik Penataan (Pintu Effluent)"
+              value="Titik Penataan (Pintu Effluent)"
+            />
+            <Picker.Item
+              label="Titik Lainnya (diSPORING)"
+              value="Titik Lainnya (diSPORING)"
+            />
           </Picker>
         </View>
       )}

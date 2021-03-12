@@ -43,17 +43,16 @@ const Steps = () => {
     // getData('wmp').then((res) => {
     //   setForm('wmp', res);
     // });
-    // getData('token').then((res) => {
-    //   setToken(res.value);
-    // });
-  }, [setForm]);
+    getData('token').then((res) => {
+      setToken(res.value);
+    });
+  }, []);
 
   const [show, setShow] = useState(false);
   const [showTime, setShowTime] = useState(false);
 
   const onChange = (event, selectedDate) => {
     const currentDate = selectedDate || form.date_input;
-    console.log(currentDate);
     setForm('date_input', currentDate);
     setShow(false);
   };

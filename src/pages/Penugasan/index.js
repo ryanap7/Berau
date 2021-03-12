@@ -35,7 +35,6 @@ const Penugasan = ({navigation}) => {
   const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
-    console.log('------------------->>>> penugasan');
     Geolocation.getCurrentPosition(
       (position) => {
         const {latitude, longitude} = position.coords;
@@ -51,12 +50,11 @@ const Penugasan = ({navigation}) => {
       {enableHighAccuracy: true, timeout: 20000},
     );
     getData('userProfile').then((res) => {
-      console.log('--------------->>>>', res);
-      // setRole(res.level.lev_nama);
+      setRole(res.level.lev_nama);
     });
     getData('tambang').then((res) => {
-      // setPenugasan(res.nama);
-      // setWmp(res.wmp);
+      setPenugasan(res.nama);
+      setWmp(res.wmp);
     });
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);

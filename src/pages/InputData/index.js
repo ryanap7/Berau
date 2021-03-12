@@ -19,18 +19,14 @@ import {
 import {getData, storeData} from '../../utils';
 
 const InputData = ({navigation}) => {
-  const [role, setRole] = useState('Pengawas');
   const [penugasan, setPenugasan] = useState('Area Tambang LMO');
   const [wmp, setWmp] = useState('1');
   const [stepper, setStepper] = useState('ATT');
 
   useEffect(() => {
-    // getData('userProfile').then((res) => {
-    //   setRole(res.level.lev_nama);
-    // });
-    // getData('tambang').then((res) => {
-    //   setPenugasan(res.nama);
-    // });
+    getData('tambang').then((res) => {
+      setPenugasan(res.nama);
+    });
   }, []);
 
   storeData('wmp', wmp);
@@ -43,22 +39,12 @@ const InputData = ({navigation}) => {
       />
       <ScrollView showsVerticalScrollIndicator={false}>
         <Gap height={11} />
-        {role === 'Pengawas' && (
-          <Select
-            value={penugasan}
-            type="Penugasan"
-            onSelectChange={(value) => setPenugasan(value)}
-            enabled={false}
-          />
-        )}
-        {role === 'Highest Administrator' && (
-          <Select
-            value={penugasan}
-            type="Penugasan"
-            onSelectChange={(value) => setPenugasan(value)}
-            enabled={true}
-          />
-        )}
+        <Select
+          value={penugasan}
+          type="Penugasan"
+          onSelectChange={(value) => setPenugasan(value)}
+          enabled={false}
+        />
         <View style={styles.containerMenu}>
           <TouchableOpacity
             activeOpacity={0.7}

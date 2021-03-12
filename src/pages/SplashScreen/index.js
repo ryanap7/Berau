@@ -6,7 +6,6 @@ import {getData} from '../../utils';
 const SplashScreen = ({navigation}) => {
   useEffect(() => {
     setTimeout(() => {
-      console.log('------------->>> splash screen');
       getData('userProfile').then((res) => {
         if (res) {
           navigation.reset({index: 0, routes: [{name: 'MainApp'}]});
