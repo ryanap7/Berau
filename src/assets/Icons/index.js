@@ -21,6 +21,8 @@ import IcKPI from './IcKPI.svg';
 import IcInputData from './IcInputData.svg';
 import IcRekapData from './IcRekapData.svg';
 import IcDownload from './IcDownload.svg';
+import IcDate from './IcDate.svg';
+import IcAddAttendance from './IcAddAttendance.svg';
 
 export {
   IcHome,
@@ -46,4 +48,6 @@ export {
   IcInputData,
   IcRekapData,
   IcDownload,
+  IcDate,
+  IcAddAttendance,
 };

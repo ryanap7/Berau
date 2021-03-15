@@ -2,7 +2,7 @@ import {Picker} from '@react-native-picker/picker';
 import React, {useEffect, useState} from 'react';
 import {StyleSheet, View} from 'react-native';
 import {useDispatch, useSelector} from 'react-redux';
-import {samplingPoint} from '../../../redux/action/assignment';
+import {samplingPoint} from '../../../redux/action';
 import {getData} from '../../../utils';
 
 const Select = ({value, onSelectChange, type, enabled}) => {

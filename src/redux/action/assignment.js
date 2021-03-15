@@ -2,6 +2,7 @@ import Axios from 'axios';
 import Moment from 'moment';
 import 'moment/locale/id';
 import {showMessage} from '../../utils';
+import {setLoading} from './global';
 
 const API_HOST = {
   url: 'https://berau.mogasacloth.com/api/v1',
@@ -41,16 +42,83 @@ export const storeAtt = (form, token) => (dispatch) => {
     time_input: time,
   };
 
+  dispatch(setLoading(true));
   Axios.post(`${API_HOST.url}/att`, data, {
     headers: {
       Authorization: token,
     },
   })
     .then((res) => {
-      console.log(res);
+      dispatch(setLoading(false));
       showMessage(res.data.meta.message, 'success');
     })
     .catch((err) => {
+      dispatch(setLoading(false));
+      console.log(err);
+    });
+};
+
+export const storeChemical = (form, token) => (dispatch) => {
+  const date = Moment(form.date_input).format('YYYY-MM-DD');
+  const time = Moment(form.time_input).format('H:mm');
+
+  const data = {
+    wmp: form.wmp,
+    date_input: date,
+    periodical_input: form.periodical_input,
+    time_input: time,
+    chemical: form.chemical,
+    purity: form.purity,
+    before: form.before,
+    before_unit: form.before_unit,
+    current: form.current,
+    current_unit: form.current_unit,
+  };
+
+  dispatch(setLoading(true));
+  Axios.post(`${API_HOST.url}/bahan-kimia`, data, {
+    headers: {
+      Authorization: token,
+    },
+  })
+    .then((res) => {
+      dispatch(setLoading(false));
+      showMessage(res.data.meta.message, 'success');
+    })
+    .catch((err) => {
+      dispatch(setLoading(false));
+      console.log(err);
+    });
+};
+
+export const storeService = (form, token) => (dispatch) => {
+  const date = Moment(form.date_input).format('YYYY-MM-DD');
+  const time = Moment(form.time_input).format('H:mm');
+
+  const data = {
+    wmp: form.wmp,
+    date_input: date,
+    periodical_input: form.periodical_input,
+    time_input: time,
+    jenis_perbaikan: form.jenis_perbaikan,
+    notif: form.notif,
+    note: form.note,
+  };
+
+  console.log(data);
+
+  dispatch(setLoading(true));
+  Axios.post(`${API_HOST.url}/perbaikan`, data, {
+    headers: {
+      Authorization: token,
+    },
+  })
+    .then((res) => {
+      dispatch(setLoading(false));
+      showMessage(res.data.meta.message, 'success');
+    })
+    .catch((err) => {
+      dispatch(setLoading(false));
       console.log(err);
     });
 };

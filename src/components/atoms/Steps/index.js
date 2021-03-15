@@ -40,12 +40,13 @@ const Steps = () => {
   const [token, setToken] = useState('');
 
   useEffect(() => {
-    // getData('wmp').then((res) => {
-    //   setForm('wmp', res);
-    // });
+    getData('wmp').then((res) => {
+      setForm('wmp', res);
+    });
     getData('token').then((res) => {
       setToken(res.value);
     });
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   const [show, setShow] = useState(false);
@@ -84,7 +85,6 @@ const Steps = () => {
           nextBtnStyle={styles.nextButton}
           nextBtnTextStyle={styles.nextText}>
           <View style={styles.content}>
-            {/* <ATTDescription /> */}
             <View style={styles.container}>
               <View style={styles.containerLabel}>
                 <Gap height={10} />
@@ -179,7 +179,6 @@ const Steps = () => {
           previousBtnStyle={styles.previousButton}
           previousBtnTextStyle={styles.previousText}>
           <View style={styles.content}>
-            {/* <ATTData /> */}
             <View style={styles.container}>
               <View style={styles.containerLabel}>
                 <Text style={styles.label}>PH</Text>
@@ -242,7 +241,7 @@ const Steps = () => {
                   <View style={styles.rightContainer}>
                     <Gap height={12} />
                     <Select
-                      value={form.Fe}
+                      value={form.Fe_unit}
                       type="Fe"
                       onSelectChange={(value) => setForm('Fe_unit', value)}
                     />
@@ -340,7 +339,6 @@ const Steps = () => {
           previousBtnTextStyle={styles.previousText}
           onSubmit={onSubmit}>
           <View style={styles.contentSummary}>
-            {/* <ATTSummary /> */}
             <View style={styles.card}>
               <View style={styles.summary}>
                 <Text style={styles.labelSummary}>WMP</Text>
@@ -499,7 +497,7 @@ const styles = StyleSheet.create({
     textAlign: 'center',
   },
   card: {
-    width: '90%',
+    width: '80%',
     backgroundColor: '#FFFFFF',
     borderRadius: 10,
     shadowColor: '#020202',

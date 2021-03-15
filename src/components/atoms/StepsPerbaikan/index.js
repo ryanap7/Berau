@@ -1,15 +1,65 @@
-import React from 'react';
-import {StyleSheet, View} from 'react-native';
-import {ProgressStep, ProgressSteps} from 'react-native-progress-steps';
+import DateTimePicker from '@react-native-community/datetimepicker';
+import Moment from 'moment';
+import 'moment/locale/id';
+import React, {useEffect, useState} from 'react';
 import {
-  PerbaikanData,
-  PerbaikanDescription,
-  PerbaikanSummary,
-} from '../../molecules';
+  StyleSheet,
+  Text,
+  TextInput,
+  TouchableOpacity,
+  View,
+} from 'react-native';
+import {ProgressStep, ProgressSteps} from 'react-native-progress-steps';
+import {useDispatch} from 'react-redux';
+import {Gap, Select} from '..';
+import {storeService} from '../../../redux/action';
+import {getData, useForm} from '../../../utils';
 
 const StepsPerbaikan = () => {
+  // Initial State
+  const [form, setForm] = useForm({
+    wmp: '1',
+    date_input: new Date(),
+    periodical_input: '',
+    time_input: new Date(),
+    jenis_perbaikan: 'Pengerukan',
+    notif: '',
+    note: '',
+  });
+
+  const [token, setToken] = useState('');
+
+  useEffect(() => {
+    getData('wmp').then((res) => {
+      setForm('wmp', res);
+    });
+    getData('token').then((res) => {
+      setToken(res.value);
+    });
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
+  const [show, setShow] = useState(false);
+  const [showTime, setShowTime] = useState(false);
+
+  const onChange = (event, selectedDate) => {
+    const currentDate = selectedDate || form.date_input;
+    setForm('date_input', currentDate);
+    setShow(false);
+  };
+  const onChangeTime = (event, selectedDate) => {
+    const currentTime = selectedDate || form.time_input;
+    setForm('time_input', new Date(currentTime));
+    setShowTime(false);
+  };
+
+  const dispatch = useDispatch();
+
+  const onSubmit = () => {
+    dispatch(storeService(form, token));
+  };
   return (
-    <View style={styles.container}>
+    <View style={styles.page}>
       <ProgressSteps
         completedProgressBarColor="#286090"
         activeStepIconColor="#286090"
@@ -24,7 +74,98 @@ const StepsPerbaikan = () => {
           nextBtnStyle={styles.nextButton}
           nextBtnTextStyle={styles.nextText}>
           <View style={styles.content}>
-            <PerbaikanDescription />
+            <View style={styles.container}>
+              <View style={styles.containerLabel}>
+                <Gap height={10} />
+                <Text style={styles.label}>Date Input</Text>
+              </View>
+              <TouchableOpacity
+                style={styles.calendar}
+                onPress={() => setShow(true)}>
+                <Text>{Moment(form.date_input).format('DD-MM-YYYY')}</Text>
+                {show && (
+                  <DateTimePicker
+                    testID="dateTimePicker"
+                    value={form.date_input}
+                    mode="date"
+                    is24Hour={true}
+                    display="default"
+                    onChange={onChange}
+                  />
+                )}
+              </TouchableOpacity>
+            </View>
+            <Gap height={20} />
+            <View style={styles.container}>
+              <View style={styles.containerLabel}>
+                <Text style={styles.label}>Periodical Input</Text>
+              </View>
+              <View style={styles.containerInput}>
+                <Select
+                  value={form.periodical_input}
+                  type="Periodical"
+                  onSelectChange={(value) => {
+                    setForm('periodical_input', value);
+                  }}
+                />
+              </View>
+            </View>
+            <View style={styles.container}>
+              <View style={styles.containerLabel}>
+                <Gap height={10} />
+                <Text style={styles.label}>Time Input</Text>
+              </View>
+              <TouchableOpacity
+                style={styles.calendar}
+                onPress={() => setShowTime(true)}>
+                <Text>{Moment(form.time_input).format('H:mm')}</Text>
+                {showTime && (
+                  <DateTimePicker
+                    testID="dateTimePicker"
+                    value={form.time_input}
+                    mode="time"
+                    is24Hour={true}
+                    display="default"
+                    onChange={onChangeTime}
+                  />
+                )}
+              </TouchableOpacity>
+            </View>
+            <Gap height={20} />
+            <View style={styles.container}>
+              <View style={styles.containerLabel}>
+                <Text style={styles.label}>Jenis Perbaikan</Text>
+              </View>
+              <View style={styles.containerInput}>
+                <Select
+                  value={form.jenis_perbaikan}
+                  type="Perbaikan"
+                  onSelectChange={(value) => setForm('jenis_perbaikan', value)}
+                />
+              </View>
+            </View>
+            <View style={styles.container}>
+              <View style={styles.containerLabel}>
+                <Text style={styles.label}>Notif Info?</Text>
+              </View>
+              <View style={styles.containerInput}>
+                <View style={styles.containerTimeInput}>
+                  <View style={styles.leftContainer}>
+                    <TextInput
+                      style={styles.timeInput}
+                      placeholder="Input"
+                      value={form.notif}
+                      onChangeText={(value) => setForm('notif', value)}
+                    />
+                  </View>
+                  <Gap width={16} />
+                  <View style={styles.rightContainer}>
+                    <Text>(v) Yes</Text>
+                  </View>
+                </View>
+              </View>
+            </View>
+            <Gap height={15} />
           </View>
         </ProgressStep>
         <ProgressStep
@@ -34,7 +175,14 @@ const StepsPerbaikan = () => {
           previousBtnStyle={styles.previousButton}
           previousBtnTextStyle={styles.previousText}>
           <View style={styles.content}>
-            <PerbaikanData />
+            <View>
+              <Text style={styles.labelNote}>Deskripsi Kegiatan</Text>
+              <TextInput
+                style={styles.note}
+                value={form.note}
+                onChangeText={(value) => setForm('note', value)}
+              />
+            </View>
           </View>
         </ProgressStep>
         <ProgressStep
@@ -42,8 +190,42 @@ const StepsPerbaikan = () => {
           nextBtnStyle={styles.nextButton}
           nextBtnTextStyle={styles.nextText}
           previousBtnStyle={styles.previousButton}
-          previousBtnTextStyle={styles.previousText}>
-          <PerbaikanSummary />
+          previousBtnTextStyle={styles.previousText}
+          onSubmit={onSubmit}>
+          <View style={styles.contentSummary}>
+            <View style={styles.card}>
+              <View style={styles.summary}>
+                <Text style={styles.label}>WMP</Text>
+                <Text style={styles.value}>{form.wmp}</Text>
+              </View>
+              <View style={styles.summary}>
+                <Text style={styles.label}>Date Input</Text>
+                <Text style={styles.value}>
+                  {Moment(form.date_input).format('DD-MM-YYYY')}
+                </Text>
+              </View>
+              <View style={styles.summary}>
+                <Text style={styles.label}>Periodical Input</Text>
+                <Text style={styles.value}>{form.periodical_input}</Text>
+              </View>
+              <View style={styles.summary}>
+                <Text style={styles.label}>Time Input</Text>
+                <Text style={styles.value}>
+                  {Moment(form.time_input).format('H:mm')}
+                </Text>
+              </View>
+              <View style={styles.summary}>
+                <Text style={styles.label}>Jenis Perbaikan</Text>
+                <Text style={styles.value}>{form.jenis_perbaikan}</Text>
+              </View>
+            </View>
+            <View style={styles.card}>
+              <View style={styles.summary}>
+                <Text style={styles.label}>Kegiatan Perbaikan</Text>
+                <Text style={styles.value}>{form.note}</Text>
+              </View>
+            </View>
+          </View>
         </ProgressStep>
       </ProgressSteps>
     </View>
@@ -53,8 +235,11 @@ const StepsPerbaikan = () => {
 export default StepsPerbaikan;
 
 const styles = StyleSheet.create({
-  container: {
+  page: {
     flex: 1,
+  },
+  contentSummary: {
+    alignItems: 'center',
   },
   nextButton: {
     backgroundColor: '#286090',
@@ -82,8 +267,59 @@ const styles = StyleSheet.create({
     fontSize: 14,
     color: '#FFFFFF',
   },
+  container: {
+    flexDirection: 'row',
+    marginHorizontal: 45,
+    justifyContent: 'center',
+  },
+  containerLabel: {
+    flex: 2,
+    justifyContent: 'center',
+  },
+  containerInput: {
+    flex: 3,
+  },
+  calendar: {
+    flex: 3,
+    borderWidth: 1,
+    borderColor: '#286090',
+    borderRadius: 10,
+    backgroundColor: '#FFFFFF',
+    paddingVertical: 12,
+    paddingLeft: 11,
+    marginLeft: 14,
+    marginRight: -18,
+  },
+  label: {
+    fontFamily: 'Poppins-Regular',
+    fontSize: 12,
+    color: '#000000',
+  },
+  datePicker: {
+    width: 200,
+    marginLeft: 10,
+  },
+  containerTimeInput: {
+    flexDirection: 'row',
+    marginLeft: 12,
+    marginRight: -18,
+  },
+  leftContainer: {
+    flex: 1,
+  },
+  rightContainer: {
+    flex: 1,
+  },
+  timeInput: {
+    borderWidth: 1,
+    borderColor: '#286090',
+    borderRadius: 10,
+    padding: 5,
+    backgroundColor: '#FFFFFF',
+    textAlign: 'center',
+  },
   card: {
-    width: '75%',
+    width: '80%',
     backgroundColor: '#FFFFFF',
     borderRadius: 10,
     shadowColor: '#020202',
@@ -96,14 +332,12 @@ const styles = StyleSheet.create({
     elevation: 5,
     padding: 20,
     marginBottom: 13,
-    marginHorizontal: 45,
   },
   summary: {
     flexDirection: 'row',
     justifyContent: 'space-between',
-    flexWrap: 'wrap',
   },
-  label: {
+  labelSummary: {
     fontFamily: 'Poppins-Medium',
     fontSize: 14,
     color: '#020202',
@@ -112,5 +346,23 @@ const styles = StyleSheet.create({
     fontFamily: 'Poppins-Light',
     fontSize: 14,
     color: '#020202',
+  },
+  labelNote: {
+    fontFamily: 'Poppins-Medium',
+    fontSize: 14,
+    color: '#020202',
+    textAlign: 'left',
+    marginHorizontal: 45,
+  },
+  note: {
+    borderWidth: 1,
+    borderColor: '#286090',
+    borderRadius: 10,
+    padding: 5,
+    backgroundColor: '#FFFFFF',
+    marginHorizontal: 45,
+    marginVertical: 13,
+    width: '75%',
+    height: 200,
   },
 });

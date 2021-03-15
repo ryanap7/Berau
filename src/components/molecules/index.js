@@ -1,7 +1,4 @@
 import BottomNavigation from './BottomNavigation';
-import ChemicalData from './ChemicalData';
-import ChemicalDescription from './ChemicalDescription';
-import ChemicalSummary from './ChemicalSummary';
 import Header from './Header';
 import HeaderCompany from './HeaderCompany';
 import HeaderDetail from './HeaderDetail';
@@ -18,9 +15,6 @@ export {
   HeaderCompany,
   HeaderDetail,
   Loading,
-  ChemicalDescription,
-  ChemicalData,
-  ChemicalSummary,
   PerbaikanDescription,
   PerbaikanData,
   PerbaikanSummary,
