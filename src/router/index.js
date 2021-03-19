@@ -3,8 +3,10 @@ import {createStackNavigator} from '@react-navigation/stack';
 import React from 'react';
 import {BottomNavigation} from '../components';
 import {
+  AddAttendance,
   Company,
   DetailPetugas,
+  EditAttendance,
   Home,
   HomeCompany,
   Info,
@@ -35,7 +37,7 @@ const MainApp = () => {
 
 const Router = () => {
   return (
-    <Stack.Navigator initialRouteName="SplashScreen">
+    <Stack.Navigator initialRouteName="PersonalData">
       <Stack.Screen
         name="SplashScreen"
         component={SplashScreen}
@@ -89,6 +91,16 @@ const Router = () => {
       <Stack.Screen
         name="DetailPetugas"
         component={DetailPetugas}
+        options={{headerShown: false}}
+      />
+      <Stack.Screen
+        name="AddAttendance"
+        component={AddAttendance}
+        options={{headerShown: false}}
+      />
+      <Stack.Screen
+        name="EditAttendance"
+        component={EditAttendance}
         options={{headerShown: false}}
       />
     </Stack.Navigator>

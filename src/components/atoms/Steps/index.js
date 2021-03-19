@@ -211,7 +211,7 @@ const Steps = () => {
                       onChangeText={(value) => setForm('TSS', value)}
                     />
                   </View>
-                  <Gap width={16} />
+                  <Gap width={20} />
                   <View style={styles.rightContainer}>
                     <Gap height={12} />
                     <Select
@@ -237,7 +237,7 @@ const Steps = () => {
                       onChangeText={(value) => setForm('Fe', value)}
                     />
                   </View>
-                  <Gap width={16} />
+                  <Gap width={20} />
                   <View style={styles.rightContainer}>
                     <Gap height={12} />
                     <Select
@@ -263,7 +263,7 @@ const Steps = () => {
                       onChangeText={(value) => setForm('Mn', value)}
                     />
                   </View>
-                  <Gap width={16} />
+                  <Gap width={20} />
                   <View style={styles.rightContainer}>
                     <Gap height={12} />
                     <Select
@@ -289,7 +289,7 @@ const Steps = () => {
                       onChangeText={(value) => setForm('Debit', value)}
                     />
                   </View>
-                  <Gap width={16} />
+                  <Gap width={20} />
                   <View style={styles.rightContainer}>
                     <Gap height={12} />
                     <Select
@@ -315,7 +315,7 @@ const Steps = () => {
                       onChangeText={(value) => setForm('ChemDose', value)}
                     />
                   </View>
-                  <Gap width={16} />
+                  <Gap width={20} />
                   <View style={styles.rightContainer}>
                     <Gap height={12} />
                     <Select
@@ -456,6 +456,7 @@ const styles = StyleSheet.create({
   },
   containerInput: {
     flex: 3,
+    marginLeft: 20,
   },
   calendar: {
     flex: 3,

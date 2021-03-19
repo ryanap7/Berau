@@ -12,6 +12,8 @@ import InputData from './InputData';
 import RekapData from './RekapData';
 import DataPetugas from './DataPetugas';
 import DetailPetugas from './DetailPetugas';
+import AddAttendance from './AddAttendance';
+import EditAttendance from './EditAttendance';
 
 export {
   SplashScreen,
@@ -28,4 +30,6 @@ export {
   RekapData,
   DataPetugas,
   DetailPetugas,
+  AddAttendance,
+  EditAttendance,
 };

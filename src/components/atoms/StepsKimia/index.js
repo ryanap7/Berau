@@ -146,16 +146,12 @@ const StepsKimia = () => {
                 <Text style={styles.label}>% Purity</Text>
               </View>
               <View style={styles.containerInput}>
-                <View style={styles.containerTimeInput}>
-                  <View style={styles.leftContainer}>
-                    <TextInput
-                      style={styles.timeInput}
-                      placeholder="Input"
-                      value={form.purity}
-                      onChangeText={(value) => setForm('purity', value)}
-                    />
-                  </View>
-                </View>
+                <TextInput
+                  style={styles.textInput}
+                  placeholder="Input"
+                  value={form.purity}
+                  onChangeText={(value) => setForm('purity', value)}
+                />
               </View>
             </View>
             <Gap height={15} />
@@ -182,7 +178,7 @@ const StepsKimia = () => {
                       onChangeText={(value) => setForm('before', value)}
                     />
                   </View>
-                  <Gap width={16} />
+                  <Gap width={20} />
                   <View style={styles.rightContainer}>
                     <Gap height={12} />
                     <Select
@@ -208,7 +204,7 @@ const StepsKimia = () => {
                       onChangeText={(value) => setForm('current', value)}
                     />
                   </View>
-                  <Gap width={16} />
+                  <Gap width={20} />
                   <View style={styles.rightContainer}>
                     <Gap height={12} />
                     <Select
@@ -325,6 +321,7 @@ const styles = StyleSheet.create({
   },
   containerInput: {
     flex: 3,
+    marginLeft: 20,
   },
   calendar: {
     flex: 3,
@@ -364,6 +361,15 @@ const styles = StyleSheet.create({
     padding: 5,
     backgroundColor: '#FFFFFF',
     textAlign: 'center',
+  },
+  textInput: {
+    borderWidth: 1,
+    borderColor: '#286090',
+    borderRadius: 10,
+    padding: 5,
+    backgroundColor: '#FFFFFF',
+    textAlign: 'center',
+    marginRight: -20,
   },
   card: {
     width: '80%',

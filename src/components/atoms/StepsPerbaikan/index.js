@@ -278,6 +278,7 @@ const styles = StyleSheet.create({
   },
   containerInput: {
     flex: 3,
+    marginLeft: 20,
   },
   calendar: {
     flex: 3,
@@ -306,6 +307,7 @@ const styles = StyleSheet.create({
   },
   leftContainer: {
     flex: 1,
+    marginLeft: -10,
   },
   rightContainer: {
     flex: 1,

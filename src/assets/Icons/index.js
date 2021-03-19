@@ -23,6 +23,8 @@ import IcRekapData from './IcRekapData.svg';
 import IcDownload from './IcDownload.svg';
 import IcDate from './IcDate.svg';
 import IcAddAttendance from './IcAddAttendance.svg';
+import IcEdit from './IcEdit.svg';
+import IcTrash from './IcTrash.svg';
 
 export {
   IcHome,
@@ -50,4 +52,6 @@ export {
   IcDownload,
   IcDate,
   IcAddAttendance,
+  IcEdit,
+  IcTrash,
 };

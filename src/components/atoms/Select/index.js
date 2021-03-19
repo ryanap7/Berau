@@ -1,8 +1,7 @@
 import {Picker} from '@react-native-picker/picker';
 import React, {useEffect, useState} from 'react';
 import {StyleSheet, View} from 'react-native';
-import {useDispatch, useSelector} from 'react-redux';
-import {samplingPoint} from '../../../redux/action';
+import {useDispatch} from 'react-redux';
 import {getData} from '../../../utils';
 
 const Select = ({value, onSelectChange, type, enabled}) => {
@@ -53,6 +52,16 @@ const Select = ({value, onSelectChange, type, enabled}) => {
                 <Picker.Item key={index} label={data.nama} value={data.id} />
               );
             })}
+          </Picker>
+        </View>
+      )}
+      {type === 'Status' && (
+        <View style={styles.input}>
+          <Picker
+            selectedValue={value}
+            onValueChange={(itemValue) => onSelectChange(itemValue)}>
+            <Picker.Item label="Dedicated" value="Dedicated" />
+            <Picker.Item label="Mobile" value="Mobile" />
           </Picker>
         </View>
       )}
@@ -293,8 +302,15 @@ const styles = StyleSheet.create({
     paddingHorizontal: 2,
     backgroundColor: '#FFFFFF',
   },
+  Attendance: {
+    borderWidth: 1,
+    borderColor: '#286090',
+    borderRadius: 10,
+    paddingHorizontal: 2,
+    backgroundColor: '#FFFFFF',
+  },
   container: {
-    marginHorizontal: 11,
+    // marginHorizontal: 11,
     marginBottom: 11,
   },
   containerSelect: {

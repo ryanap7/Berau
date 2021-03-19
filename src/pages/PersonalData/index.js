@@ -2,8 +2,14 @@ import DateTimePicker from '@react-native-community/datetimepicker';
 import Moment from 'moment';
 import 'moment/locale/id';
 import React, {useState} from 'react';
-import {StyleSheet, Text, TouchableOpacity, View} from 'react-native';
-import {IcAddAttendance, IcDate} from '../../assets';
+import {
+  ScrollView,
+  StyleSheet,
+  Text,
+  TouchableOpacity,
+  View,
+} from 'react-native';
+import {IcAddAttendance, IcDate, IcEdit, IcTrash} from '../../assets';
 import {Button, Gap, HeaderDetail} from '../../components';
 import {useForm} from '../../utils';
 
@@ -27,7 +33,11 @@ const PersonalData = ({navigation}) => {
       />
       <Gap height={11} />
       <View style={styles.button}>
-        <Button text="Add" icon={<IcAddAttendance />} />
+        <Button
+          text="Add"
+          icon={<IcAddAttendance />}
+          onPress={() => navigation.navigate('AddAttendance')}
+        />
       </View>
       <View style={styles.container}>
         <Text style={styles.labelDate}>Date Attendance</Text>
@@ -50,13 +60,38 @@ const PersonalData = ({navigation}) => {
       </View>
       <View style={styles.list}>
         <View style={styles.card}>
-          <View style={styles.header}>
-            <Text style={styles.labelHeader}>Nama</Text>
-            <Text style={styles.labelHeader}>Kehadiran</Text>
-            <Text style={styles.labelHeader}>Status</Text>
-            <Text style={styles.labelHeader}>WMP</Text>
-            <Text style={styles.labelHeader}>Action</Text>
-          </View>
+          <ScrollView horizontal showsHorizontalScrollIndicator={false}>
+            <View>
+              <View style={styles.header}>
+                <Text style={styles.labelName}>Nama</Text>
+                <Text style={styles.labelBadge}>Kehadiran</Text>
+                <Text style={styles.labelStatus}>Status</Text>
+                <Text style={styles.labelWmp}>WMP</Text>
+                <Text style={styles.labelAction}>Action</Text>
+              </View>
+              <View style={styles.body}>
+                <Text style={styles.valueName}>Toto</Text>
+                <View style={styles.containerBadge}>
+                  <View style={styles.badge}>
+                    <Text style={styles.valueBadge}>Tidak Hadir</Text>
+                  </View>
+                </View>
+                <Text style={styles.valueStatus}>Dedicated</Text>
+                <Text style={styles.valueWmp}>1 LT</Text>
+                <View style={styles.valueAction}>
+                  <TouchableOpacity
+                    activeOpacity={0.7}
+                    onPress={() => navigation.navigate('EditAttendance')}>
+                    <IcEdit />
+                  </TouchableOpacity>
+                  <Gap width={10} />
+                  <TouchableOpacity>
+                    <IcTrash />
+                  </TouchableOpacity>
+                </View>
+              </View>
+            </View>
+          </ScrollView>
         </View>
       </View>
     </View>
@@ -124,9 +159,99 @@ const styles = StyleSheet.create({
     paddingVertical: 14,
     justifyContent: 'space-between',
   },
-  labelHeader: {
+  body: {
+    flexDirection: 'row',
+    paddingHorizontal: 21,
+    paddingVertical: 14,
+    justifyContent: 'space-between',
+  },
+  labelName: {
     fontFamily: 'Poppins-Regular',
     fontSize: 12,
     color: '#FFFFFF',
+    width: 100,
+    textAlign: 'center',
+    marginRight: 4,
+  },
+  labelBadge: {
+    fontFamily: 'Poppins-Regular',
+    fontSize: 12,
+    color: '#FFFFFF',
+    width: 100,
+    textAlign: 'center',
+    marginRight: 4,
+  },
+  labelStatus: {
+    fontFamily: 'Poppins-Regular',
+    fontSize: 12,
+    color: '#FFFFFF',
+    width: 100,
+    textAlign: 'center',
+    marginRight: 4,
+  },
+  labelWmp: {
+    fontFamily: 'Poppins-Regular',
+    fontSize: 12,
+    color: '#FFFFFF',
+    width: 100,
+    textAlign: 'center',
+    marginRight: 4,
+  },
+  labelAction: {
+    fontFamily: 'Poppins-Regular',
+    fontSize: 12,
+    color: '#FFFFFF',
+    width: 100,
+    textAlign: 'center',
+    marginRight: 4,
+  },
+  containerBadge: {
+    width: 100,
+    justifyContent: 'center',
+    alignItems: 'center',
+    marginLeft: -3,
+  },
+  badge: {
+    width: 70,
+    backgroundColor: '#A3A3A3',
+    borderRadius: 5,
+    paddingVertical: 2,
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  valueName: {
+    fontFamily: 'Poppins-Regular',
+    fontSize: 12,
+    color: '#000000',
+    width: 100,
+    marginRight: 4,
+    textAlign: 'center',
+  },
+  valueBadge: {
+    fontFamily: 'Poppins-Regular',
+    fontSize: 10,
+    color: '#FFFFFF',
+  },
+  valueStatus: {
+    fontFamily: 'Poppins-Regular',
+    fontSize: 12,
+    color: '#000000',
+    width: 100,
+    marginRight: 4,
+    textAlign: 'center',
+  },
+  valueWmp: {
+    fontFamily: 'Poppins-Regular',
+    fontSize: 12,
+    color: '#000000',
+    width: 100,
+    marginRight: 4,
+    textAlign: 'center',
+  },
+  valueAction: {
+    flexDirection: 'row',
+    width: 100,
+    marginRight: 4,
+    justifyContent: 'center',
   },
 });

@@ -78,22 +78,14 @@ const Penugasan = ({navigation}) => {
         company="PT. Berau Coal"
       />
       <Gap height={11} />
-      {role === 'Pengawas' && (
+      <View style={styles.select}>
         <Select
           value={penugasan}
           type="Penugasan"
           onSelectChange={(value) => setPenugasan(value)}
           enabled={false}
         />
-      )}
-      {role === 'Highest Administrator' && (
-        <Select
-          value={penugasan}
-          type="Penugasan"
-          onSelectChange={(value) => setPenugasan(value)}
-          enabled={true}
-        />
-      )}
+      </View>
       <View style={styles.containerMenu}>
         <TouchableOpacity
           activeOpacity={0.7}
@@ -164,6 +156,9 @@ const styles = StyleSheet.create({
     height: '70%',
     alignItems: 'center',
     margin: 11,
+  },
+  select: {
+    marginHorizontal: 11,
   },
   menu: {
     justifyContent: 'center',

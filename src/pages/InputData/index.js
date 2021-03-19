@@ -39,12 +39,14 @@ const InputData = ({navigation}) => {
       />
       <ScrollView showsVerticalScrollIndicator={false}>
         <Gap height={11} />
-        <Select
-          value={penugasan}
-          type="Penugasan"
-          onSelectChange={(value) => setPenugasan(value)}
-          enabled={false}
-        />
+        <View style={styles.select}>
+          <Select
+            value={penugasan}
+            type="Penugasan"
+            onSelectChange={(value) => setPenugasan(value)}
+            enabled={false}
+          />
+        </View>
         <View style={styles.containerMenu}>
           <TouchableOpacity
             activeOpacity={0.7}
@@ -119,6 +121,10 @@ const styles = StyleSheet.create({
   },
   wmp: {
     flex: 1,
+    marginHorizontal: 11,
+  },
+  select: {
+    marginHorizontal: 11,
   },
   menu: {
     justifyContent: 'center',

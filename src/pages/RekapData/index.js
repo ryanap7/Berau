@@ -1,15 +1,37 @@
+import DateTimePicker from '@react-native-community/datetimepicker';
+import Moment from 'moment';
+import 'moment/locale/id';
 import React, {useState} from 'react';
 import {StyleSheet, Text, TouchableOpacity, View} from 'react-native';
-import DateTimePicker from '@react-native-community/datetimepicker';
 import {IcDownload, IcRekapData} from '../../assets';
 import {Button, Gap, HeaderDetail, Select, Table} from '../../components';
+import {useForm} from '../../utils';
 
 const RekapData = ({navigation}) => {
-  const currentDate = new Date();
-  const [date, setDate] = useState(currentDate);
   const [penugasan, setPenugasan] = useState('Area Tambang LMO');
   const [wmp, setWmp] = useState('WMP 1');
   const [jenisData, setJenisData] = useState('Data Pemakaian Kapur');
+
+  const [form, setForm] = useForm({
+    from: new Date(),
+    to: new Date(),
+    satuan: '',
+  });
+
+  const [showFrom, setShowFrom] = useState(false);
+  const [showTo, setShowTo] = useState(false);
+
+  const onChangeFrom = (event, selectedDate) => {
+    const currentDate = selectedDate || form.from;
+    setForm('from', currentDate);
+    setShowFrom(false);
+  };
+
+  const onChangeTo = (event, selectedDate) => {
+    const currentDate = selectedDate || form.to;
+    setForm('to', currentDate);
+    setShowTo(false);
+  };
 
   return (
     <View style={styles.page}>
@@ -18,11 +40,13 @@ const RekapData = ({navigation}) => {
         company="PT. Berau Coal"
       />
       <Gap height={11} />
-      <Select
-        value={penugasan}
-        type="Penugasan"
-        onSelectChange={(value) => setPenugasan(value)}
-      />
+      <View style={styles.select}>
+        <Select
+          value={penugasan}
+          type="Penugasan"
+          onSelectChange={(value) => setPenugasan(value)}
+        />
+      </View>
       <View style={styles.containerMenu}>
         <TouchableOpacity
           activeOpacity={0.7}
@@ -33,64 +57,64 @@ const RekapData = ({navigation}) => {
           <Text style={styles.menuText}>Rekap Data</Text>
         </TouchableOpacity>
         <View style={styles.wmp}>
-          <Select
-            value={wmp}
-            type="WMP"
-            onSelectChange={(value) => setWmp(value)}
-          />
-          <Select
-            value={jenisData}
-            type="Jenis Data"
-            onSelectChange={(value) => setJenisData(value)}
-          />
+          <View style={styles.select}>
+            <Select
+              value={wmp}
+              type="WMP"
+              onSelectChange={(value) => setWmp(value)}
+            />
+            <Select
+              value={jenisData}
+              type="Jenis Data"
+              onSelectChange={(value) => setJenisData(value)}
+            />
+          </View>
           <View style={styles.filter}>
-            <View>
-              <DatePicker
-                style={styles.datePicker}
-                date={date}
-                mode="date"
-                confirmBtnText="Confirm"
-                cancelBtnText="Cancel"
-                showIcon={false}
-                format="DD/MM/YYYY"
-                customStyles={{
-                  dateInput: {
-                    backgroundColor: '#FFFFFF',
-                    borderRadius: 10,
-                    borderWidth: 1,
-                    borderColor: '#286090',
-                  },
-                }}
-                onDateChange={(data) => {
-                  setDate(data);
-                }}
-              />
-            </View>
+            <TouchableOpacity
+              style={styles.calendar}
+              onPress={() => setShowFrom(true)}>
+              <Text>{Moment(form.from).format('DD-MM-YYYY')}</Text>
+              {showFrom && (
+                <DateTimePicker
+                  testID="dateFrom"
+                  value={form.from}
+                  mode="date"
+                  is24Hour={true}
+                  display="default"
+                  onChange={onChangeFrom}
+                />
+              )}
+            </TouchableOpacity>
             <View style={styles.to}>
               <Text>to</Text>
             </View>
-            <View>
-              <DatePicker
-                style={styles.datePicker}
-                date={date}
-                mode="date"
-                confirmBtnText="Confirm"
-                cancelBtnText="Cancel"
-                showIcon={false}
-                format="DD/MM/YYYY"
-                customStyles={{
-                  dateInput: {
-                    backgroundColor: '#FFFFFF',
-                    borderRadius: 10,
-                    borderWidth: 1,
-                    borderColor: '#286090',
-                  },
-                }}
-                onDateChange={(data) => {
-                  setDate(data);
+            <TouchableOpacity
+              style={styles.calendar}
+              onPress={() => setShowTo(true)}>
+              <Text>{Moment(form.to).format('DD-MM-YYYY')}</Text>
+              {showTo && (
+                <DateTimePicker
+                  testID="dateTo"
+                  value={form.to}
+                  mode="date"
+                  is24Hour={true}
+                  display="default"
+                  onChange={onChangeTo}
+                />
+              )}
+            </TouchableOpacity>
+          </View>
+          <View style={styles.generate}>
+            <View style={styles.satuan}>
+              <Select
+                value={form.satuan}
+                type="TSS"
+                onSelectChange={(value) => {
+                  setForm('satuan', value);
                 }}
               />
             </View>
+            <Gap width={28} />
             <View style={styles.button}>
               <Text style={styles.text}>Generate</Text>
             </View>
@@ -122,6 +146,9 @@ const styles = StyleSheet.create({
   wmp: {
     flex: 1,
   },
+  select: {
+    marginHorizontal: 11,
+  },
   menu: {
     alignItems: 'center',
     marginTop: 16,
@@ -134,11 +161,15 @@ const styles = StyleSheet.create({
   filter: {
     flexDirection: 'row',
     alignItems: 'center',
-    justifyContent: 'space-between',
     marginHorizontal: 11,
+    marginBottom: 8,
   },
-  datePicker: {
-    width: 100,
+  calendar: {
+    borderWidth: 1,
+    paddingHorizontal: 17,
+    paddingVertical: 6,
+    borderRadius: 10,
+    borderColor: '#286090',
   },
   to: {
     marginHorizontal: 5,
@@ -149,6 +180,8 @@ const styles = StyleSheet.create({
     paddingVertical: 6,
     borderRadius: 10,
     marginLeft: 5,
+    justifyContent: 'center',
+    alignItems: 'center',
   },
   text: {
     fontFamily: 'Poppins-Regular',
@@ -157,5 +190,13 @@ const styles = StyleSheet.create({
   },
   download: {
     paddingHorizontal: 60,
+  },
+  generate: {
+    flexDirection: 'row',
+    alignItems: 'center',
+  },
+  satuan: {
+    paddingLeft: 24,
+    paddingTop: 15,
   },
 });
