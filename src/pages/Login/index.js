@@ -5,6 +5,7 @@ import {Circle1, Circle2, IcLogin, Logo} from '../../assets';
 import {Button, Gap, TextInput} from '../../components';
 import {signInAction} from '../../redux/action/auth';
 import {useForm} from '../../utils';
+import normalize from 'react-native-normalize';
 
 const Login = ({navigation}) => {
   const [form, setForm] = useForm({
@@ -24,32 +25,28 @@ const Login = ({navigation}) => {
       </View>
       <ScrollView showsVerticalScrollIndicator={false}>
         <View style={styles.container}>
-          <Image source={Logo} style={styles.logo} />
-        </View>
-        <View style={styles.input}>
-          <TextInput
-            placeholder="Username or Email"
-            value={form.email}
-            onChangeText={(value) => setForm('email', value)}
-          />
-          <Gap height={20} />
-          <TextInput
-            placeholder="Password"
-            value={form.password}
-            onChangeText={(value) => setForm('password', value)}
-            secureTextEntry
-          />
-          <Gap height={20} />
-          <Button text="LOGIN" onPress={onSubmit} icon={<IcLogin />} />
-          <Gap height={20} />
+          <View style={styles.logo}>
+            <Image source={Logo} />
+          </View>
+          <View style={styles.input}>
+            <TextInput
+              placeholder="Username or Email"
+              value={form.email}
+              onChangeText={(value) => setForm('email', value)}
+            />
+            <Gap height={20} />
+            <TextInput
+              placeholder="Password"
+              value={form.password}
+              onChangeText={(value) => setForm('password', value)}
+              secureTextEntry
+            />
+            <Gap height={40} />
+            <Button text="LOGIN" onPress={onSubmit} icon={<IcLogin />} />
+            <Gap height={20} />
+          </View>
         </View>
       </ScrollView>
-      <View style={styles.version}>
-        <Text style={styles.text}>Supported by SBU SERCO</Text>
-      </View>
-      <View style={styles.circle2}>
-        <Circle2 />
-      </View>
     </View>
   );
 };
@@ -61,32 +58,31 @@ const styles = StyleSheet.create({
     flex: 1,
     backgroundColor: '#FFFFFF',
   },
+  container: {
+    flex: 1,
+    justifyContent: 'space-between',
+  },
   circle1: {
+    flex: 1,
     justifyContent: 'flex-start',
     alignItems: 'flex-start',
   },
+  logo: {
+    alignSelf: 'center',
+    marginBottom: normalize(40),
+    marginTop: normalize(56),
+  },
   circle2: {
     flex: 1,
+    justifyContent: 'flex-end',
     alignItems: 'flex-end',
   },
-  container: {
-    marginTop: 100,
-    justifyContent: 'center',
-    alignItems: 'center',
-  },
   input: {
-    marginHorizontal: 40,
-    marginTop: 30,
-  },
-  version: {
-    justifyContent: 'center',
-    alignItems: 'center',
+    marginHorizontal: normalize(69),
   },
   text: {
     fontFamily: 'Poppins-Bold',
-    fontSize: 12,
+    fontSize: normalize(12),
     color: '#A3A3A3',
-    position: 'absolute',
-    top: 40,
   },
 });

@@ -1,5 +1,6 @@
 import React from 'react';
 import {StyleSheet, Text, TouchableOpacity} from 'react-native';
+import normalize from 'react-native-normalize';
 import {IcBack} from '../../../assets';
 
 const HeaderDetail = ({company, onPress}) => {
@@ -18,16 +19,16 @@ export default HeaderDetail;
 
 const styles = StyleSheet.create({
   container: {
-    paddingVertical: 24,
-    paddingHorizontal: 20,
+    paddingVertical: normalize(24),
+    paddingHorizontal: normalize(20),
     backgroundColor: '#286090',
     flexDirection: 'row',
     alignItems: 'center',
   },
   text: {
     fontFamily: 'Poppins-Regular',
-    fontSize: 14,
+    fontSize: normalize(14),
     color: '#FFFFFF',
-    marginLeft: 10,
+    marginLeft: normalize(10),
   },
 });

@@ -1,5 +1,6 @@
 import React from 'react';
 import {StyleSheet, Text, View, TouchableOpacity} from 'react-native';
+import normalize from 'react-native-normalize';
 import {Gap} from '..';
 
 const Button = ({text, icon, onPress}) => {
@@ -19,14 +20,14 @@ export default Button;
 const styles = StyleSheet.create({
   container: {
     backgroundColor: '#2D4B9B',
-    padding: 12,
-    borderRadius: 10,
+    padding: normalize(12),
+    borderRadius: normalize(10),
     flexDirection: 'row',
     justifyContent: 'center',
     alignItems: 'center',
   },
   text: {
-    fontSize: 12,
+    fontSize: normalize(12),
     fontFamily: 'Poppins-Regular',
     color: '#FFFFFF',
     textAlign: 'center',

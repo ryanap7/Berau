@@ -1,7 +1,5 @@
 import React from 'react';
 import {Image, StyleSheet, Text, TouchableOpacity, View} from 'react-native';
-import {IcBack, IcBackHome} from '../../../assets';
-import {Gap} from '../../atoms';
 
 const HeaderCompany = ({
   title,

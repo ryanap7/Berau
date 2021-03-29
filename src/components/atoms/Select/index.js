@@ -1,23 +1,17 @@
 import {Picker} from '@react-native-picker/picker';
 import React, {useEffect, useState} from 'react';
 import {StyleSheet, View} from 'react-native';
-import {useDispatch} from 'react-redux';
+import normalize from 'react-native-normalize';
 import {getData} from '../../../utils';
 
 const Select = ({value, onSelectChange, type, enabled}) => {
   const [wmp, setWmp] = useState([]);
-  const dispatch = useDispatch();
 
   useEffect(() => {
     getData('tambang').then((res) => {
       setWmp(res.wmp);
     });
   }, []);
-
-  // Get Sampling Point
-  // dispatch(samplingPoint());
-
-  // const {samplingPointReducer} = useSelector((state) => state);
 
   return (
     <View style={styles.container}>
@@ -298,41 +292,40 @@ const styles = StyleSheet.create({
   input: {
     borderWidth: 1,
     borderColor: '#286090',
-    borderRadius: 10,
-    paddingHorizontal: 2,
+    borderRadius: normalize(10),
+    paddingHorizontal: normalize(2),
     backgroundColor: '#FFFFFF',
   },
   Attendance: {
     borderWidth: 1,
     borderColor: '#286090',
-    borderRadius: 10,
-    paddingHorizontal: 2,
+    borderRadius: normalize(10),
+    paddingHorizontal: normalize(2),
     backgroundColor: '#FFFFFF',
   },
   container: {
-    // marginHorizontal: 11,
-    marginBottom: 11,
+    marginBottom: normalize(11),
   },
   containerSelect: {
-    width: 200,
+    width: normalize(185),
     borderWidth: 1,
     borderColor: '#286090',
-    borderRadius: 10,
-    paddingHorizontal: 2,
+    borderRadius: normalize(10),
+    paddingHorizontal: normalize(2),
     backgroundColor: '#FFFFFF',
-    marginTop: -10,
+    marginTop: normalize(-10),
   },
   containerSelectSmall: {
-    width: 94,
+    width: normalize(94),
     borderWidth: 1,
     borderColor: '#286090',
-    borderRadius: 10,
+    borderRadius: normalize(10),
     paddingHorizontal: 2,
     backgroundColor: '#FFFFFF',
-    marginTop: -12,
-    marginLeft: -12,
+    marginTop: normalize(-8),
+    marginLeft: normalize(-12),
   },
   select: {
-    height: 40,
+    height: normalize(40),
   },
 });

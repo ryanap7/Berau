@@ -3,6 +3,7 @@ import Moment from 'moment';
 import 'moment/locale/id';
 import React, {useEffect, useState} from 'react';
 import {StyleSheet, Text, TouchableOpacity, View} from 'react-native';
+import normalize from 'react-native-normalize';
 import {ProgressStep, ProgressSteps} from 'react-native-progress-steps';
 import {useDispatch} from 'react-redux';
 import {Gap, Select, TextInput} from '..';
@@ -286,33 +287,33 @@ const styles = StyleSheet.create({
   },
   nextButton: {
     backgroundColor: '#286090',
-    width: 100,
-    height: 45,
-    borderRadius: 10,
+    width: normalize(100),
+    height: normalize(45),
+    borderRadius: normalize(10),
     justifyContent: 'center',
     alignItems: 'center',
   },
   nextText: {
     fontFamily: 'Poppins-Regular',
-    fontSize: 14,
+    fontSize: normalize(14),
     color: '#FFFFFF',
   },
   previousButton: {
     backgroundColor: '#286090',
-    width: 100,
-    height: 45,
-    borderRadius: 10,
+    width: normalize(100),
+    height: normalize(45),
+    borderRadius: normalize(10),
     justifyContent: 'center',
     alignItems: 'center',
   },
   previousText: {
     fontFamily: 'Poppins-Regular',
-    fontSize: 14,
+    fontSize: normalize(14),
     color: '#FFFFFF',
   },
   container: {
     flexDirection: 'row',
-    marginHorizontal: 45,
+    marginHorizontal: normalize(45),
     justifyContent: 'center',
   },
   containerLabel: {
@@ -321,32 +322,32 @@ const styles = StyleSheet.create({
   },
   containerInput: {
     flex: 3,
-    marginLeft: 20,
+    marginLeft: normalize(20),
   },
   calendar: {
     flex: 3,
     borderWidth: 1,
     borderColor: '#286090',
-    borderRadius: 10,
+    borderRadius: normalize(10),
     backgroundColor: '#FFFFFF',
-    paddingVertical: 12,
-    paddingLeft: 11,
-    marginLeft: 14,
-    marginRight: -18,
+    paddingVertical: normalize(12),
+    paddingLeft: normalize(11),
+    marginLeft: normalize(14),
+    marginRight: normalize(-18),
   },
   label: {
     fontFamily: 'Poppins-Regular',
-    fontSize: 12,
+    fontSize: normalize(12),
     color: '#000000',
   },
   datePicker: {
-    width: 200,
-    marginLeft: 10,
+    width: normalize(200),
+    marginLeft: normalize(10),
   },
   containerTimeInput: {
     flexDirection: 'row',
-    marginLeft: 12,
-    marginRight: -18,
+    marginLeft: normalize(12),
+    marginRight: normalize(-18),
   },
   leftContainer: {
     flex: 1,
@@ -357,24 +358,24 @@ const styles = StyleSheet.create({
   timeInput: {
     borderWidth: 1,
     borderColor: '#286090',
-    borderRadius: 10,
-    padding: 5,
+    borderRadius: normalize(10),
+    padding: normalize(8),
     backgroundColor: '#FFFFFF',
     textAlign: 'center',
   },
   textInput: {
     borderWidth: 1,
     borderColor: '#286090',
-    borderRadius: 10,
-    padding: 5,
+    borderRadius: normalize(10),
+    padding: normalize(8),
     backgroundColor: '#FFFFFF',
     textAlign: 'center',
-    marginRight: -20,
+    marginRight: normalize(-20),
   },
   card: {
-    width: '80%',
+    width: '90%',
     backgroundColor: '#FFFFFF',
-    borderRadius: 10,
+    borderRadius: normalize(10),
     shadowColor: '#020202',
     shadowOffset: {
       width: 0,
@@ -383,8 +384,8 @@ const styles = StyleSheet.create({
     shadowOpacity: 0.5,
     shadowRadius: 4.65,
     elevation: 5,
-    padding: 20,
-    marginBottom: 13,
+    padding: normalize(20),
+    marginBottom: normalize(13),
   },
   summary: {
     flexDirection: 'row',
@@ -392,12 +393,12 @@ const styles = StyleSheet.create({
   },
   labelSummary: {
     fontFamily: 'Poppins-Medium',
-    fontSize: 14,
+    fontSize: normalize(14),
     color: '#020202',
   },
   value: {
     fontFamily: 'Poppins-Light',
-    fontSize: 14,
+    fontSize: normalize(14),
     color: '#020202',
   },
 });

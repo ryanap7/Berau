@@ -1,5 +1,6 @@
 import React from 'react';
 import {StyleSheet, Text, TouchableOpacity, View} from 'react-native';
+import normalize from 'react-native-normalize';
 import {IcInfoList} from '../../../assets';
 import {Gap} from '../../atoms';
 
@@ -24,7 +25,7 @@ export default InfoList;
 const styles = StyleSheet.create({
   stared: (active) => ({
     fontFamily: 'Poppins-Medium',
-    fontSize: 16,
+    fontSize: normalize(16),
     color: active ? '#020202' : '#CCCCCC',
   }),
   list: {

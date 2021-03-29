@@ -1,5 +1,6 @@
 import React from 'react';
 import {StyleSheet, Text, View, TouchableOpacity} from 'react-native';
+import normalize from 'react-native-normalize';
 import {Gap} from '..';
 
 const ButtonList = ({text, active, onPress}) => {
@@ -18,18 +19,18 @@ export default ButtonList;
 const styles = StyleSheet.create({
   container: (active) => ({
     backgroundColor: active ? '#2D4B9B' : '#A3A3A3',
-    width: 90,
-    height: 50,
-    paddingVertical: 12,
-    paddingHorizontal: 10,
-    borderRadius: 10,
+    width: normalize(90),
+    height: normalize(50),
+    paddingVertical: normalize(12),
+    paddingHorizontal: normalize(10),
+    borderRadius: normalize(10),
     flexDirection: 'row',
     justifyContent: 'center',
     alignItems: 'center',
   }),
   text: {
-    fontSize: 12,
     fontFamily: 'Poppins-Regular',
+    fontSize: normalize(12),
     color: '#FFFFFF',
     textAlign: 'center',
   },

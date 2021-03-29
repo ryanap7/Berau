@@ -1,5 +1,6 @@
 import React from 'react';
 import {Image, StyleSheet, Text, View} from 'react-native';
+import normalize from 'react-native-normalize';
 import {IcDownload, User} from '../../assets';
 import {Button, Gap, HeaderDetail} from '../../components';
 
@@ -59,7 +60,7 @@ const styles = StyleSheet.create({
   page: {
     flex: 1,
     backgroundColor: '#FFFFFF',
-    paddingBottom: 20,
+    paddingBottom: normalize(20),
   },
   container: {
     flex: 1,
@@ -67,7 +68,7 @@ const styles = StyleSheet.create({
   },
   card: {
     backgroundColor: '#FFFFFF',
-    borderRadius: 10,
+    borderRadius: normalize(10),
     shadowColor: '#020202',
     shadowOffset: {
       width: 0,
@@ -76,16 +77,16 @@ const styles = StyleSheet.create({
     shadowOpacity: 0.5,
     shadowRadius: 4.65,
     elevation: 10,
-    padding: 20,
-    marginHorizontal: 11,
+    padding: normalize(20),
+    marginHorizontal: normalize(15),
   },
   image: {
     alignItems: 'center',
-    marginBottom: 12,
+    marginBottom: normalize(12),
   },
   profile: {
-    width: 100,
-    height: 100,
+    width: normalize(100),
+    height: normalize(100),
   },
   content: {
     flexDirection: 'row',
@@ -93,15 +94,15 @@ const styles = StyleSheet.create({
   },
   label: {
     fontFamily: 'Poppins-Medium',
-    fontSize: 14,
+    fontSize: normalize(14),
     color: '#020202',
   },
   value: {
     fontFamily: 'Poppins-Light',
-    fontSize: 14,
+    fontSize: normalize(12),
     color: '#020202',
   },
   download: {
-    paddingHorizontal: 11,
+    paddingHorizontal: normalize(11),
   },
 });

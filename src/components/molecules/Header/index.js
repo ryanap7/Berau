@@ -1,6 +1,7 @@
 import React, {useEffect, useState} from 'react';
 import {Image, StyleSheet, Text, View} from 'react-native';
 import {getData} from '../../../utils';
+import normalize from 'react-native-normalize';
 
 const Header = () => {
   const [name, setName] = useState('');
@@ -32,32 +33,32 @@ export default Header;
 const styles = StyleSheet.create({
   container: {
     flexDirection: 'row',
-    paddingVertical: 35,
-    paddingHorizontal: 25,
+    paddingVertical: normalize(35),
+    paddingHorizontal: normalize(25),
     backgroundColor: '#286090',
-    height: '25%',
+    height: normalize(170),
   },
   profile: {
-    width: 80,
-    height: 80,
-    borderRadius: 40,
-    marginRight: 10,
+    width: normalize(80),
+    height: normalize(80),
+    borderRadius: normalize(40),
+    marginRight: normalize(10),
   },
   title: {
     fontFamily: 'Poppins-Medium',
-    fontSize: 18,
+    fontSize: normalize(18),
     color: '#FCFCFF',
     textTransform: 'uppercase',
   },
   subTitle: {
     fontFamily: 'Poppins-Light',
-    fontSize: 14,
+    fontSize: normalize(14),
     color: '#FCFCFF',
     textTransform: 'uppercase',
   },
   company: {
     fontFamily: 'Poppins-Light',
-    fontSize: 12,
+    fontSize: normalize(12),
     color: '#FCFCFF',
     textTransform: 'uppercase',
   },

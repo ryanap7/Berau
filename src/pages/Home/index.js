@@ -2,6 +2,7 @@ import React from 'react';
 import {Image, StyleSheet, Text, TouchableOpacity, View} from 'react-native';
 import {Company, IcFavorite} from '../../assets';
 import {Gap, Header} from '../../components';
+import normalize from 'react-native-normalize';
 
 const Home = ({navigation}) => {
   return (
@@ -36,15 +37,16 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: '#FFFFFF',
-    marginTop: -20,
-    borderTopLeftRadius: 25,
-    borderTopRightRadius: 25,
-    padding: 25,
+    marginTop: normalize(-20),
+    borderTopLeftRadius: normalize(25),
+    borderTopRightRadius: normalize(25),
+    paddingHorizontal: normalize(15),
+    paddingVertical: normalize(25),
   },
   card: {
     flex: 1,
     backgroundColor: '#FFFFFF',
-    borderRadius: 10,
+    borderRadius: normalize(10),
     shadowColor: '#020202',
     shadowOffset: {
       width: 0,
@@ -52,8 +54,8 @@ const styles = StyleSheet.create({
     },
     shadowOpacity: 0.5,
     shadowRadius: 4.65,
-    elevation: 10,
-    padding: 20,
+    elevation: normalize(10),
+    padding: normalize(20),
   },
   title: {
     flexDirection: 'row',
@@ -61,18 +63,18 @@ const styles = StyleSheet.create({
   },
   stared: {
     fontFamily: 'Poppins-Regular',
-    fontSize: 16,
+    fontSize: normalize(16),
     color: '#020202',
   },
   list: {
     flexDirection: 'row',
     flexWrap: 'wrap',
-    paddingTop: 10,
+    paddingTop: normalize(10),
   },
   company: {
-    width: 130,
-    height: 55,
-    marginRight: 20,
-    marginBottom: 20,
+    width: normalize(130),
+    height: normalize(55),
+    marginRight: normalize(20),
+    marginBottom: normalize(20),
   },
 });

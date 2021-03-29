@@ -1,6 +1,7 @@
 import React from 'react';
 import {StyleSheet, View} from 'react-native';
 import {Header, ListCompany} from '../../components';
+import normalize from 'react-native-normalize';
 
 const Company = ({navigation}) => {
   return (
@@ -27,15 +28,16 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: '#FFFFFF',
-    marginTop: -20,
-    borderTopLeftRadius: 25,
-    borderTopRightRadius: 25,
-    padding: 25,
+    marginTop: normalize(-20),
+    borderTopLeftRadius: normalize(25),
+    borderTopRightRadius: normalize(25),
+    paddingVertical: normalize(25),
+    paddingHorizontal: normalize(15),
   },
   card: {
     flex: 1,
     backgroundColor: '#FFFFFF',
-    borderRadius: 10,
+    borderRadius: normalize(10),
     shadowColor: '#020202',
     shadowOffset: {
       width: 0,
@@ -43,12 +45,12 @@ const styles = StyleSheet.create({
     },
     shadowOpacity: 0.5,
     shadowRadius: 4.65,
-    elevation: 10,
-    padding: 23,
+    elevation: normalize(10),
+    padding: normalize(23),
   },
   stared: {
     fontFamily: 'Poppins-Medium',
-    fontSize: 16,
+    fontSize: normalize(16),
     color: '#020202',
   },
 });

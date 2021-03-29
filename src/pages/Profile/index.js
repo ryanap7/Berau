@@ -1,6 +1,7 @@
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import React, {useEffect, useState} from 'react';
 import {StyleSheet, Text, View} from 'react-native';
+import normalize from 'react-native-normalize';
 import {IcLogout} from '../../assets';
 import {Button, Gap, Header} from '../../components';
 import {getData} from '../../utils';
@@ -82,14 +83,15 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: '#FFFFFF',
-    marginTop: -20,
-    borderTopLeftRadius: 25,
-    borderTopRightRadius: 25,
-    padding: 25,
+    marginTop: normalize(-20),
+    borderTopLeftRadius: normalize(25),
+    borderTopRightRadius: normalize(25),
+    paddingHorizontal: normalize(15),
+    paddingVertical: normalize(25),
   },
   card: {
     backgroundColor: '#FFFFFF',
-    borderRadius: 10,
+    borderRadius: normalize(10),
     shadowColor: '#020202',
     shadowOffset: {
       width: 0,
@@ -97,8 +99,8 @@ const styles = StyleSheet.create({
     },
     shadowOpacity: 0.5,
     shadowRadius: 4.65,
-    elevation: 10,
-    padding: 20,
+    elevation: normalize(10),
+    padding: normalize(20),
   },
   content: {
     flexDirection: 'row',
@@ -106,12 +108,12 @@ const styles = StyleSheet.create({
   },
   label: {
     fontFamily: 'Poppins-Medium',
-    fontSize: 14,
+    fontSize: normalize(14),
     color: '#020202',
   },
   value: {
     fontFamily: 'Poppins-Light',
-    fontSize: 14,
+    fontSize: normalize(14),
     color: '#020202',
   },
 });

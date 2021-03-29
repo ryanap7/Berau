@@ -6,6 +6,7 @@ import {
   TouchableOpacity,
   View,
 } from 'react-native';
+import normalize from 'react-native-normalize';
 import {IcInputData} from '../../assets';
 import {
   ButtonList,
@@ -114,17 +115,17 @@ const styles = StyleSheet.create({
   },
   containerMenu: {
     flexDirection: 'row',
-    paddingLeft: 11,
+    paddingLeft: normalize(11),
     justifyContent: 'center',
     alignItems: 'center',
-    paddingBottom: 20,
+    paddingBottom: normalize(20),
   },
   wmp: {
     flex: 1,
-    marginHorizontal: 11,
+    marginHorizontal: normalize(15),
   },
   select: {
-    marginHorizontal: 11,
+    marginHorizontal: normalize(15),
   },
   menu: {
     justifyContent: 'center',
@@ -132,14 +133,14 @@ const styles = StyleSheet.create({
   },
   menuText: {
     fontFamily: 'Poppins-Regular',
-    fontSize: 12,
+    fontSize: normalize(12),
     color: '#286090',
   },
   contentMenu: {
     flexDirection: 'row',
     justifyContent: 'space-between',
-    paddingHorizontal: 56,
-    marginTop: -10,
+    paddingHorizontal: normalize(40),
+    marginTop: normalize(-10),
   },
   containerSteps: {
     flex: 1,

@@ -1,5 +1,6 @@
 import React, {useState} from 'react';
 import {StyleSheet, Text, TouchableOpacity, View} from 'react-native';
+import normalize from 'react-native-normalize';
 import {IcPersonalData} from '../../assets';
 import {Button, Gap, HeaderDetail, Select, TextInput} from '../../components';
 
@@ -15,11 +16,13 @@ const DetailPetugas = ({navigation}) => {
         company="PT. Berau Coal"
       />
       <Gap height={11} />
-      <Select
-        value={penugasan}
-        type="Penugasan"
-        onSelectChange={(value) => setPenugasan(value)}
-      />
+      <View style={styles.area}>
+        <Select
+          value={penugasan}
+          type="Penugasan"
+          onSelectChange={(value) => setPenugasan(value)}
+        />
+      </View>
       <View style={styles.containerMenu}>
         <TouchableOpacity
           activeOpacity={0.7}
@@ -69,51 +72,62 @@ const styles = StyleSheet.create({
   page: {
     flex: 1,
     backgroundColor: '#FFFFFF',
-    paddingBottom: 20,
+    paddingBottom: normalize(20),
   },
   containerMenu: {
     flexDirection: 'row',
-    paddingLeft: 11,
+    paddingLeft: normalize(15),
   },
   wmp: {
     flex: 1,
+    marginHorizontal: normalize(15),
   },
   menu: {
     alignItems: 'center',
-    marginTop: 16,
+    marginTop: normalize(16),
+  },
+  area: {
+    marginHorizontal: normalize(15),
   },
   menuText: {
     fontFamily: 'Poppins-Regular',
-    fontSize: 12,
+    fontSize: normalize(12),
     color: '#286090',
   },
   container: {
     flexDirection: 'row',
     alignItems: 'center',
-    paddingHorizontal: 25,
+    paddingHorizontal: normalize(25),
+  },
+  input: {
+    width: normalize(246),
+    borderWidth: 1,
+    borderColor: '#286090',
+    borderRadius: normalize(10),
+    paddingHorizontal: normalize(25),
   },
   result: {
     flexDirection: 'row',
     justifyContent: 'space-between',
     alignItems: 'center',
-    marginVertical: 20,
-    marginHorizontal: 40,
+    marginVertical: normalize(20),
+    marginHorizontal: normalize(40),
   },
   employees: {
     fontFamily: 'Poppins-Regular',
-    fontSize: 12,
+    fontSize: normalize(12),
     color: '#000000',
   },
   button: {
     backgroundColor: '#286090',
-    paddingHorizontal: 11,
-    paddingVertical: 6,
-    borderRadius: 10,
-    marginLeft: 5,
+    paddingHorizontal: normalize(11),
+    paddingVertical: normalize(6),
+    borderRadius: normalize(10),
+    marginLeft: normalize(5),
   },
   text: {
     fontFamily: 'Poppins-Regular',
-    fontSize: 10,
+    fontSize: normalize(10),
     color: '#FFFFFF',
   },
 });

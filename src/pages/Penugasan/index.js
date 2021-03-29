@@ -13,6 +13,7 @@ import {Gap, HeaderDetail, Select} from '../../components';
 import MapView, {Callout, Marker} from 'react-native-maps';
 import {getData} from '../../utils';
 import LottieView from 'lottie-react-native';
+import normalize from 'react-native-normalize';
 
 const {width, height} = Dimensions.get('window');
 
@@ -106,7 +107,7 @@ const Penugasan = ({navigation}) => {
           style={styles.menu}
           onPress={() => navigation.navigate('DataPetugas')}>
           <IcPersonalData />
-          <Text style={styles.menuText}>Data Petugas</Text>
+          <Text style={styles.menuText}>Rekap Absensi</Text>
         </TouchableOpacity>
       </View>
       {/* Maps */}
@@ -149,16 +150,17 @@ const styles = StyleSheet.create({
   containerMenu: {
     flexDirection: 'row',
     justifyContent: 'space-between',
-    paddingHorizontal: 45,
-    paddingVertical: 12,
+    paddingHorizontal: normalize(45),
+    paddingVertical: normalize(12),
   },
   container: {
-    height: '70%',
+    height: normalize(525),
     alignItems: 'center',
-    margin: 11,
+    marginVertical: normalize(11),
+    marginHorizontal: normalize(15),
   },
   select: {
-    marginHorizontal: 11,
+    marginHorizontal: normalize(15),
   },
   menu: {
     justifyContent: 'center',
@@ -166,7 +168,7 @@ const styles = StyleSheet.create({
   },
   menuText: {
     fontFamily: 'Poppins-Regular',
-    fontSize: 12,
+    fontSize: normalize(12),
     color: '#286090',
   },
   map: {

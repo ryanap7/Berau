@@ -1,11 +1,6 @@
 import React from 'react';
-import {
-  ScrollView,
-  StyleSheet,
-  Text,
-  TouchableOpacity,
-  View,
-} from 'react-native';
+import {ScrollView, StyleSheet, TouchableOpacity, View} from 'react-native';
+import normalize from 'react-native-normalize';
 import {IcAddInfo} from '../../assets';
 import {Button, Gap, Header, InfoList} from '../../components';
 
@@ -46,14 +41,15 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: '#FFFFFF',
-    marginTop: -20,
-    borderTopLeftRadius: 25,
-    borderTopRightRadius: 25,
-    padding: 25,
+    marginTop: normalize(-20),
+    borderTopLeftRadius: normalize(25),
+    borderTopRightRadius: normalize(25),
+    paddingVertical: normalize(25),
+    paddingHorizontal: normalize(15),
   },
   card: {
     backgroundColor: '#FFFFFF',
-    borderRadius: 10,
+    borderRadius: normalize(10),
     shadowColor: '#020202',
     shadowOffset: {
       width: 0,
@@ -61,10 +57,10 @@ const styles = StyleSheet.create({
     },
     shadowOpacity: 0.5,
     shadowRadius: 4.65,
-    elevation: 10,
-    paddingHorizontal: 30,
-    paddingVertical: 20,
-    height: '90%',
+    elevation: normalize(10),
+    paddingHorizontal: normalize(30),
+    paddingVertical: normalize(20),
+    height: '85%',
   },
   addButton: {
     flex: 1,

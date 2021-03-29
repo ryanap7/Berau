@@ -3,6 +3,7 @@ import Moment from 'moment';
 import 'moment/locale/id';
 import React, {useState} from 'react';
 import {StyleSheet, Text, TouchableOpacity, View} from 'react-native';
+import normalize from 'react-native-normalize';
 import {IcDownload, IcRekapData} from '../../assets';
 import {Button, Gap, HeaderDetail, Select, Table} from '../../components';
 import {useForm} from '../../utils';
@@ -73,7 +74,9 @@ const RekapData = ({navigation}) => {
             <TouchableOpacity
               style={styles.calendar}
               onPress={() => setShowFrom(true)}>
-              <Text>{Moment(form.from).format('DD-MM-YYYY')}</Text>
+              <Text style={styles.textCalendar}>
+                {Moment(form.from).format('DD-MM-YYYY')}
+              </Text>
               {showFrom && (
                 <DateTimePicker
                   testID="dateFrom"
@@ -91,7 +94,9 @@ const RekapData = ({navigation}) => {
             <TouchableOpacity
               style={styles.calendar}
               onPress={() => setShowTo(true)}>
-              <Text>{Moment(form.to).format('DD-MM-YYYY')}</Text>
+              <Text style={styles.textCalendar}>
+                {Moment(form.to).format('DD-MM-YYYY')}
+              </Text>
               {showTo && (
                 <DateTimePicker
                   testID="dateTo"
@@ -137,66 +142,72 @@ const styles = StyleSheet.create({
   page: {
     flex: 1,
     backgroundColor: '#FFFFFF',
-    paddingBottom: 20,
+    paddingBottom: normalize(20),
   },
   containerMenu: {
     flexDirection: 'row',
-    paddingLeft: 11,
+    paddingLeft: normalize(15),
   },
   wmp: {
     flex: 1,
   },
   select: {
-    marginHorizontal: 11,
+    marginHorizontal: normalize(15),
   },
   menu: {
     alignItems: 'center',
-    marginTop: 16,
+    marginTop: normalize(16),
   },
   menuText: {
     fontFamily: 'Poppins-Regular',
-    fontSize: 12,
+    fontSize: normalize(12),
     color: '#286090',
   },
   filter: {
     flexDirection: 'row',
     alignItems: 'center',
-    marginHorizontal: 11,
-    marginBottom: 8,
+    marginHorizontal: normalize(15),
+    marginBottom: normalize(8),
   },
   calendar: {
     borderWidth: 1,
-    paddingHorizontal: 17,
-    paddingVertical: 6,
-    borderRadius: 10,
+    paddingHorizontal: normalize(17),
+    paddingVertical: normalize(6),
+    borderRadius: normalize(10),
     borderColor: '#286090',
   },
+  textCalendar: {
+    fontFamily: 'Poppins-Regular',
+    fontSize: 12,
+    padding: normalize(8),
+  },
   to: {
-    marginHorizontal: 5,
+    marginHorizontal: normalize(5),
   },
   button: {
     backgroundColor: '#3BB54A',
-    paddingHorizontal: 11,
-    paddingVertical: 6,
-    borderRadius: 10,
-    marginLeft: 5,
+    paddingHorizontal: normalize(15),
+    paddingVertical: normalize(6),
+    borderRadius: normalize(10),
+    marginLeft: normalize(5),
     justifyContent: 'center',
     alignItems: 'center',
   },
   text: {
     fontFamily: 'Poppins-Regular',
-    fontSize: 12,
+    fontSize: normalize(12),
     color: '#FFFFFF',
   },
   download: {
-    paddingHorizontal: 60,
+    paddingHorizontal: normalize(60),
   },
   generate: {
     flexDirection: 'row',
     alignItems: 'center',
   },
   satuan: {
-    paddingLeft: 24,
-    paddingTop: 15,
+    paddingLeft: normalize(24),
+    paddingTop: normalize(15),
+    marginLeft: normalize(7),
   },
 });
