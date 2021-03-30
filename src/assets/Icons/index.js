@@ -25,6 +25,7 @@ import IcDate from './IcDate.svg';
 import IcAddAttendance from './IcAddAttendance.svg';
 import IcEdit from './IcEdit.svg';
 import IcTrash from './IcTrash.svg';
+import IcCalendar from './IcCalendar.svg';
 
 export {
   IcHome,
@@ -54,4 +55,5 @@ export {
   IcAddAttendance,
   IcEdit,
   IcTrash,
+  IcCalendar,
 };

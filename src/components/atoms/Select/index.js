@@ -19,6 +19,7 @@ const Select = ({value, onSelectChange, type, enabled}) => {
         <View style={styles.input}>
           <Picker
             selectedValue={value}
+            style={styles.select}
             onValueChange={(itemValue) => onSelectChange(itemValue)}
             enabled={enabled}>
             <Picker.Item label="Area Tambang LMO" value="Area Tambang LMO" />
@@ -40,6 +41,7 @@ const Select = ({value, onSelectChange, type, enabled}) => {
         <View style={styles.input}>
           <Picker
             selectedValue={value}
+            style={styles.select}
             onValueChange={(itemValue) => onSelectChange(itemValue)}>
             {wmp.map((data, index) => {
               return (
@@ -53,6 +55,7 @@ const Select = ({value, onSelectChange, type, enabled}) => {
         <View style={styles.input}>
           <Picker
             selectedValue={value}
+            style={styles.select}
             onValueChange={(itemValue) => onSelectChange(itemValue)}>
             <Picker.Item label="Dedicated" value="Dedicated" />
             <Picker.Item label="Mobile" value="Mobile" />
@@ -63,6 +66,7 @@ const Select = ({value, onSelectChange, type, enabled}) => {
         <View style={styles.input}>
           <Picker
             selectedValue={value}
+            style={styles.select}
             onValueChange={(itemValue) => onSelectChange(itemValue)}>
             <Picker.Item label="Kualitas ATT" value="Kualitas ATT" />
             <Picker.Item
@@ -86,6 +90,7 @@ const Select = ({value, onSelectChange, type, enabled}) => {
         <View style={styles.input}>
           <Picker
             selectedValue={value}
+            style={styles.select}
             onValueChange={(itemValue) => onSelectChange(itemValue)}>
             <Picker.Item label="Operator" value="Operator" />
             <Picker.Item
@@ -175,6 +180,17 @@ const Select = ({value, onSelectChange, type, enabled}) => {
           </Picker>
         </View>
       )}
+      {type === 'Notif' && (
+        <View style={styles.containerSelect}>
+          <Picker
+            selectedValue={value}
+            style={styles.select}
+            onValueChange={(itemValue) => onSelectChange(itemValue)}>
+            <Picker.Item label="Ya" value="Ya" />
+            <Picker.Item label="Tidak" value="Tidak" />
+          </Picker>
+        </View>
+      )}
       {type === 'Weather' && (
         <View style={styles.containerSelect}>
           <Picker
@@ -236,10 +252,8 @@ const Select = ({value, onSelectChange, type, enabled}) => {
             onValueChange={(itemValue) => onSelectChange(itemValue)}>
             <Picker.Item label="m3/detik" value="m3/detik" />
             <Picker.Item label="m3/jam" value="m3/jam" />
-            <Picker.Item label="m3/hari" value="m3/hari" />
             <Picker.Item label="L/detik" value="L/detik" />
             <Picker.Item label="L/jam" value="L/jam" />
-            <Picker.Item label="L/hari" value="L/hari" />
           </Picker>
         </View>
       )}
@@ -313,7 +327,6 @@ const styles = StyleSheet.create({
     borderRadius: normalize(10),
     paddingHorizontal: normalize(2),
     backgroundColor: '#FFFFFF',
-    marginTop: normalize(-10),
   },
   containerSelectSmall: {
     width: normalize(94),

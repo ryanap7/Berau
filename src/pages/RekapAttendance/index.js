@@ -1,5 +1,8 @@
+import DateTimePicker from '@react-native-community/datetimepicker';
+import {Picker} from '@react-native-picker/picker';
+import Moment from 'moment';
 import 'moment/locale/id';
-import React from 'react';
+import React, {useState} from 'react';
 import {
   ScrollView,
   StyleSheet,
@@ -8,28 +11,74 @@ import {
   View,
 } from 'react-native';
 import normalize from 'react-native-normalize';
-import {IcAddAttendance, IcEdit, IcTrash} from '../../assets';
-import {Button, Gap, HeaderDetail} from '../../components';
+import {IcCalendar} from '../../assets';
+import {Gap, HeaderDetail} from '../../components';
+import {useForm} from '../../utils';
 
-const PersonalData = ({navigation}) => {
+const RekapAttendance = ({navigation}) => {
+  const [form, setForm] = useForm({
+    date: new Date(),
+    kehadiran: 'Semua',
+  });
+  const [show, setShow] = useState(false);
+  const onChange = (selectedDate) => {
+    const currentDate = selectedDate || form.date_input;
+    setForm('date_input', currentDate);
+    setShow(false);
+  };
   return (
     <View style={styles.page}>
       <HeaderDetail
-        onPress={() => navigation.goBack()}
         company="PT. Berau Coal"
+        onPress={() => navigation.goBack()}
       />
+      <View style={styles.filterContainer}>
+        <View style={styles.date}>
+          <Text style={styles.label}>Tanggal Kehadiran</Text>
+          <Gap height={5} />
+          <TouchableOpacity
+            style={styles.calendar}
+            onPress={() => setShow(true)}>
+            <IcCalendar />
+            <Gap width={10} />
+            <Text>{Moment(form.date_input).format('DD-MM-YYYY')}</Text>
+            {show && (
+              <DateTimePicker
+                testID="dateTimePicker"
+                value={form.date}
+                mode="date"
+                is24Hour={true}
+                display="default"
+                onChange={onChange}
+              />
+            )}
+          </TouchableOpacity>
+        </View>
+        <Gap width={11} />
+        <View style={styles.attendance}>
+          <Text style={styles.label}>Kehadiran</Text>
+          <Gap height={5} />
+          <View style={styles.selectContainer}>
+            <Picker
+              selectedValue={form.kehadiran}
+              style={styles.select}
+              onValueChange={(value) => setForm('kehadiran', value)}>
+              <Picker.Item label="Semua" value="Semua" />
+              <Picker.Item label="Hadir" value="Hadir" />
+              <Picker.Item label="Tidak Hadir" value="Tidak Hadir" />
+            </Picker>
+          </View>
+        </View>
+      </View>
       <Gap height={11} />
-      <View style={styles.button}>
-        <Button
-          text="Add"
-          icon={<IcAddAttendance />}
-          onPress={() => navigation.navigate('AddAttendance')}
-        />
+      <View style={styles.positionButton}>
+        <View style={styles.button}>
+          <Text style={styles.textButton}>Filter</Text>
+        </View>
       </View>
       <View style={styles.list}>
-        <Text style={styles.label}>Kehadiran</Text>
         <View style={styles.card}>
-          <ScrollView horizontal showsHorizontalScrollIndicator={false}>
+          <ScrollView horizontal>
             <View>
               <View style={styles.header}>
                 <Text style={styles.labelName}>Nama</Text>
@@ -51,88 +100,70 @@ const PersonalData = ({navigation}) => {
           </ScrollView>
         </View>
       </View>
-      <View style={styles.button}>
-        <Button text="Submit" />
-      </View>
-      <View style={styles.list}>
-        <Text style={styles.label}>Daftar Anggota</Text>
-        <View style={styles.card}>
-          <ScrollView horizontal showsHorizontalScrollIndicator={false}>
-            <View>
-              <View style={styles.header}>
-                <Text style={styles.labelName}>Nama</Text>
-                <Text style={styles.labelStatus}>Status</Text>
-                <Text style={styles.labelWmp}>WMP</Text>
-                <Text style={styles.labelAction}>Action</Text>
-              </View>
-              <View style={styles.body}>
-                <Text style={styles.valueName}>Toto</Text>
-                <Text style={styles.valueStatus}>Dedicated</Text>
-                <Text style={styles.valueWmp}>1 LT</Text>
-                <View style={styles.valueAction}>
-                  <TouchableOpacity
-                    activeOpacity={0.7}
-                    onPress={() => navigation.navigate('EditAttendance')}>
-                    <IcEdit />
-                  </TouchableOpacity>
-                  <Gap width={10} />
-                  <TouchableOpacity>
-                    <IcTrash />
-                  </TouchableOpacity>
-                </View>
-              </View>
-            </View>
-          </ScrollView>
-        </View>
-      </View>
     </View>
   );
 };
 
-export default PersonalData;
+export default RekapAttendance;
 
 const styles = StyleSheet.create({
   page: {
     flex: 1,
-    backgroundColor: '#FFFFFF',
   },
-  container: {
-    marginHorizontal: normalize(15),
+  filterContainer: {
+    flexDirection: 'row',
+    paddingTop: 22,
+    paddingHorizontal: 11,
   },
-  labelDate: {
+  date: {
+    flex: 1,
+  },
+  attendance: {
+    flex: 1,
+  },
+  label: {
     fontFamily: 'Poppins-Regular',
-    fontSize: normalize(12),
+    fontSize: 12,
     color: '#000000',
   },
   calendar: {
     flexDirection: 'row',
-    alignItems: 'center',
     borderWidth: 1,
     borderColor: '#286090',
     borderRadius: normalize(10),
     backgroundColor: '#FFFFFF',
-    paddingVertical: normalize(10),
-    paddingHorizontal: normalize(20),
-    marginTop: normalize(5),
+    paddingVertical: 10,
+    paddingHorizontal: 20,
+    alignItems: 'center',
   },
-  placeholder: {
-    fontFamily: 'Poppins-Regular',
-    fontSize: normalize(12),
-    color: '#286090',
-    marginHorizontal: normalize(9),
+  selectContainer: {
+    borderWidth: 1,
+    borderColor: '#286090',
+    borderRadius: normalize(10),
+    backgroundColor: '#FFFFFF',
   },
-  button: {
-    margin: normalize(11),
+  select: {
+    height: normalize(45),
+  },
+  positionButton: {
     alignItems: 'flex-end',
   },
-  list: {
-    marginHorizontal: normalize(15),
-    marginVertical: normalize(15),
+  button: {
+    paddingHorizontal: 20,
+    paddingVertical: 11,
+    backgroundColor: '#286090',
+    width: normalize(71),
+    borderRadius: normalize(10),
+    marginHorizontal: normalize(11),
   },
-  label: {
+  textButton: {
     fontFamily: 'Poppins-Regular',
-    fontSize: normalize(12),
-    color: '#000000',
+    fontSize: 12,
+    color: '#FFFFFF',
+  },
+  list: {
+    marginHorizontal: normalize(11),
+    marginVertical: normalize(11),
   },
   card: {
     backgroundColor: '#FFFFFF',
@@ -238,11 +269,5 @@ const styles = StyleSheet.create({
     width: normalize(100),
     marginRight: normalize(4),
     textAlign: 'center',
-  },
-  valueAction: {
-    flexDirection: 'row',
-    width: normalize(100),
-    marginRight: normalize(4),
-    justifyContent: 'center',
   },
 });

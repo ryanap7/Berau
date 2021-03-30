@@ -193,7 +193,7 @@ const StepsKimia = () => {
             </View>
             <View style={styles.container}>
               <View style={styles.containerLabel}>
-                <Text style={styles.label}>Stock Saat Ini</Text>
+                <Text style={styles.label}>Stock Berjalan</Text>
               </View>
               <View style={styles.containerInput}>
                 <View style={styles.containerTimeInput}>
@@ -334,6 +334,7 @@ const styles = StyleSheet.create({
     paddingLeft: normalize(11),
     marginLeft: normalize(14),
     marginRight: normalize(-18),
+    marginBottom: normalize(-8),
   },
   label: {
     fontFamily: 'Poppins-Regular',

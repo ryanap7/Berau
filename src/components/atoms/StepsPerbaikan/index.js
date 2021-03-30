@@ -24,7 +24,7 @@ const StepsPerbaikan = () => {
     periodical_input: 'Per Jam',
     time_input: new Date(),
     jenis_perbaikan: 'Pengerukan',
-    notif: '',
+    notif: 'Tidak',
     note: '',
   });
 
@@ -150,20 +150,11 @@ const StepsPerbaikan = () => {
                 <Text style={styles.label}>Notif Info?</Text>
               </View>
               <View style={styles.containerInput}>
-                <View style={styles.containerTimeInput}>
-                  <View style={styles.leftContainer}>
-                    <TextInput
-                      style={styles.timeInput}
-                      placeholder="Input"
-                      value={form.notif}
-                      onChangeText={(value) => setForm('notif', value)}
-                    />
-                  </View>
-                  <Gap width={16} />
-                  <View style={styles.rightContainer}>
-                    <Text>(v) Yes</Text>
-                  </View>
-                </View>
+                <Select
+                  value={form.notif}
+                  type="Notif"
+                  onSelectChange={(value) => setForm('notif', value)}
+                />
               </View>
             </View>
             <Gap height={15} />
@@ -292,6 +283,7 @@ const styles = StyleSheet.create({
     paddingLeft: normalize(11),
     marginLeft: normalize(14),
     marginRight: normalize(-19),
+    marginBottom: normalize(-8),
   },
   label: {
     fontFamily: 'Poppins-Regular',
@@ -366,7 +358,7 @@ const styles = StyleSheet.create({
     backgroundColor: '#FFFFFF',
     marginHorizontal: normalize(45),
     marginVertical: normalize(13),
-    width: '90%',
+    width: '80%',
     height: normalize(200),
   },
 });

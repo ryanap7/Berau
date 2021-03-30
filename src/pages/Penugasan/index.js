@@ -1,78 +1,23 @@
-import Geolocation from '@react-native-community/geolocation';
 import React, {useEffect, useState} from 'react';
-import {
-  ActivityIndicator,
-  Dimensions,
-  StyleSheet,
-  Text,
-  TouchableOpacity,
-  View,
-} from 'react-native';
-import {IcRekapData, IcInputData, IcPersonalData} from '../../assets';
-import {Gap, HeaderDetail, Select} from '../../components';
+import {StyleSheet, Text, TouchableOpacity, View} from 'react-native';
 import MapView, {Callout, Marker} from 'react-native-maps';
-import {getData} from '../../utils';
-import LottieView from 'lottie-react-native';
 import normalize from 'react-native-normalize';
-
-const {width, height} = Dimensions.get('window');
-
-const ASPECT_RATIO = width / height;
-const LATITUDE_DELTA = 5;
-const LONGITUDE_DELTA = LATITUDE_DELTA * ASPECT_RATIO;
-
-const initialState = {
-  latitude: null,
-  longitude: null,
-  latitudeDelta: LATITUDE_DELTA,
-  longitudeDelta: LONGITUDE_DELTA,
-};
+import {IcInputData, IcPersonalData, IcRekapData} from '../../assets';
+import {Gap, HeaderDetail, Select} from '../../components';
+import {getData} from '../../utils';
 
 const Penugasan = ({navigation}) => {
-  const [role, setRole] = useState('Pengawas');
   const [penugasan, setPenugasan] = useState('Area Tambang SMO');
-  const [currentLocation, setCurrentLocation] = useState(initialState);
   const [wmp, setWmp] = useState([]);
-  const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
-    Geolocation.getCurrentPosition(
-      (position) => {
-        const {latitude, longitude} = position.coords;
-
-        setCurrentLocation({
-          ...currentLocation,
-          latitude,
-          longitude,
-        });
-        setIsLoading(false);
-      },
-      (error) => console.log(JSON.stringify(error)),
-      {enableHighAccuracy: true, timeout: 20000},
-    );
-    getData('userProfile').then((res) => {
-      setRole(res.level.lev_nama);
-    });
     getData('tambang').then((res) => {
       setPenugasan(res.nama);
       setWmp(res.wmp);
     });
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
-  if (isLoading) {
-    return (
-      <View style={styles.loading}>
-        <LottieView
-          source={require('../../assets/Lottie/Loading.json')}
-          autoPlay
-          loop
-        />
-      </View>
-    );
-  }
-
-  return currentLocation.latitude ? (
+  return (
     <View style={styles.page}>
       <HeaderDetail
         onPress={() => navigation.goBack()}
@@ -105,7 +50,7 @@ const Penugasan = ({navigation}) => {
         <TouchableOpacity
           activeOpacity={0.7}
           style={styles.menu}
-          onPress={() => navigation.navigate('DataPetugas')}>
+          onPress={() => navigation.navigate('RekapAttendance')}>
           <IcPersonalData />
           <Text style={styles.menuText}>Rekap Absensi</Text>
         </TouchableOpacity>
@@ -115,7 +60,12 @@ const Penugasan = ({navigation}) => {
         <MapView
           style={styles.map}
           showsUserLocation={true}
-          initialRegion={currentLocation}
+          initialRegion={{
+            latitude: -4.8021423,
+            longitude: 107.5284487,
+            latitudeDelta: 35,
+            longitudeDelta: 35,
+          }}
           followUserLocation={true}
           mapType="standard">
           {wmp.map((data, index) => {
@@ -135,8 +85,6 @@ const Penugasan = ({navigation}) => {
         </MapView>
       </View>
     </View>
-  ) : (
-    <ActivityIndicator style={styles.map} animating size="large" />
   );
 };
 

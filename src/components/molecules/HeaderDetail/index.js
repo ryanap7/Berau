@@ -6,7 +6,7 @@ import {IcBack} from '../../../assets';
 const HeaderDetail = ({company, onPress}) => {
   return (
     <TouchableOpacity
-      activeOpacity={0.7}
+      activeOpacity={0.5}
       onPress={onPress}
       style={styles.container}>
       <IcBack />

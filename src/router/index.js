@@ -12,10 +12,12 @@ import {
   Info,
   InputData,
   Login,
+  Pelaporan,
   Penugasan,
   PersonalData,
   Profile,
   ProfileCompany,
+  RekapAttendance,
   RekapData,
   SplashScreen,
 } from '../pages';
@@ -37,7 +39,7 @@ const MainApp = () => {
 
 const Router = () => {
   return (
-    <Stack.Navigator initialRouteName="SplashScreen">
+    <Stack.Navigator initialRouteName="MainApp">
       <Stack.Screen
         name="SplashScreen"
         component={SplashScreen}
@@ -101,6 +103,16 @@ const Router = () => {
       <Stack.Screen
         name="EditAttendance"
         component={EditAttendance}
+        options={{headerShown: false}}
+      />
+      <Stack.Screen
+        name="RekapAttendance"
+        component={RekapAttendance}
+        options={{headerShown: false}}
+      />
+      <Stack.Screen
+        name="Pelaporan"
+        component={Pelaporan}
         options={{headerShown: false}}
       />
     </Stack.Navigator>

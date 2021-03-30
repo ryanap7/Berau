@@ -1,8 +1,7 @@
 import React from 'react';
-import {ScrollView, StyleSheet, TouchableOpacity, View} from 'react-native';
+import {ScrollView, StyleSheet, View} from 'react-native';
 import normalize from 'react-native-normalize';
-import {IcAddInfo} from '../../assets';
-import {Button, Gap, Header, InfoList} from '../../components';
+import {Header, InfoList} from '../../components';
 
 const Info = () => {
   return (
@@ -20,13 +19,8 @@ const Info = () => {
               active
             />
             <InfoList text="Stock Kapur di WMP 4 telah Habis" />
-            <InfoList text="Supply Listrik di WMP 27 mati" />
           </ScrollView>
         </View>
-        <Gap height={20} />
-        <TouchableOpacity activeOpacity={0.7} style={styles.addButton}>
-          <Button text="Add" icon={<IcAddInfo />} />
-        </TouchableOpacity>
       </View>
     </View>
   );
@@ -48,6 +42,7 @@ const styles = StyleSheet.create({
     paddingHorizontal: normalize(15),
   },
   card: {
+    flex: 1,
     backgroundColor: '#FFFFFF',
     borderRadius: normalize(10),
     shadowColor: '#020202',

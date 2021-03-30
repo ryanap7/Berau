@@ -66,7 +66,7 @@ const HomeCompany = ({navigation}) => {
             style={styles.menu}
             onPress={() => navigation.navigate('PersonalData')}>
             <IcPersonalData />
-            <Text style={styles.menuText}>Personal Data</Text>
+            <Text style={styles.menuText}>Absensi Anggota</Text>
           </TouchableOpacity>
           <TouchableOpacity
             activeOpacity={0.7}
@@ -75,14 +75,13 @@ const HomeCompany = ({navigation}) => {
             <IcPenugasan />
             <Text style={styles.menuText}>Penugasan</Text>
           </TouchableOpacity>
-          <View style={styles.menu}>
+          <TouchableOpacity
+            activeOpacity={0.7}
+            style={styles.menu}
+            onPress={() => navigation.navigate('Pelaporan')}>
             <IcLaporan />
             <Text style={styles.menuText}>Pelaporan</Text>
-          </View>
-          <View style={styles.menu}>
-            <IcKPI />
-            <Text style={styles.menuText}>KPI</Text>
-          </View>
+          </TouchableOpacity>
         </View>
         <View style={styles.content}>
           <Text style={styles.text}>Rekapitulasi Data Tahun Berjalan</Text>

@@ -89,5 +89,6 @@ const styles = StyleSheet.create({
     marginTop: normalize(5),
     marginBottom: normalize(11),
     paddingHorizontal: normalize(15),
+    height: normalize(40),
   },
 });

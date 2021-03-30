@@ -110,16 +110,7 @@ const RekapData = ({navigation}) => {
             </TouchableOpacity>
           </View>
           <View style={styles.generate}>
-            <View style={styles.satuan}>
-              <Select
-                value={form.satuan}
-                type="TSS"
-                onSelectChange={(value) => {
-                  setForm('satuan', value);
-                }}
-              />
-            </View>
-            <Gap width={28} />
+            <Gap width={15} />
             <View style={styles.button}>
               <Text style={styles.text}>Generate</Text>
             </View>

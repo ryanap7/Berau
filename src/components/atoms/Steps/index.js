@@ -156,7 +156,6 @@ const Steps = () => {
                 />
               </View>
             </View>
-            <Gap height={10} />
             <View style={styles.container}>
               <View style={styles.containerLabel}>
                 <Text style={styles.label}>Weather Condition</Text>
@@ -469,6 +468,8 @@ const styles = StyleSheet.create({
     paddingLeft: normalize(11),
     marginLeft: normalize(14),
     marginRight: normalize(-18),
+    height: normalize(40),
+    marginBottom: normalize(-8),
   },
   label: {
     fontFamily: 'Poppins-Regular',
@@ -497,6 +498,7 @@ const styles = StyleSheet.create({
     padding: normalize(8),
     backgroundColor: '#FFFFFF',
     textAlign: 'center',
+    height: normalize(40),
   },
   card: {
     width: '90%',

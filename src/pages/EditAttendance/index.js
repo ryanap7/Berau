@@ -1,6 +1,7 @@
 import 'moment/locale/id';
 import React from 'react';
 import {StyleSheet, Text, TextInput, View} from 'react-native';
+import normalize from 'react-native-normalize';
 import {Button, Gap, HeaderDetail, Select} from '../../components';
 import {useForm} from '../../utils';
 
@@ -23,6 +24,7 @@ const EditAttendance = ({navigation}) => {
           <View style={styles.textInput}>
             <TextInput
               value={form.name}
+              style={styles.height}
               placeholder="Masukkan Nama"
               onChangeText={(value) => setForm('name', value)}
             />
@@ -65,27 +67,28 @@ const styles = StyleSheet.create({
   },
   card: {
     backgroundColor: '#FFFFFF',
-    borderRadius: 10,
+    borderRadius: normalize(10),
     shadowOpacity: 0.5,
     shadowRadius: 4.65,
     elevation: 10,
-    margin: 11,
-    paddingVertical: 22,
-    paddingHorizontal: 18,
+    margin: normalize(11),
+    paddingVertical: normalize(22),
+    paddingHorizontal: normalize(18),
   },
   label: {
     fontFamily: 'Poppins-Regular',
-    fontSize: 12,
+    fontSize: normalize(12),
     color: '#000000',
   },
   textInput: {
     borderWidth: 1,
     borderColor: '#286090',
-    borderRadius: 10,
+    borderRadius: normalize(10),
     fontFamily: 'Poppins-Regular',
     color: '#000000',
-    marginTop: 5,
-    marginBottom: 11,
-    paddingHorizontal: 15,
+    marginTop: normalize(5),
+    marginBottom: normalize(11),
+    paddingHorizontal: normalize(15),
+    height: normalize(40),
   },
 });

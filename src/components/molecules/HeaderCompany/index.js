@@ -1,15 +1,7 @@
 import React from 'react';
 import {Image, StyleSheet, Text, TouchableOpacity, View} from 'react-native';
 
-const HeaderCompany = ({
-  title,
-  address,
-  phone,
-  profile,
-  onPress,
-  back,
-  home,
-}) => {
+const HeaderCompany = ({title, address, phone, profile, onPress}) => {
   return (
     <View style={styles.container}>
       <View style={styles.header}>

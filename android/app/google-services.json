@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "614909162672",
+    "project_id": "berau-e76cb",
+    "storage_bucket": "berau-e76cb.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:614909162672:android:a7dc0253677df97f32b775",
+        "android_client_info": {
+          "package_name": "com.berau"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "614909162672-g9ioordteel0plhcmcrguo3pai0iq661.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAfcpkazuJxHc4-fRo6NUbXNYUguFfKXWk"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "614909162672-g9ioordteel0plhcmcrguo3pai0iq661.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
