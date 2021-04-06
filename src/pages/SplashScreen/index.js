@@ -6,9 +6,9 @@ import {
   Text,
   View,
 } from 'react-native';
-import {Background, Line} from '../../assets';
-import {getData} from '../../utils';
 import normalize from 'react-native-normalize';
+import {Background, Line} from '../../assets';
+import storage from '../../utils/storage';
 
 const width = Dimensions.get('window').width;
 const height = Dimensions.get('window').height;
@@ -16,13 +16,22 @@ const height = Dimensions.get('window').height;
 const SplashScreen = ({navigation}) => {
   useEffect(() => {
     setTimeout(() => {
-      getData('userProfile').then((res) => {
-        if (res) {
+      storage
+        .load({
+          key: 'token',
+          autoSync: true,
+          syncInBackground: true,
+          syncParams: {
+            someFlag: true,
+          },
+        })
+        .then((ret) => {
           navigation.reset({index: 0, routes: [{name: 'MainApp'}]});
-        } else {
+        })
+        .catch((err) => {
+          console.warn(err.message);
           navigation.replace('Login');
-        }
-      });
+        });
     }, 2000);
   }, [navigation]);
 

@@ -1,5 +1,6 @@
 import Axios from 'axios';
-import {showMessage, storeData} from '../../utils';
+import {showMessage} from '../../utils';
+import storage from '../../utils/storage';
 import {setLoading} from './global';
 
 const API_HOST = {
@@ -17,10 +18,26 @@ export const signInAction = (form, navigation) => (dispatch) => {
 
       dispatch(setLoading(false));
 
-      storeData('token', {value: token});
-      storeData('refreshToken', {value: refreshToken});
-      storeData('userProfile', profile);
-      storeData('tambang', tambang);
+      storage.save({
+        key: 'token',
+        data: token,
+      });
+
+      storage.save({
+        key: 'refreshToken',
+        data: refreshToken,
+      });
+
+      storage.save({
+        key: 'profile',
+        data: profile,
+      });
+
+      storage.save({
+        key: 'tambang',
+        data: tambang,
+      });
+
       navigation.reset({index: 0, routes: [{name: 'MainApp'}]});
     })
     .catch((err) => {

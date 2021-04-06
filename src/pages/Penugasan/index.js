@@ -4,17 +4,29 @@ import MapView, {Callout, Marker} from 'react-native-maps';
 import normalize from 'react-native-normalize';
 import {IcInputData, IcPersonalData, IcRekapData} from '../../assets';
 import {Gap, HeaderDetail, Select} from '../../components';
-import {getData} from '../../utils';
+import storage from '../../utils/storage';
 
 const Penugasan = ({navigation}) => {
   const [penugasan, setPenugasan] = useState('Area Tambang SMO');
   const [wmp, setWmp] = useState([]);
 
   useEffect(() => {
-    getData('tambang').then((res) => {
-      setPenugasan(res.nama);
-      setWmp(res.wmp);
-    });
+    storage
+      .load({
+        key: 'tambang',
+        autoSync: true,
+        syncInBackground: true,
+        syncParams: {
+          someFlag: true,
+        },
+      })
+      .then((res) => {
+        setPenugasan(res.nama);
+        setWmp(res.wmp);
+      })
+      .catch((err) => {
+        console.warn(err.message);
+      });
   }, []);
 
   return (

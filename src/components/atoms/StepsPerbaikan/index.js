@@ -11,10 +11,9 @@ import {
 } from 'react-native';
 import normalize from 'react-native-normalize';
 import {ProgressStep, ProgressSteps} from 'react-native-progress-steps';
-import {useDispatch} from 'react-redux';
 import {Gap, Select} from '..';
-import {storeService} from '../../../redux/action';
-import {getData, useForm} from '../../../utils';
+import {useForm} from '../../../utils';
+import storage from '../../../utils/storage';
 
 const StepsPerbaikan = () => {
   // Initial State
@@ -28,37 +27,39 @@ const StepsPerbaikan = () => {
     note: '',
   });
 
-  const [token, setToken] = useState('');
-
   useEffect(() => {
-    getData('wmp').then((res) => {
-      setForm('wmp', res);
-    });
-    getData('token').then((res) => {
-      setToken(res.value);
-    });
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+    storage
+      .load({
+        key: 'wmp',
+        autoSync: true,
+        syncInBackground: true,
+        syncParams: {
+          someFlag: true,
+        },
+      })
+      .then((ret) => {
+        setForm('wmp', ret);
+      })
+      .catch((err) => {
+        console.warn(err.message);
+      });
   }, []);
 
   const [show, setShow] = useState(false);
   const [showTime, setShowTime] = useState(false);
 
-  const onChange = (event, selectedDate) => {
+  const onChange = (selectedDate) => {
     const currentDate = selectedDate || form.date_input;
     setForm('date_input', currentDate);
     setShow(false);
   };
-  const onChangeTime = (event, selectedDate) => {
+  const onChangeTime = (selectedDate) => {
     const currentTime = selectedDate || form.time_input;
     setForm('time_input', new Date(currentTime));
     setShowTime(false);
   };
 
-  const dispatch = useDispatch();
-
-  const onSubmit = () => {
-    dispatch(storeService(form, token));
-  };
+  const onSubmit = () => {};
   return (
     <View style={styles.page}>
       <ProgressSteps

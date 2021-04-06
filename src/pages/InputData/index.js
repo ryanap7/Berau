@@ -17,7 +17,7 @@ import {
   StepsKimia,
   StepsPerbaikan,
 } from '../../components';
-import {getData, storeData} from '../../utils';
+import storage from '../../utils/storage';
 
 const InputData = ({navigation}) => {
   const [penugasan, setPenugasan] = useState('Area Tambang LMO');
@@ -25,12 +25,27 @@ const InputData = ({navigation}) => {
   const [stepper, setStepper] = useState('ATT');
 
   useEffect(() => {
-    getData('tambang').then((res) => {
-      setPenugasan(res.nama);
-    });
+    storage
+      .load({
+        key: 'tambang',
+        autoSync: true,
+        syncInBackground: true,
+        syncParams: {
+          someFlag: true,
+        },
+      })
+      .then((ret) => {
+        setPenugasan(ret.nama);
+      })
+      .catch((err) => {
+        console.warn(err.message);
+      });
   }, []);
 
-  storeData('wmp', wmp);
+  storage.save({
+    key: 'wmp',
+    data: wmp,
+  });
 
   return (
     <View style={styles.page}>

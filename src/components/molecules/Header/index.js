@@ -1,7 +1,7 @@
 import React, {useEffect, useState} from 'react';
 import {Image, StyleSheet, Text, View} from 'react-native';
-import {getData} from '../../../utils';
 import normalize from 'react-native-normalize';
+import storage from '../../../utils/storage';
 
 const Header = () => {
   const [name, setName] = useState('');
@@ -9,12 +9,24 @@ const Header = () => {
   const [company, setCompany] = useState('');
   const [photo, setPhoto] = useState({});
   useEffect(() => {
-    getData('userProfile').then((res) => {
-      setName(res.user_nama);
-      setPosition(res.level.lev_nama);
-      setCompany(res.perusahaan.nama);
-      setPhoto({uri: res.user_photo});
-    });
+    storage
+      .load({
+        key: 'profile',
+        autoSync: true,
+        syncInBackground: true,
+        syncParams: {
+          someFlag: true,
+        },
+      })
+      .then((res) => {
+        setName(res.user_nama);
+        setPosition(res.level.lev_nama);
+        setCompany(res.perusahaan.nama);
+        setPhoto({uri: res.user_photo});
+      })
+      .catch((err) => {
+        console.warn(err.message);
+      });
   }, []);
   return (
     <View style={styles.container}>

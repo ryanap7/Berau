@@ -11,9 +11,12 @@ import {
   View,
 } from 'react-native';
 import normalize from 'react-native-normalize';
+import {useDispatch} from 'react-redux';
 import {IcAddAttendance, IcEdit, IcTrashAttendance} from '../../assets';
 import {Button, Gap, HeaderDetail} from '../../components';
+import {setLoading} from '../../redux/action';
 import {getData, showMessage} from '../../utils';
+import storage from '../../utils/storage';
 
 const PersonalData = ({navigation}) => {
   const [token, setToken] = useState('');
@@ -29,9 +32,21 @@ const PersonalData = ({navigation}) => {
   useEffect(() => {
     getDataAttendance();
     getDataEmployee();
-    getData('token').then((res) => {
-      setToken(res.value);
-    });
+    storage
+      .load({
+        key: 'token',
+        autoSync: true,
+        syncInBackground: true,
+        syncParams: {
+          someFlag: true,
+        },
+      })
+      .then((ret) => {
+        setToken(ret);
+      })
+      .catch((err) => {
+        console.warn(err.message);
+      });
   });
 
   const getDataEmployee = () => {
@@ -67,6 +82,8 @@ const PersonalData = ({navigation}) => {
       .catch((err) => console.log('Error: ', err));
   };
 
+  const dispatch = useDispatch();
+
   const selectedItem = (item) => {
     const data = {
       id_pegawai: item.id,
@@ -74,6 +91,7 @@ const PersonalData = ({navigation}) => {
       tanggal: currentDate,
     };
 
+    dispatch(setLoading(true));
     Axios.post(`${API_HOST.url}/absen`, data, {
       headers: {
         Authorization: `Bearer ${token}`,
@@ -81,8 +99,12 @@ const PersonalData = ({navigation}) => {
     })
       .then((result) => {
         console.log(result);
+        dispatch(setLoading(false));
       })
-      .catch((err) => console.log('Error: ', err));
+      .catch((err) => {
+        console.log('Error: ', err);
+        dispatch(setLoading(false));
+      });
   };
 
   return (
@@ -252,7 +274,7 @@ const styles = StyleSheet.create({
   body: {
     flexDirection: 'row',
     paddingHorizontal: normalize(21),
-    paddingVertical: normalize(14),
+    paddingVertical: normalize(18),
     justifyContent: 'space-between',
   },
   labelName: {

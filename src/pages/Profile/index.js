@@ -1,10 +1,9 @@
-import AsyncStorage from '@react-native-async-storage/async-storage';
 import React, {useEffect, useState} from 'react';
 import {StyleSheet, Text, View} from 'react-native';
 import normalize from 'react-native-normalize';
 import {IcLogout} from '../../assets';
 import {Button, Gap, Header} from '../../components';
-import {getData} from '../../utils';
+import storage from '../../utils/storage';
 
 const Profile = ({navigation}) => {
   const [name, setName] = useState('');
@@ -16,22 +15,41 @@ const Profile = ({navigation}) => {
   const [position, setPosition] = useState('');
 
   useEffect(() => {
-    getData('userProfile').then((res) => {
-      setName(res.user_nama);
-      setBirthday(res.user_tanggal_lahir);
-      setAddress(res.user_alamat);
-      setPhone(res.user_phone);
-      setCompany(res.perusahaan.nama);
-      setStart(res.mulai_bekerja);
-      setPosition(res.jabatan.nama);
-    });
+    storage
+      .load({
+        key: 'profile',
+        autoSync: true,
+        syncInBackground: true,
+        syncParams: {
+          someFlag: true,
+        },
+      })
+      .then((res) => {
+        setName(res.user_nama);
+        setBirthday(res.user_tanggal_lahir);
+        setAddress(res.user_alamat);
+        setPhone(res.user_phone);
+        setCompany(res.perusahaan.nama);
+        setStart(res.mulai_bekerja);
+        setPosition(res.jabatan.nama);
+      })
+      .catch((err) => {
+        console.warn(err.message);
+      });
   }, []);
 
   // Logout
   const LogOut = () => {
-    AsyncStorage.multiRemove(['userProfile', 'token']).then(() => {
-      navigation.replace('Login');
+    storage.remove({
+      key: 'profile',
     });
+    storage.remove({
+      key: 'token',
+    });
+    storage.remove({
+      key: 'refreshToken',
+    });
+    navigation.reset({index: 0, routes: [{name: 'Login'}]});
   };
   return (
     <View style={styles.page}>

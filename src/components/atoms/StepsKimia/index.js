@@ -5,17 +5,16 @@ import React, {useEffect, useState} from 'react';
 import {StyleSheet, Text, TouchableOpacity, View} from 'react-native';
 import normalize from 'react-native-normalize';
 import {ProgressStep, ProgressSteps} from 'react-native-progress-steps';
-import {useDispatch} from 'react-redux';
 import {Gap, Select, TextInput} from '..';
-import {storeChemical} from '../../../redux/action';
-import {getData, useForm} from '../../../utils';
+import {showMessage, useForm} from '../../../utils';
+import storage from '../../../utils/storage';
 
 const StepsKimia = () => {
   // Initial State
   const [form, setForm] = useForm({
     wmp: '1',
     date_input: new Date(),
-    periodical_input: '',
+    periodical_input: 'Per Jam',
     time_input: new Date(),
     chemical: 'Kapur',
     purity: '',
@@ -25,37 +24,71 @@ const StepsKimia = () => {
     current_unit: 'L',
   });
 
-  const [token, setToken] = useState('');
+  const [isValid, setIsValid] = useState(false);
+  const [errors, setErrors] = useState(false);
 
   useEffect(() => {
-    getData('wmp').then((res) => {
-      setForm('wmp', res);
-    });
-    getData('token').then((res) => {
-      setToken(res.value);
-    });
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+    storage
+      .load({
+        key: 'wmp',
+        autoSync: true,
+        syncInBackground: true,
+        syncParams: {
+          someFlag: true,
+        },
+      })
+      .then((ret) => {
+        setForm('wmp', ret);
+      })
+      .catch((err) => {
+        console.warn(err.message);
+      });
   }, []);
 
   const [show, setShow] = useState(false);
   const [showTime, setShowTime] = useState(false);
 
-  const onChange = (event, selectedDate) => {
+  const onChange = (selectedDate) => {
     const currentDate = selectedDate || form.date_input;
     setForm('date_input', currentDate);
     setShow(false);
   };
-  const onChangeTime = (event, selectedDate) => {
+  const onChangeTime = (selectedDate) => {
     const currentTime = selectedDate || form.time_input;
     setForm('time_input', new Date(currentTime));
     setShowTime(false);
   };
 
-  const dispatch = useDispatch();
-
-  const onSubmit = () => {
-    dispatch(storeChemical(form, token));
+  const onNextStep1 = () => {
+    if (form.purity.length > 0) {
+      setIsValid(true);
+      setErrors(false);
+    } else {
+      if (!isValid) {
+        setErrors(true);
+      } else {
+        setErrors(false);
+      }
+      if (errors) {
+        showMessage('Data belum lengkap, Silahkan cek kembali');
+      }
+    }
   };
+
+  const onNextStep2 = () => {
+    if (form.before.length > 0 && form.current.length > 0) {
+      setErrors(false);
+    } else {
+      setErrors(true);
+      if (errors) {
+        showMessage('Data belum lengkap, Silahkan cek kembali');
+      }
+    }
+    console.log('before', form.before.length);
+    console.log('Error', errors);
+  };
+
+  const onSubmit = () => {};
   return (
     <View style={styles.page}>
       <ProgressSteps
@@ -70,7 +103,9 @@ const StepsKimia = () => {
         <ProgressStep
           label="Description"
           nextBtnStyle={styles.nextButton}
-          nextBtnTextStyle={styles.nextText}>
+          nextBtnTextStyle={styles.nextText}
+          onNext={onNextStep1}
+          errors={errors}>
           <View style={styles.content}>
             <View style={styles.container}>
               <View style={styles.containerLabel}>
@@ -163,7 +198,9 @@ const StepsKimia = () => {
           nextBtnStyle={styles.nextButton}
           nextBtnTextStyle={styles.nextText}
           previousBtnStyle={styles.previousButton}
-          previousBtnTextStyle={styles.previousText}>
+          previousBtnTextStyle={styles.previousText}
+          onNext={onNextStep2}
+          errors={errors}>
           <View style={styles.content}>
             <View style={styles.container}>
               <View style={styles.containerLabel}>

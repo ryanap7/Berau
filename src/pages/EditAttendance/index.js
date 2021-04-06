@@ -6,7 +6,8 @@ import normalize from 'react-native-normalize';
 import {useDispatch} from 'react-redux';
 import {Button, Gap, HeaderDetail, Select} from '../../components';
 import {setLoading} from '../../redux/action';
-import {getData, showMessage, useForm} from '../../utils';
+import {showMessage, useForm} from '../../utils';
+import storage from '../../utils/storage';
 
 const EditAttendance = ({navigation, route}) => {
   const {id, nama, status, id_wmp} = route.params;
@@ -24,9 +25,21 @@ const EditAttendance = ({navigation, route}) => {
   };
 
   useEffect(() => {
-    getData('token').then((res) => {
-      setToken(res.value);
-    });
+    storage
+      .load({
+        key: 'token',
+        autoSync: true,
+        syncInBackground: true,
+        syncParams: {
+          someFlag: true,
+        },
+      })
+      .then((ret) => {
+        setToken(ret);
+      })
+      .catch((err) => {
+        console.warn(err.message);
+      });
   }, []);
 
   const onSubmit = () => {

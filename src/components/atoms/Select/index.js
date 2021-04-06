@@ -2,15 +2,27 @@ import {Picker} from '@react-native-picker/picker';
 import React, {useEffect, useState} from 'react';
 import {StyleSheet, View} from 'react-native';
 import normalize from 'react-native-normalize';
-import {getData} from '../../../utils';
+import storage from '../../../utils/storage';
 
 const Select = ({value, onSelectChange, type, enabled}) => {
   const [wmp, setWmp] = useState([]);
 
   useEffect(() => {
-    getData('tambang').then((res) => {
-      setWmp(res.wmp);
-    });
+    storage
+      .load({
+        key: 'tambang',
+        autoSync: true,
+        syncInBackground: true,
+        syncParams: {
+          someFlag: true,
+        },
+      })
+      .then((ret) => {
+        setWmp(ret.wmp);
+      })
+      .catch((err) => {
+        console.warn(err.message);
+      });
   }, []);
 
   return (

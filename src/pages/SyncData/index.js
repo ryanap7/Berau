@@ -3,15 +3,27 @@ import {StyleSheet, Text, TouchableOpacity, View} from 'react-native';
 import normalize from 'react-native-normalize';
 import {IcMap} from '../../assets';
 import {Gap, HeaderDetail} from '../../components';
-import {getData} from '../../utils';
+import storage from '../../utils/storage';
 
 const SyncData = ({navigation}) => {
   const [wmp, setWmp] = useState([]);
 
   useEffect(() => {
-    getData('tambang').then((res) => {
-      setWmp(res.wmp);
-    });
+    storage
+      .load({
+        key: 'tambang',
+        autoSync: true,
+        syncInBackground: true,
+        syncParams: {
+          someFlag: true,
+        },
+      })
+      .then((ret) => {
+        setWmp(ret.wmp);
+      })
+      .catch((err) => {
+        console.warn(err.message);
+      });
   }, []);
 
   return (

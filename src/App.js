@@ -1,4 +1,3 @@
-import AsyncStorage from '@react-native-async-storage/async-storage';
 import {NavigationContainer} from '@react-navigation/native';
 import Axios from 'axios';
 import React, {useEffect, useRef, useState} from 'react';
@@ -9,8 +8,8 @@ import {Provider, useSelector} from 'react-redux';
 import {Loading} from './components';
 import store from './redux/store';
 import Router from './router';
-import {getData, storeData} from './utils';
 import NotifService from './utils/Firebase/NotifService';
+import storage from './utils/storage';
 
 const MainApp = () => {
   const {isLoading} = useSelector((state) => state.globalReducer);
@@ -48,9 +47,33 @@ const App = () => {
   const notif = new NotifService(onRegister, onNotif);
 
   useEffect(() => {
-    getData('refreshToken').then((res) => {
-      setRefreshToken(res.value);
-    });
+    storage
+      .load({
+        key: 'refreshToken',
+        autoSync: true,
+        syncInBackground: true,
+        syncParams: {
+          someFlag: true,
+        },
+      })
+      .then((res) => {
+        setRefreshToken(res);
+      })
+      .catch((err) => {
+        console.warn(err.message);
+      });
+
+    if (appStateVisible === 'active') {
+      Axios.post(`${API_HOST.url}/auth/refreshToken`, data).then((res) => {
+        storage.remove({
+          key: 'token',
+        });
+        storage.save({
+          key: 'token',
+          data: res.data.data.token,
+        });
+      });
+    }
 
     AppState.addEventListener('change', _handleAppStateChange);
 
@@ -70,14 +93,6 @@ const App = () => {
     appState.current = nextAppState;
     setAppStateVisible(appState.current);
   };
-
-  if (appStateVisible === 'active') {
-    Axios.post(`${API_HOST.url}/auth/refreshToken`, data).then((res) => {
-      AsyncStorage.removeItem('token').then(() => {
-        storeData('token', {value: res.data.data.token});
-      });
-    });
-  }
 
   return (
     <Provider store={store}>
