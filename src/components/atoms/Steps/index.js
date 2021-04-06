@@ -47,7 +47,6 @@ const Steps = () => {
     getData('token').then((res) => {
       setToken(res.value);
     });
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   const [show, setShow] = useState(false);

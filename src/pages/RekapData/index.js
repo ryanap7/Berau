@@ -166,6 +166,7 @@ const styles = StyleSheet.create({
     paddingVertical: normalize(6),
     borderRadius: normalize(10),
     borderColor: '#286090',
+    height: normalize(40),
   },
   textCalendar: {
     fontFamily: 'Poppins-Regular',

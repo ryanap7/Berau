@@ -1,6 +1,6 @@
 import React from 'react';
 import {Image, StyleSheet, Text, TouchableOpacity, View} from 'react-native';
-import {Company, IcFavorite} from '../../assets';
+import {Company, IcFavorite, IcSync} from '../../assets';
 import {Gap, Header} from '../../components';
 import normalize from 'react-native-normalize';
 
@@ -23,6 +23,15 @@ const Home = ({navigation}) => {
             </TouchableOpacity>
           </View>
         </View>
+        <Gap height={11} />
+        <TouchableOpacity
+          style={styles.button}
+          activeOpacity={0.7}
+          onPress={() => navigation.navigate('SyncData')}>
+          <IcSync />
+          <Gap width={10} />
+          <Text style={styles.text}>Synchronization Data</Text>
+        </TouchableOpacity>
       </View>
     </View>
   );
@@ -44,7 +53,6 @@ const styles = StyleSheet.create({
     paddingVertical: normalize(25),
   },
   card: {
-    flex: 1,
     backgroundColor: '#FFFFFF',
     borderRadius: normalize(10),
     shadowColor: '#020202',
@@ -76,5 +84,19 @@ const styles = StyleSheet.create({
     height: normalize(55),
     marginRight: normalize(20),
     marginBottom: normalize(20),
+  },
+  button: {
+    backgroundColor: '#286090',
+    justifyContent: 'center',
+    alignItems: 'center',
+    padding: normalize(10),
+    borderRadius: normalize(10),
+    flexDirection: 'row',
+  },
+  text: {
+    fontFamily: 'Poppins-Regular',
+    fontSize: normalize(12),
+    color: '#FFFFFF',
+    textTransform: 'uppercase',
   },
 });

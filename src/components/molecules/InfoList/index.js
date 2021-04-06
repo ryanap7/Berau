@@ -4,9 +4,9 @@ import normalize from 'react-native-normalize';
 import {IcInfoList} from '../../../assets';
 import {Gap} from '../../atoms';
 
-const InfoList = ({text, active}) => {
+const InfoList = ({text, active, onPress}) => {
   return active ? (
-    <TouchableOpacity activeOpacity={0.7} style={styles.list}>
+    <TouchableOpacity activeOpacity={0.7} style={styles.list} onPress={onPress}>
       <IcInfoList />
       <Gap width={5} />
       <Text style={styles.stared(active)}>{text}</Text>

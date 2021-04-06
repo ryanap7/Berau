@@ -1,16 +1,50 @@
+import Axios from 'axios';
 import 'moment/locale/id';
-import React from 'react';
+import React, {useEffect, useState} from 'react';
 import {StyleSheet, Text, TextInput, View} from 'react-native';
 import normalize from 'react-native-normalize';
+import {useDispatch} from 'react-redux';
 import {Button, Gap, HeaderDetail, Select} from '../../components';
-import {useForm} from '../../utils';
+import {setLoading} from '../../redux/action';
+import {getData, showMessage, useForm} from '../../utils';
 
-const AddAttendance = ({navigation}) => {
+const AddAttendance = ({navigation, route}) => {
+  const [token, setToken] = useState('');
   const [form, setForm] = useForm({
-    name: '',
+    nama: '',
     status: 'Dedicated',
-    wmp: 1,
+    id_wmp: 1,
   });
+
+  const dispatch = useDispatch();
+
+  const API_HOST = {
+    url: 'https://berau.mogasacloth.com/api/v1',
+  };
+
+  useEffect(() => {
+    getData('token').then((res) => {
+      setToken(res.value);
+    });
+  }, []);
+
+  const onSubmit = () => {
+    dispatch(setLoading(true));
+    Axios.post(`${API_HOST.url}/pegawai/create`, form, {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    })
+      .then((res) => {
+        dispatch(setLoading(false));
+        showMessage(res.data.meta.message, 'success');
+        navigation.replace('PersonalData');
+      })
+      .catch((err) => {
+        dispatch(setLoading(false));
+        console.log(err);
+      });
+  };
   return (
     <View style={styles.page}>
       <HeaderDetail
@@ -23,9 +57,9 @@ const AddAttendance = ({navigation}) => {
           <Text style={styles.label}>Nama</Text>
           <View style={styles.textInput}>
             <TextInput
-              value={form.name}
+              value={form.nama}
               placeholder="Masukkan Nama"
-              onChangeText={(value) => setForm('name', value)}
+              onChangeText={(value) => setForm('nama', value)}
             />
           </View>
         </View>
@@ -35,22 +69,22 @@ const AddAttendance = ({navigation}) => {
             value={form.status}
             type="Status"
             onSelectChange={(value) => {
-              setForm('wmp', value);
+              setForm('status', value);
             }}
           />
         </View>
         <View style={styles.form}>
           <Text style={styles.label}>WMP</Text>
           <Select
-            value={form.wmp}
+            value={form.id_wmp}
             type="WMP"
             onSelectChange={(value) => {
-              setForm('wmp', value);
+              setForm('id_wmp', value);
             }}
           />
         </View>
         <View>
-          <Button text="Submit" />
+          <Button text="Submit" onPress={onSubmit} />
         </View>
       </View>
     </View>

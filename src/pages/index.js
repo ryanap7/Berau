@@ -16,6 +16,8 @@ import AddAttendance from './AddAttendance';
 import EditAttendance from './EditAttendance';
 import RekapAttendance from './RekapAttendance';
 import Pelaporan from './Pelaporan';
+import InfoDetail from './InfoDetail';
+import SyncData from './SyncData';
 
 export {
   SplashScreen,
@@ -36,4 +38,6 @@ export {
   EditAttendance,
   RekapAttendance,
   Pelaporan,
+  InfoDetail,
+  SyncData,
 };

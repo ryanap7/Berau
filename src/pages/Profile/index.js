@@ -29,7 +29,7 @@ const Profile = ({navigation}) => {
 
   // Logout
   const LogOut = () => {
-    AsyncStorage.multiRemove(['userProfile']).then(() => {
+    AsyncStorage.multiRemove(['userProfile', 'token']).then(() => {
       navigation.replace('Login');
     });
   };

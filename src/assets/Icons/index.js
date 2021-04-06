@@ -26,6 +26,9 @@ import IcAddAttendance from './IcAddAttendance.svg';
 import IcEdit from './IcEdit.svg';
 import IcTrash from './IcTrash.svg';
 import IcCalendar from './IcCalendar.svg';
+import IcSync from './IcSync.svg';
+import IcMap from './IcMap.svg';
+import IcTrashAttendance from './IcTrashAttendance.svg';
 
 export {
   IcHome,
@@ -56,4 +59,7 @@ export {
   IcEdit,
   IcTrash,
   IcCalendar,
+  IcSync,
+  IcMap,
+  IcTrashAttendance,
 };

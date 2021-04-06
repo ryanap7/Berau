@@ -1,11 +1,11 @@
 import React from 'react';
-import {Image, ScrollView, StyleSheet, Text, View} from 'react-native';
+import {Image, ScrollView, StyleSheet, View} from 'react-native';
+import normalize from 'react-native-normalize';
 import {useDispatch} from 'react-redux';
-import {Circle1, Circle2, IcLogin, Logo} from '../../assets';
+import {Circle1, IcLogin, Logo} from '../../assets';
 import {Button, Gap, TextInput} from '../../components';
 import {signInAction} from '../../redux/action/auth';
 import {useForm} from '../../utils';
-import normalize from 'react-native-normalize';
 
 const Login = ({navigation}) => {
   const [form, setForm] = useForm({

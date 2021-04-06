@@ -3,20 +3,17 @@ import {ScrollView, StyleSheet, View} from 'react-native';
 import normalize from 'react-native-normalize';
 import {Header, InfoList} from '../../components';
 
-const Info = () => {
+const Info = ({navigation}) => {
   return (
     <View style={styles.page}>
-      <Header
-        title="TOTO ISWANTO"
-        subTitle="PENGAWAS LINGKUNGAN"
-        company="SUCOFINDO (PERSERO)"
-      />
+      <Header />
       <View style={styles.container}>
         <View style={styles.card}>
           <ScrollView showsVerticalScrollIndicator={false}>
             <InfoList
               text="Early warning dari sensor pH WMP 1 PT. Berau Coal"
               active
+              onPress={() => navigation.navigate('InfoDetail')}
             />
             <InfoList text="Stock Kapur di WMP 4 telah Habis" />
           </ScrollView>
