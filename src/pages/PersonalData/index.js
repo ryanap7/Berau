@@ -15,7 +15,7 @@ import {useDispatch} from 'react-redux';
 import {IcAddAttendance, IcEdit, IcTrashAttendance} from '../../assets';
 import {Button, Gap, HeaderDetail} from '../../components';
 import {setLoading} from '../../redux/action';
-import {getData, showMessage} from '../../utils';
+import {showMessage} from '../../utils';
 import storage from '../../utils/storage';
 
 const PersonalData = ({navigation}) => {

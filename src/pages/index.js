@@ -18,6 +18,8 @@ import RekapAttendance from './RekapAttendance';
 import Pelaporan from './Pelaporan';
 import InfoDetail from './InfoDetail';
 import SyncData from './SyncData';
+import SyncSuccess from './SyncSuccess';
+import History from './History';
 
 export {
   SplashScreen,
@@ -40,4 +42,6 @@ export {
   Pelaporan,
   InfoDetail,
   SyncData,
+  SyncSuccess,
+  History,
 };

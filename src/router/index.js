@@ -7,6 +7,7 @@ import {
   Company,
   DetailPetugas,
   EditAttendance,
+  History,
   Home,
   HomeCompany,
   Info,
@@ -22,6 +23,7 @@ import {
   RekapData,
   SplashScreen,
   SyncData,
+  SyncSuccess,
 } from '../pages';
 import DataPetugas from '../pages/DataPetugas';
 
@@ -41,7 +43,7 @@ const MainApp = () => {
 
 const Router = () => {
   return (
-    <Stack.Navigator initialRouteName="SplashScreen">
+    <Stack.Navigator initialRouteName="MainApp">
       <Stack.Screen
         name="SplashScreen"
         component={SplashScreen}
@@ -125,6 +127,16 @@ const Router = () => {
       <Stack.Screen
         name="SyncData"
         component={SyncData}
+        options={{headerShown: false}}
+      />
+      <Stack.Screen
+        name="SyncSuccess"
+        component={SyncSuccess}
+        options={{headerShown: false}}
+      />
+      <Stack.Screen
+        name="History"
+        component={History}
         options={{headerShown: false}}
       />
     </Stack.Navigator>

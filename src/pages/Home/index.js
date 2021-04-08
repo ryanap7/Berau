@@ -1,8 +1,8 @@
 import React from 'react';
 import {Image, StyleSheet, Text, TouchableOpacity, View} from 'react-native';
-import {Company, IcFavorite, IcSync} from '../../assets';
-import {Gap, Header} from '../../components';
 import normalize from 'react-native-normalize';
+import {Company, IcFavorite} from '../../assets';
+import {Gap, Header} from '../../components';
 
 const Home = ({navigation}) => {
   return (
@@ -23,15 +23,6 @@ const Home = ({navigation}) => {
             </TouchableOpacity>
           </View>
         </View>
-        <Gap height={11} />
-        <TouchableOpacity
-          style={styles.button}
-          activeOpacity={0.7}
-          onPress={() => navigation.navigate('SyncData')}>
-          <IcSync />
-          <Gap width={10} />
-          <Text style={styles.text}>Synchronization Data</Text>
-        </TouchableOpacity>
       </View>
     </View>
   );

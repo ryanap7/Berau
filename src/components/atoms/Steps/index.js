@@ -18,6 +18,7 @@ import storage from '../../../utils/storage';
 const Steps = () => {
   // Initial State
   const [form, setForm] = useForm({
+    type: 'aat',
     wmp: '1',
     date_input: new Date(),
     periodical_input: 'Per Jam',
@@ -36,7 +37,6 @@ const Steps = () => {
     ChemDose: '',
     ChemDose_unit: 'mg/L',
   });
-  const [isValid, setIsValid] = useState(false);
   const [errors, setErrors] = useState(false);
 
   useEffect(() => {
@@ -60,12 +60,13 @@ const Steps = () => {
   const [show, setShow] = useState(false);
   const [showTime, setShowTime] = useState(false);
 
-  const onChange = (selectedDate) => {
+  const onChange = (event, selectedDate) => {
+    console.log({selectedDate});
     const currentDate = selectedDate || form.date_input;
     setForm('date_input', currentDate);
     setShow(false);
   };
-  const onChangeTime = (selectedDate) => {
+  const onChangeTime = (event, selectedDate) => {
     const currentTime = selectedDate || form.time_input;
     setForm('time_input', new Date(currentTime));
     setShowTime(false);
@@ -87,10 +88,24 @@ const Steps = () => {
         showMessage('Data belum lengkap, Silahkan cek kembali');
       }
     }
-    console.log(errors);
   };
 
-  const onSubmit = () => {};
+  const onSubmit = () => {
+    const day = new Date(form.time_input).getDate();
+    const month = new Date(form.time_input).getMonth();
+    const year = new Date(form.time_input).getFullYear();
+    const hour = new Date(form.time_input).getHours();
+    const minute = new Date(form.time_input).getMinutes();
+    const second = new Date(form.time_input).getSeconds();
+    const id = 'att' + day + month + year + hour + minute + second;
+
+    storage.save({
+      key: 'dataLocal',
+      id: id,
+      data: form,
+    });
+    showMessage('Data Berhasil disimpan ke LocalStorage', 'success');
+  };
 
   return (
     <View style={styles.page}>

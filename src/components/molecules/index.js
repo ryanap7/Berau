@@ -4,6 +4,7 @@ import HeaderCompany from './HeaderCompany';
 import HeaderDetail from './HeaderDetail';
 import InfoList from './InfoList';
 import Loading from './Loading';
+import ListWMP from './ListWMP';
 
 export {
   BottomNavigation,
@@ -12,4 +13,5 @@ export {
   HeaderCompany,
   HeaderDetail,
   Loading,
+  ListWMP,
 };

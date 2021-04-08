@@ -26,6 +26,7 @@ const SplashScreen = ({navigation}) => {
           },
         })
         .then((ret) => {
+          console.log(ret);
           navigation.reset({index: 0, routes: [{name: 'MainApp'}]});
         })
         .catch((err) => {

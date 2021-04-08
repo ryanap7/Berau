@@ -12,12 +12,13 @@ import {
 import normalize from 'react-native-normalize';
 import {ProgressStep, ProgressSteps} from 'react-native-progress-steps';
 import {Gap, Select} from '..';
-import {useForm} from '../../../utils';
+import {showMessage, useForm} from '../../../utils';
 import storage from '../../../utils/storage';
 
 const StepsPerbaikan = () => {
   // Initial State
   const [form, setForm] = useForm({
+    type: 'perbaikan',
     wmp: '1',
     date_input: new Date(),
     periodical_input: 'Per Jam',
@@ -59,7 +60,22 @@ const StepsPerbaikan = () => {
     setShowTime(false);
   };
 
-  const onSubmit = () => {};
+  const onSubmit = () => {
+    const day = new Date(form.time_input).getDate();
+    const month = new Date(form.time_input).getMonth();
+    const year = new Date(form.time_input).getFullYear();
+    const hour = new Date(form.time_input).getHours();
+    const minute = new Date(form.time_input).getMinutes();
+    const second = new Date(form.time_input).getSeconds();
+    const id = 'perbaikan' + day + month + year + hour + minute + second;
+
+    storage.save({
+      key: 'dataLocal',
+      id: id,
+      data: form,
+    });
+    showMessage('Data Berhasil disimpan ke LocalStorage', 'success');
+  };
   return (
     <View style={styles.page}>
       <ProgressSteps

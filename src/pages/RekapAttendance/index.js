@@ -1,8 +1,9 @@
 import DateTimePicker from '@react-native-community/datetimepicker';
 import {Picker} from '@react-native-picker/picker';
+import Axios from 'axios';
 import Moment from 'moment';
 import 'moment/locale/id';
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import {
   ScrollView,
   StyleSheet,
@@ -11,21 +12,82 @@ import {
   View,
 } from 'react-native';
 import normalize from 'react-native-normalize';
-import {IcCalendar} from '../../assets';
+import {useDispatch} from 'react-redux';
 import {Gap, HeaderDetail} from '../../components';
+import {setLoading} from '../../redux/action';
 import {useForm} from '../../utils';
+import storage from '../../utils/storage';
 
 const RekapAttendance = ({navigation}) => {
   const [form, setForm] = useForm({
-    date: new Date(),
+    date_input: new Date(),
     kehadiran: 'Semua',
   });
+
+  const [token, setToken] = useState('');
+  const [attendance, setAttendance] = useState([]);
+
+  const dispatch = useDispatch();
+
+  const date = Moment(form.date_input).format('YYYY-MM-DD');
+
+  const API_HOST = {
+    url: 'https://berau.mogasacloth.com/api/v1',
+  };
+
+  useEffect(() => {
+    storage
+      .load({
+        key: 'token',
+        autoSync: true,
+        syncInBackground: true,
+        syncParams: {
+          someFlag: true,
+        },
+      })
+      .then((ret) => {
+        setToken(ret);
+        Axios.get(
+          `${API_HOST.url}/absen/filter?kehadiran=${form.kehadiran}&tanggal=${date}`,
+          {
+            headers: {
+              Authorization: `Bearer ${ret}`,
+            },
+          },
+        ).then((res) => {
+          console.log({res});
+          setAttendance(res.data.data);
+          dispatch(setLoading(false));
+        });
+      })
+      .catch((err) => {
+        console.warn('+++==== ', err.response);
+      });
+  }, []);
+
   const [show, setShow] = useState(false);
-  const onChange = (selectedDate) => {
+
+  const onChange = (e, selectedDate) => {
     const currentDate = selectedDate || form.date_input;
     setForm('date_input', currentDate);
     setShow(false);
   };
+
+  const onFilter = () => {
+    dispatch(setLoading(true));
+    Axios.get(
+      `${API_HOST.url}/absen/filter?kehadiran=${form.kehadiran}&tanggal=${date}`,
+      {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      },
+    ).then((res) => {
+      dispatch(setLoading(false));
+      setAttendance(res.data.data);
+    });
+  };
+
   return (
     <View style={styles.page}>
       <HeaderDetail
@@ -39,13 +101,11 @@ const RekapAttendance = ({navigation}) => {
           <TouchableOpacity
             style={styles.calendar}
             onPress={() => setShow(true)}>
-            <IcCalendar />
-            <Gap width={10} />
             <Text>{Moment(form.date_input).format('DD-MM-YYYY')}</Text>
             {show && (
               <DateTimePicker
                 testID="dateTimePicker"
-                value={form.date}
+                value={form.date_input}
                 mode="date"
                 is24Hour={true}
                 display="default"
@@ -72,9 +132,12 @@ const RekapAttendance = ({navigation}) => {
       </View>
       <Gap height={11} />
       <View style={styles.positionButton}>
-        <View style={styles.button}>
+        <TouchableOpacity
+          activeOpacity={0.7}
+          style={styles.button}
+          onPress={onFilter}>
           <Text style={styles.textButton}>Filter</Text>
-        </View>
+        </TouchableOpacity>
       </View>
       <View style={styles.list}>
         <View style={styles.card}>
@@ -86,16 +149,20 @@ const RekapAttendance = ({navigation}) => {
                 <Text style={styles.labelStatus}>Status</Text>
                 <Text style={styles.labelWmp}>WMP</Text>
               </View>
-              <View style={styles.body}>
-                <Text style={styles.valueName}>Toto</Text>
-                <View style={styles.containerBadge}>
-                  <View style={styles.badge}>
-                    <Text style={styles.valueBadge}>Tidak Hadir</Text>
+              {attendance.map((users) => {
+                return (
+                  <View style={styles.body} key={users.id}>
+                    <Text style={styles.valueName}>{users.nama}</Text>
+                    <View style={styles.containerBadge}>
+                      <View style={styles.badge(users.kehadiran)}>
+                        <Text style={styles.valueBadge}>{users.kehadiran}</Text>
+                      </View>
+                    </View>
+                    <Text style={styles.valueStatus}>{users.status}</Text>
+                    <Text style={styles.valueWmp}>{users.wmp}</Text>
                   </View>
-                </View>
-                <Text style={styles.valueStatus}>Dedicated</Text>
-                <Text style={styles.valueWmp}>1 LT</Text>
-              </View>
+                );
+              })}
             </View>
           </ScrollView>
         </View>
@@ -135,6 +202,7 @@ const styles = StyleSheet.create({
     paddingVertical: 10,
     paddingHorizontal: 20,
     alignItems: 'center',
+    height: normalize(47),
   },
   selectContainer: {
     borderWidth: 1,
@@ -233,14 +301,14 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     marginLeft: normalize(-3),
   },
-  badge: {
+  badge: (item) => ({
     width: normalize(70),
-    backgroundColor: '#A3A3A3',
+    backgroundColor: item === 'Tidak Hadir' ? '#A3A3A3' : '#286090',
     borderRadius: normalize(5),
     paddingVertical: normalize(2),
     justifyContent: 'center',
     alignItems: 'center',
-  },
+  }),
   valueName: {
     fontFamily: 'Poppins-Regular',
     fontSize: normalize(12),

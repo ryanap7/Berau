@@ -1,17 +1,17 @@
-import React, {useEffect, useState} from 'react';
-import {StyleSheet, Text, TouchableOpacity, View} from 'react-native';
-import normalize from 'react-native-normalize';
-import {IcMap} from '../../assets';
-import {Gap, HeaderDetail} from '../../components';
+import Axios from 'axios';
+import LottieView from 'lottie-react-native';
+import React, {useEffect} from 'react';
+import {showMessage} from 'react-native-flash-message';
 import storage from '../../utils/storage';
 
 const SyncData = ({navigation}) => {
-  const [wmp, setWmp] = useState([]);
-
+  const API_HOST = {
+    url: 'https://berau.mogasacloth.com/api/v1',
+  };
   useEffect(() => {
     storage
       .load({
-        key: 'tambang',
+        key: 'token',
         autoSync: true,
         syncInBackground: true,
         syncParams: {
@@ -19,74 +19,43 @@ const SyncData = ({navigation}) => {
         },
       })
       .then((ret) => {
-        setWmp(ret.wmp);
+        storage.getAllDataForKey('dataLocal').then((users) => {
+          const data = {
+            data: users,
+          };
+          if (data.data < 1) {
+            showMessage('Maaf tidak ada Data');
+            navigation.goBack();
+          } else {
+            Axios.post(`${API_HOST.url}/sync`, data, {
+              headers: {
+                Authorization: `Bearer ${ret}`,
+              },
+            })
+              .then((res) => {
+                console.log(res);
+                if (res.status === 200) {
+                  storage.clearMapForKey('dataLocal');
+                  navigation.replace('SyncSuccess');
+                }
+              })
+              .catch((err) => {
+                console.log(err.response);
+              });
+          }
+        });
       })
       .catch((err) => {
         console.warn(err.message);
       });
   }, []);
-
   return (
-    <View style={styles.page}>
-      <HeaderDetail
-        onPress={() => navigation.goBack()}
-        company="PT. Berau Coal"
-      />
-      <Gap height={22} />
-      <View style={styles.card}>
-        <Text style={styles.title}>Pilih WMP</Text>
-        <Gap height={11} />
-        {wmp.map((res) => {
-          return (
-            <TouchableOpacity
-              activeOpacity={0.7}
-              style={styles.list}
-              onPress={() => navigation.navigate('SyncDetail', res)}>
-              <IcMap />
-              <Gap width={9} />
-              <Text style={styles.text}>{res.nama}</Text>
-            </TouchableOpacity>
-          );
-        })}
-      </View>
-    </View>
+    <LottieView
+      source={require('../../assets/Lottie/Sync.json')}
+      autoPlay
+      loop
+    />
   );
 };
 
 export default SyncData;
-
-const styles = StyleSheet.create({
-  page: {
-    flex: 1,
-  },
-  card: {
-    backgroundColor: '#FFFFFF',
-    borderRadius: normalize(10),
-    shadowOpacity: 0.5,
-    shadowRadius: 4.65,
-    elevation: 10,
-    marginVertical: normalize(11),
-    marginHorizontal: normalize(15),
-    paddingVertical: normalize(22),
-    paddingHorizontal: normalize(18),
-  },
-  title: {
-    fontFamily: 'Poppins-Regular',
-    fontSize: normalize(14),
-    color: '#000000',
-  },
-  list: {
-    backgroundColor: '#286090',
-    flexDirection: 'row',
-    paddingVertical: normalize(10),
-    paddingHorizontal: normalize(22),
-    borderRadius: normalize(10),
-    marginBottom: normalize(22),
-    alignItems: 'center',
-  },
-  text: {
-    fontFamily: 'Poppins-Regular',
-    fontSize: normalize(12),
-    color: '#FFFFFF',
-  },
-});

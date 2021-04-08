@@ -12,10 +12,10 @@ import {
   Company,
   IcBack,
   IcBackHome,
-  IcKPI,
   IcLaporan,
   IcPenugasan,
   IcPersonalData,
+  IcSinkron,
 } from '../../assets';
 import {Gap, HeaderCompany} from '../../components';
 
@@ -81,6 +81,13 @@ const HomeCompany = ({navigation}) => {
             onPress={() => navigation.navigate('Pelaporan')}>
             <IcLaporan />
             <Text style={styles.menuText}>Pelaporan</Text>
+          </TouchableOpacity>
+          <TouchableOpacity
+            activeOpacity={0.7}
+            style={styles.menu}
+            onPress={() => navigation.navigate('SyncData')}>
+            <IcSinkron />
+            <Text style={styles.menuText}>Sinkron Data</Text>
           </TouchableOpacity>
         </View>
         <View style={styles.content}>
@@ -178,7 +185,6 @@ const styles = StyleSheet.create({
     marginHorizontal: normalize(15),
     marginTop: normalize(11),
     justifyContent: 'space-between',
-    paddingHorizontal: normalize(45),
   },
   menu: {
     justifyContent: 'center',

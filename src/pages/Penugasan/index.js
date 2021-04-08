@@ -2,7 +2,12 @@ import React, {useEffect, useState} from 'react';
 import {StyleSheet, Text, TouchableOpacity, View} from 'react-native';
 import MapView, {Callout, Marker} from 'react-native-maps';
 import normalize from 'react-native-normalize';
-import {IcInputData, IcPersonalData, IcRekapData} from '../../assets';
+import {
+  IcHistory,
+  IcInputData,
+  IcPersonalData,
+  IcRekapData,
+} from '../../assets';
 import {Gap, HeaderDetail, Select} from '../../components';
 import storage from '../../utils/storage';
 
@@ -65,6 +70,13 @@ const Penugasan = ({navigation}) => {
           onPress={() => navigation.navigate('RekapAttendance')}>
           <IcPersonalData />
           <Text style={styles.menuText}>Rekap Absensi</Text>
+        </TouchableOpacity>
+        <TouchableOpacity
+          activeOpacity={0.7}
+          style={styles.menu}
+          onPress={() => navigation.navigate('History')}>
+          <IcHistory />
+          <Text style={styles.menuText}>History</Text>
         </TouchableOpacity>
       </View>
       {/* Maps */}
