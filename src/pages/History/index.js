@@ -1,4 +1,6 @@
 import Axios from 'axios';
+import Moment from 'moment';
+import 'moment/locale/id';
 import React, {useEffect, useState} from 'react';
 import {ScrollView, StyleSheet, Text, View} from 'react-native';
 import normalize from 'react-native-normalize';
@@ -52,10 +54,9 @@ const History = ({navigation}) => {
           <ScrollView>
             <Gap height={11} />
             {data.map((item) => {
-              const date = new Date(item.tanggal_input).toDateString();
-              const hour = new Date(item.kimia.waktu_input).getHours();
-              const minute = new Date(item.kimia.waktu_input).getMinutes();
-              const time = hour + ':' + minute;
+              console.log(item);
+              const date = Moment(item.created_at).format('DD MMMM YYYY');
+              const time = Moment(item.created_at).format('H:mm');
 
               return (
                 <ListWMP

@@ -12,7 +12,7 @@ import {Gap, HeaderDetail, Select} from '../../components';
 import storage from '../../utils/storage';
 
 const Penugasan = ({navigation}) => {
-  const [penugasan, setPenugasan] = useState('Area Tambang SMO');
+  const [penugasan, setPenugasan] = useState('');
   const [wmp, setWmp] = useState([]);
 
   useEffect(() => {

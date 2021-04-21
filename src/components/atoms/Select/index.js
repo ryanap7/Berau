@@ -80,7 +80,6 @@ const Select = ({value, onSelectChange, type, enabled}) => {
             selectedValue={value}
             style={styles.select}
             onValueChange={(itemValue) => onSelectChange(itemValue)}>
-            <Picker.Item label="Kualitas ATT" value="Kualitas ATT" />
             <Picker.Item
               label="Data Pemakaian Kapur"
               value="Data Pemakaian Kapur"
@@ -89,8 +88,8 @@ const Select = ({value, onSelectChange, type, enabled}) => {
               label="Data Pemakaian Tawas"
               value="Data Pemakaian Tawas"
             />
-            <Picker.Item label="Data Stock Kapur" value="Data Stock Kapur" />
-            <Picker.Item label="Data Stock Tawas" value="Data Stock Tawas" />
+            <Picker.Item label="Data Stok Kapur" value="Data Stok Kapur" />
+            <Picker.Item label="Data Stok Tawas" value="Data Stok Tawas" />
             <Picker.Item
               label="Data Stock Kapur & Tawas"
               value="Data Stock Kapur & Tawas"

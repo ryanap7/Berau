@@ -1,44 +1,55 @@
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import {ScrollView, StyleSheet, View} from 'react-native';
-import {Table as TableRN, Row} from 'react-native-table-component';
+import {Row, Table as TableRN} from 'react-native-table-component';
 
-const Table = () => {
-  const [tableHead] = useState([
-    'Bulan',
-    'Data Pemakaan Kapur(ton)',
-    'Data Pemakaian Kawas(ton)',
-  ]);
-  const [widthArr] = useState([100, 120, 120]);
-  const tableData = [['1 Jan 2020', '0.10', '0.10']];
-  return (
-    <View style={styles.table}>
-      <ScrollView horizontal={true}>
-        <View>
-          <TableRN borderStyle={styles.borderThead}>
-            <Row
-              data={tableHead}
-              widthArr={widthArr}
-              style={styles.thead}
-              textStyle={styles.theadText}
-            />
-          </TableRN>
-          <ScrollView>
+const Table = ({dataHeader, data, dataWidth}) => {
+  const [tableHead, setTableHead] = useState([]);
+  const [widthArr, setWidthArr] = useState([160, 180]);
+  const tableData = data;
+
+  useEffect(() => {
+    setTableHead(dataHeader);
+    setWidthArr(dataWidth);
+  }, [dataHeader, dataWidth]);
+
+  console.log(dataHeader);
+
+  if (tableHead.length > 0) {
+    return (
+      <View style={styles.table}>
+        <ScrollView horizontal={true}>
+          <View>
             <TableRN borderStyle={styles.borderThead}>
-              {tableData.map((rowData, index) => (
-                <Row
-                  key={index}
-                  data={rowData}
-                  widthArr={widthArr}
-                  style={[styles.row, index % 2 && {backgroundColor: '#CCCC'}]}
-                  textStyle={styles.text}
-                />
-              ))}
+              <Row
+                data={tableHead}
+                widthArr={widthArr}
+                style={styles.thead}
+                textStyle={styles.theadText}
+              />
             </TableRN>
-          </ScrollView>
-        </View>
-      </ScrollView>
-    </View>
-  );
+            <ScrollView>
+              <TableRN borderStyle={styles.borderThead}>
+                {tableData.map((rowData, index) => (
+                  <Row
+                    key={index}
+                    data={rowData}
+                    widthArr={widthArr}
+                    style={[
+                      styles.row,
+                      index % 2 && {backgroundColor: '#CCCC'},
+                    ]}
+                    textStyle={styles.text}
+                  />
+                ))}
+              </TableRN>
+            </ScrollView>
+          </View>
+        </ScrollView>
+      </View>
+    );
+  } else {
+    return <View style={styles.table} />;
+  }
 };
 
 export default Table;

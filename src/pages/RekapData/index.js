@@ -1,23 +1,52 @@
 import DateTimePicker from '@react-native-community/datetimepicker';
+import Axios from 'axios';
 import Moment from 'moment';
 import 'moment/locale/id';
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import {StyleSheet, Text, TouchableOpacity, View} from 'react-native';
 import normalize from 'react-native-normalize';
-import {IcDownload, IcRekapData} from '../../assets';
-import {Button, Gap, HeaderDetail, Select, Table} from '../../components';
+import {IcRekapData} from '../../assets';
+import {Gap, HeaderDetail, Select, Table} from '../../components';
 import {useForm} from '../../utils';
+import storage from '../../utils/storage';
 
 const RekapData = ({navigation}) => {
   const [penugasan, setPenugasan] = useState('Area Tambang LMO');
-  const [wmp, setWmp] = useState('WMP 1');
-  const [jenisData, setJenisData] = useState('Data Pemakaian Kapur');
+  const [dataHeader, setDataHeader] = useState([]);
+  const [data, setData] = useState([]);
+  const [dataWidth, setDataWidth] = useState([]);
+
+  const API_HOST = {
+    url: 'https://berau.mogasacloth.com/api/v1',
+  };
 
   const [form, setForm] = useForm({
+    wmp: '1',
+    jenis_data: 'Data Pemakaian Kapur',
     from: new Date(),
     to: new Date(),
-    satuan: '',
   });
+
+  const from = Moment(form.from).format('YYYY-MM-DD');
+  const to = Moment(form.to).format('YYYY-MM-DD');
+
+  useEffect(() => {
+    storage
+      .load({
+        key: 'tambang',
+        autoSync: true,
+        syncInBackground: true,
+        syncParams: {
+          someFlag: true,
+        },
+      })
+      .then((res) => {
+        setPenugasan(res.nama);
+      })
+      .catch((err) => {
+        console.warn(err.message);
+      });
+  }, []);
 
   const [showFrom, setShowFrom] = useState(false);
   const [showTo, setShowTo] = useState(false);
@@ -34,6 +63,39 @@ const RekapData = ({navigation}) => {
     setShowTo(false);
   };
 
+  const onFilter = () => {
+    storage
+      .load({
+        key: 'token',
+        autoSync: true,
+        syncInBackground: true,
+        syncParams: {
+          someFlag: true,
+        },
+      })
+      .then((ret) => {
+        Axios.get(
+          `${API_HOST.url}/report/area-tambang?id_wmp=${form.wmp}&jenis_data=${form.jenis_data}&from=${from}&to=${to}`,
+          {
+            headers: {
+              Authorization: `Bearer ${ret}`,
+            },
+          },
+        )
+          .then((res) => {
+            setDataHeader(res.data.data_field);
+            setData(res.data.data_rows);
+            setDataWidth(res.data.data_width);
+          })
+          .catch((err) => {
+            console.error(err.response);
+          });
+      })
+      .catch((err) => {
+        console.warn(err.response);
+      });
+  };
+
   return (
     <View style={styles.page}>
       <HeaderDetail
@@ -46,6 +108,7 @@ const RekapData = ({navigation}) => {
           value={penugasan}
           type="Penugasan"
           onSelectChange={(value) => setPenugasan(value)}
+          enabled={false}
         />
       </View>
       <View style={styles.containerMenu}>
@@ -60,14 +123,14 @@ const RekapData = ({navigation}) => {
         <View style={styles.wmp}>
           <View style={styles.select}>
             <Select
-              value={wmp}
+              value={form.wmp}
               type="WMP"
-              onSelectChange={(value) => setWmp(value)}
+              onSelectChange={(value) => setForm('wmp', value)}
             />
             <Select
-              value={jenisData}
+              value={form.jenis_data}
               type="Jenis Data"
-              onSelectChange={(value) => setJenisData(value)}
+              onSelectChange={(value) => setForm('jenis_data', value)}
             />
           </View>
           <View style={styles.filter}>
@@ -111,18 +174,21 @@ const RekapData = ({navigation}) => {
           </View>
           <View style={styles.generate}>
             <Gap width={15} />
-            <View style={styles.button}>
+            <TouchableOpacity
+              activeOpacity={0.7}
+              style={styles.button}
+              onPress={onFilter}>
               <Text style={styles.text}>Generate</Text>
-            </View>
+            </TouchableOpacity>
           </View>
         </View>
       </View>
       {/* Content */}
-      <Table />
+      <Table dataHeader={dataHeader} data={data} dataWidth={dataWidth} />
       <Gap height={25} />
-      <View style={styles.download}>
+      {/* <View style={styles.download}>
         <Button icon={<IcDownload />} text="DOWNLOAD" />
-      </View>
+      </View> */}
     </View>
   );
 };

@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import {
   ScrollView,
   StyleSheet,
@@ -18,8 +18,10 @@ import {
   IcSinkron,
 } from '../../assets';
 import {Gap, HeaderCompany} from '../../components';
+import storage from '../../utils/storage';
 
 const HomeCompany = ({navigation}) => {
+  const [penugasan, setPenugasan] = useState('');
   const [tableHead] = useState([
     'Bulan',
     'Total Kapur(ton)',
@@ -35,6 +37,24 @@ const HomeCompany = ({navigation}) => {
     }
     tableData.push(rowData);
   }
+
+  useEffect(() => {
+    storage
+      .load({
+        key: 'tambang',
+        autoSync: true,
+        syncInBackground: true,
+        syncParams: {
+          someFlag: true,
+        },
+      })
+      .then((res) => {
+        setPenugasan(res.nama);
+      })
+      .catch((err) => {
+        console.warn(err.message);
+      });
+  }, []);
   return (
     <View style={styles.page}>
       <ScrollView>
@@ -92,7 +112,7 @@ const HomeCompany = ({navigation}) => {
         </View>
         <View style={styles.content}>
           <Text style={styles.text}>Rekapitulasi Data Tahun Berjalan</Text>
-          <Text style={styles.location}>Lokasi : LMO</Text>
+          <Text style={styles.location}>Lokasi : {penugasan}</Text>
           <View style={styles.table}>
             {/* Table */}
             <ScrollView horizontal={true}>
