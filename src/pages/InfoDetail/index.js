@@ -4,40 +4,49 @@ import normalize from 'react-native-normalize';
 import {IcTrash} from '../../assets';
 import {Gap, Header} from '../../components';
 
-const InfoDetail = ({navigation}) => {
+const InfoDetail = ({navigation, route}) => {
+  const data = route.params;
+
+  console.log('Data: ', data);
   return (
     <View style={styles.page}>
       <Header />
       <View style={styles.container}>
         <View style={styles.card}>
-          <Text style={styles.title}>
-            Early warning dari sensor pH WMP 1 PT. Berau Coal
-          </Text>
+          <Text style={styles.title}>{data.keterangan}</Text>
           <Gap height={25} />
           <View>
             <View style={styles.content}>
               <Text style={styles.label}>Posisi Sensor</Text>
-              <Text style={styles.value}>Titik Penataan</Text>
+              <Text style={styles.value}>{data.aat.id_sampling_point}</Text>
             </View>
             <View style={styles.content}>
               <Text style={styles.label}>Nilai pH</Text>
-              <Text style={styles.value}>3</Text>
+              <Text style={styles.value}>{data.aat.ph}</Text>
             </View>
             <View style={styles.content}>
               <Text style={styles.label}>Konsentrasi TSS</Text>
-              <Text style={styles.value}>150 mg/L</Text>
+              <Text style={styles.value}>
+                {data.aat.tts} {data.aat.tts_unit}
+              </Text>
             </View>
             <View style={styles.content}>
               <Text style={styles.label}>Konsentrasi Fe</Text>
-              <Text style={styles.value}>3 mg/L</Text>
+              <Text style={styles.value}>
+                {data.aat.fe} {data.aat.fe_unit}
+              </Text>
             </View>
             <View style={styles.content}>
               <Text style={styles.label}>Konsentrasi Mn</Text>
-              <Text style={styles.value}>1 mg/L</Text>
+              <Text style={styles.value}>
+                {data.aat.mn} {data.aat.mn_unit}
+              </Text>
             </View>
             <View style={styles.content}>
               <Text style={styles.label}>Debit</Text>
-              <Text style={styles.value}>1000 L/jam</Text>
+              <Text style={styles.value}>
+                {data.aat.debit} {data.aat.debit_unit}
+              </Text>
             </View>
           </View>
         </View>

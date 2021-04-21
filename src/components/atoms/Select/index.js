@@ -178,6 +178,7 @@ const Select = ({value, onSelectChange, type, enabled}) => {
             onValueChange={(itemValue) => onSelectChange(itemValue)}>
             <Picker.Item label="Kapur" value="Kapur" />
             <Picker.Item label="Tawas" value="Tawas" />
+            <Picker.Item label="Kapur & Tawas" value="Kapur & Tawas" />
           </Picker>
         </View>
       )}
@@ -224,9 +225,6 @@ const Select = ({value, onSelectChange, type, enabled}) => {
             style={styles.select}
             onValueChange={(itemValue) => onSelectChange(itemValue)}>
             <Picker.Item label="mg/L" value="mg/L" />
-            <Picker.Item label="Ppm" value="Ppm" />
-            <Picker.Item label="g/L" value="g/L" />
-            <Picker.Item label="kg/L" value="kg/L" />
           </Picker>
         </View>
       )}
@@ -237,9 +235,6 @@ const Select = ({value, onSelectChange, type, enabled}) => {
             style={styles.select}
             onValueChange={(itemValue) => onSelectChange(itemValue)}>
             <Picker.Item label="mg/L" value="mg/L" />
-            <Picker.Item label="Ppm" value="Ppm" />
-            <Picker.Item label="g/L" value="g/L" />
-            <Picker.Item label="kg/L" value="kg/L" />
           </Picker>
         </View>
       )}
@@ -250,9 +245,6 @@ const Select = ({value, onSelectChange, type, enabled}) => {
             style={styles.select}
             onValueChange={(itemValue) => onSelectChange(itemValue)}>
             <Picker.Item label="mg/L" value="mg/L" />
-            <Picker.Item label="Ppm" value="Ppm" />
-            <Picker.Item label="g/L" value="g/L" />
-            <Picker.Item label="kg/L" value="kg/L" />
           </Picker>
         </View>
       )}
@@ -263,9 +255,7 @@ const Select = ({value, onSelectChange, type, enabled}) => {
             style={styles.select}
             onValueChange={(itemValue) => onSelectChange(itemValue)}>
             <Picker.Item label="m3/detik" value="m3/detik" />
-            <Picker.Item label="m3/jam" value="m3/jam" />
-            <Picker.Item label="L/detik" value="L/detik" />
-            <Picker.Item label="L/jam" value="L/jam" />
+            <Picker.Item label="m3/hari" value="m3/hari" />
           </Picker>
         </View>
       )}
@@ -275,10 +265,9 @@ const Select = ({value, onSelectChange, type, enabled}) => {
             selectedValue={value}
             style={styles.select}
             onValueChange={(itemValue) => onSelectChange(itemValue)}>
-            <Picker.Item label="mg/L" value="mg/L" />
-            <Picker.Item label="Ppm" value="Ppm" />
-            <Picker.Item label="g/L" value="g/L" />
-            <Picker.Item label="kg/L" value="kg/L" />
+            <Picker.Item label="L" value="L" />
+            <Picker.Item label="Kg" value="Kg" />
+            <Picker.Item label="Karung" value="Karung" />
           </Picker>
         </View>
       )}
@@ -291,7 +280,6 @@ const Select = ({value, onSelectChange, type, enabled}) => {
             <Picker.Item label="L" value="L" />
             <Picker.Item label="Kg" value="Kg" />
             <Picker.Item label="Karung" value="Karung" />
-            <Picker.Item label="Drum" value="Drum" />
           </Picker>
         </View>
       )}
@@ -304,7 +292,6 @@ const Select = ({value, onSelectChange, type, enabled}) => {
             <Picker.Item label="L" value="L" />
             <Picker.Item label="Kg" value="Kg" />
             <Picker.Item label="Karung" value="Karung" />
-            <Picker.Item label="Drum" value="Drum" />
           </Picker>
         </View>
       )}

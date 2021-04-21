@@ -1,9 +1,11 @@
 import Axios from 'axios';
 import Moment from 'moment';
 import 'moment/locale/id';
-import React, {useEffect, useState} from 'react';
+import React, {useEffect, useRef, useState} from 'react';
 import {
   Alert,
+  Animated,
+  Modal,
   ScrollView,
   StyleSheet,
   Text,
@@ -13,15 +15,58 @@ import {
 import normalize from 'react-native-normalize';
 import {useDispatch} from 'react-redux';
 import {IcAddAttendance, IcEdit, IcTrashAttendance} from '../../assets';
-import {Button, Gap, HeaderDetail} from '../../components';
+import {Button, Gap, HeaderDetail, Select, TextInput} from '../../components';
 import {setLoading} from '../../redux/action';
-import {showMessage} from '../../utils';
+import {showMessage, useForm} from '../../utils';
 import storage from '../../utils/storage';
 
+const ModalPopUp = ({visible, children}) => {
+  const [showModal, setShowModal] = useState(visible);
+  const scaleValue = useRef(new Animated.Value(0)).current;
+  useEffect(() => {
+    toggleModal();
+  }, [visible]);
+  const toggleModal = () => {
+    if (visible) {
+      setShowModal(true);
+      Animated.spring(scaleValue, {
+        toValue: 1,
+        duration: 300,
+        useNativeDriver: true,
+      }).start();
+    } else {
+      setTimeout(() => setShowModal(false), 200);
+      Animated.timing(scaleValue, {
+        toValue: 0,
+        duration: 300,
+        useNativeDriver: true,
+      }).start();
+    }
+  };
+
+  return (
+    <Modal transparent visible={showModal}>
+      <View style={styles.modalBackground}>
+        <Animated.View
+          style={[styles.modalContainer, {transform: [{scale: scaleValue}]}]}>
+          {children}
+        </Animated.View>
+      </View>
+    </Modal>
+  );
+};
+
 const PersonalData = ({navigation}) => {
+  const [visible, setVisible] = useState(false);
   const [token, setToken] = useState('');
   const [pegawai, setPegawai] = useState([]);
   const [attendance, setAttendance] = useState([]);
+  const [data, setData] = useState();
+
+  const [form, setForm] = useForm({
+    status: 'Dedicated',
+    wmp: '1',
+  });
 
   const currentDate = Moment(new Date()).format('YYYY-MM-DD');
 
@@ -30,8 +75,6 @@ const PersonalData = ({navigation}) => {
   };
 
   useEffect(() => {
-    getDataAttendance();
-    getDataEmployee();
     storage
       .load({
         key: 'token',
@@ -43,30 +86,30 @@ const PersonalData = ({navigation}) => {
       })
       .then((ret) => {
         setToken(ret);
+        getDataAttendance();
+        getDataEmployee();
       })
       .catch((err) => {
         console.warn(err.message);
       });
   });
 
-  const getDataEmployee = () => {
-    Axios.get(`${API_HOST.url}/pegawai`, {
+  const getDataEmployee = async () => {
+    const response = await Axios.get(`${API_HOST.url}/pegawai`, {
       headers: {
         Authorization: `Bearer ${token}`,
       },
-    }).then((res) => {
-      setPegawai(res.data.data.pegawai);
     });
+    setPegawai(response.data.data.pegawai);
   };
 
-  const getDataAttendance = () => {
-    Axios.get(`${API_HOST.url}/absen`, {
+  const getDataAttendance = async () => {
+    const response = await Axios.get(`${API_HOST.url}/absen`, {
       headers: {
         Authorization: `Bearer ${token}`,
       },
-    }).then((res) => {
-      setAttendance(res.data.data);
     });
+    setAttendance(response.data.data);
   };
 
   const onDelete = (item) => {
@@ -84,27 +127,9 @@ const PersonalData = ({navigation}) => {
 
   const dispatch = useDispatch();
 
-  const selectedItem = (item) => {
-    const data = {
-      id_pegawai: item.id,
-      status: 'Hadir',
-      tanggal: currentDate,
-    };
-
-    dispatch(setLoading(true));
-    Axios.post(`${API_HOST.url}/absen`, data, {
-      headers: {
-        Authorization: `Bearer ${token}`,
-      },
-    })
-      .then((result) => {
-        console.log(result);
-        dispatch(setLoading(false));
-      })
-      .catch((err) => {
-        console.log('Error: ', err);
-        dispatch(setLoading(false));
-      });
+  const openModal = (item) => {
+    setVisible(true);
+    setData(item);
   };
 
   return (
@@ -154,27 +179,25 @@ const PersonalData = ({navigation}) => {
         {/* Daftar Anggota */}
         <View style={styles.list}>
           <Text style={styles.label}>Daftar Anggota</Text>
-
           <View style={styles.card}>
             <ScrollView horizontal showsHorizontalScrollIndicator={false}>
               <View>
                 <View style={styles.header}>
                   <Text style={styles.labelName}>Nama</Text>
-                  <Text style={styles.labelStatus}>Status</Text>
-                  <Text style={styles.labelWmp}>WMP</Text>
+                  <Gap width={100} />
                   <Text style={styles.labelAction}>Action</Text>
                 </View>
                 {pegawai.map((res) => {
                   return (
-                    <TouchableOpacity
-                      style={styles.body}
-                      key={res.id}
-                      onPress={() => selectedItem(res)}>
-                      <Text style={styles.valueName}>{res.nama}</Text>
-                      <Text style={styles.valueStatus}>{res.status}</Text>
-                      <Text style={styles.valueWmp}>{res.wmp.nama}</Text>
+                    <View style={styles.body} key={res.id}>
+                      <TouchableOpacity
+                        style={styles.padding}
+                        onPress={() => openModal(res)}>
+                        <Text style={styles.valueName}>{res.nama}</Text>
+                      </TouchableOpacity>
                       <View style={styles.valueAction}>
                         <TouchableOpacity
+                          style={styles.padding}
                           activeOpacity={0.7}
                           onPress={() =>
                             navigation.navigate('EditAttendance', res)
@@ -183,6 +206,7 @@ const PersonalData = ({navigation}) => {
                         </TouchableOpacity>
                         <Gap width={10} />
                         <TouchableOpacity
+                          style={styles.padding}
                           onPress={() =>
                             Alert.alert('Warning', 'Are you sure?', [
                               {
@@ -198,13 +222,74 @@ const PersonalData = ({navigation}) => {
                           <IcTrashAttendance />
                         </TouchableOpacity>
                       </View>
-                    </TouchableOpacity>
+                    </View>
                   );
                 })}
               </View>
             </ScrollView>
           </View>
         </View>
+
+        {/* Modal Detail */}
+        <ModalPopUp visible={visible}>
+          <View style={styles.containerModal}>
+            <View style={styles.headerModal}>
+              <TouchableOpacity onPress={() => setVisible(false)}>
+                <View style={styles.buttonClose}>
+                  <Text style={styles.textClose}>Close</Text>
+                </View>
+              </TouchableOpacity>
+              <Gap height={30} />
+            </View>
+            <View style={styles.contentModal}>
+              <View style={styles.input}>
+                <Text style={styles.labelForm}>Status: </Text>
+                <Select
+                  value={form.status}
+                  type="Status"
+                  onSelectChange={(value) => setForm('status', value)}
+                />
+              </View>
+              <View style={styles.input}>
+                <Text style={styles.labelForm}>WMP: </Text>
+                <Select
+                  value={form.wmp}
+                  type="WMP"
+                  onSelectChange={(value) => setForm('wmp', value)}
+                />
+              </View>
+              <View style={styles.input}>
+                <Text style={styles.labelForm}>Kehadiran: </Text>
+                <TextInput value="Hadir" editable={false} />
+              </View>
+              <Gap height={10} />
+              <View style={styles.button}>
+                <Button
+                  text="Simpan"
+                  onPress={() => {
+                    const dataForSubmit = {
+                      id_pegawai: data.id,
+                      status: 'Hadir',
+                      tanggal: currentDate,
+                      status_pegawai: form.status,
+                      id_wmp: form.wmp,
+                    };
+                    Axios.post(`${API_HOST.url}/absen`, dataForSubmit, {
+                      headers: {
+                        Authorization: `Bearer ${token}`,
+                      },
+                    })
+                      .then((result) => {
+                        showMessage(result.data.meta.message, 'success');
+                        setVisible(false);
+                      })
+                      .catch((err) => console.log('Error: ', err.response));
+                  }}
+                />
+              </View>
+            </View>
+          </View>
+        </ModalPopUp>
       </ScrollView>
     </View>
   );
@@ -219,6 +304,38 @@ const styles = StyleSheet.create({
   },
   container: {
     marginHorizontal: normalize(15),
+  },
+  modalBackground: {
+    flex: 1,
+    backgroundColor: 'rgba(0,0,0,.5)',
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  modalContainer: {
+    width: '90%',
+    backgroundColor: '#FFFFFF',
+    paddingHorizontal: normalize(2),
+    paddingVertical: normalize(30),
+    borderRadius: normalize(20),
+    elevation: normalize(20),
+  },
+  contentModal: {
+    alignItems: 'center',
+  },
+  headerModal: {
+    marginHorizontal: normalize(20),
+  },
+  textModal: {
+    fontFamily: 'Poppins-Medium',
+    fontSize: normalize(14),
+    color: '#FFFFFF',
+  },
+  buttonClose: {
+    alignItems: 'flex-end',
+  },
+  textClose: {
+    fontFamily: 'Poppins-Regular',
+    fontSize: normalize(14),
   },
   labelDate: {
     fontFamily: 'Poppins-Regular',
@@ -253,6 +370,11 @@ const styles = StyleSheet.create({
   label: {
     fontFamily: 'Poppins-Regular',
     fontSize: normalize(12),
+    color: '#000000',
+  },
+  labelForm: {
+    fontFamily: 'Poppins-Regular',
+    fontSize: normalize(14),
     color: '#000000',
   },
   card: {
@@ -365,5 +487,11 @@ const styles = StyleSheet.create({
     width: normalize(100),
     marginRight: normalize(4),
     justifyContent: 'center',
+  },
+  padding: {
+    padding: normalize(8),
+  },
+  input: {
+    width: '80%',
   },
 });

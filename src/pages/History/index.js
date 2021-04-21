@@ -1,37 +1,76 @@
-import React from 'react';
-import {StyleSheet, Text, View} from 'react-native';
+import Axios from 'axios';
+import React, {useEffect, useState} from 'react';
+import {ScrollView, StyleSheet, Text, View} from 'react-native';
 import normalize from 'react-native-normalize';
 import {Gap, HeaderDetail, ListWMP} from '../../components';
+import storage from '../../utils/storage';
+import LottieView from 'lottie-react-native';
 
 const History = ({navigation}) => {
+  const [data, setData] = useState([]);
+  const API_HOST = {
+    url: 'https://berau.mogasacloth.com/api/v1',
+  };
+  useEffect(() => {
+    storage
+      .load({
+        key: 'token',
+        autoSync: true,
+        syncInBackground: true,
+        syncParams: {
+          someFlag: true,
+        },
+      })
+      .then((ret) => {
+        Axios.get(`${API_HOST.url}/history`, {
+          headers: {
+            Authorization: `Bearer ${ret}`,
+          },
+        }).then((res) => {
+          setData(res.data.data);
+        });
+      })
+      .catch((err) => {
+        console.warn(err.response);
+      });
+  }, []);
   return (
     <View style={styles.page}>
       <HeaderDetail
-        onPress={() => navigation.goBack()}
+        onPress={() => navigation.navigate('Penugasan')}
         company="PT. Berau Coal"
       />
-      <View style={styles.card}>
-        <Text style={styles.label}>Pilih WMP</Text>
-        <Gap height={11} />
-        <ListWMP
-          wmp="WMP 3 LT"
-          status="Ditolak"
-          date="01 April 2021"
-          time="08.00"
+      {data.length < 0 ? (
+        <LottieView
+          source={require('../../assets/Lottie/Empty.json')}
+          autoPlay
+          loop
         />
-        <ListWMP
-          wmp="WMP 3 LT"
-          status="Diproses"
-          date="01 April 2021"
-          time="08.00"
-        />
-        <ListWMP
-          wmp="WMP 4 LT"
-          status="Diterima"
-          date="01 April 2021"
-          time="08.00"
-        />
-      </View>
+      ) : (
+        <View style={styles.card}>
+          <Text style={styles.label}>Pilih WMP</Text>
+          <ScrollView>
+            <Gap height={11} />
+            {data.map((item) => {
+              const date = new Date(item.tanggal_input).toDateString();
+              const hour = new Date(item.kimia.waktu_input).getHours();
+              const minute = new Date(item.kimia.waktu_input).getMinutes();
+              const time = hour + ':' + minute;
+
+              return (
+                <ListWMP
+                  key={item.id}
+                  wmp={item.wmp.nama}
+                  status={item.status}
+                  date={date}
+                  time={time}
+                  onPress={() => navigation.navigate('HistoryDetail', item)}
+                />
+              );
+            })}
+          </ScrollView>
+        </View>
+      )}
     </View>
   );
 };

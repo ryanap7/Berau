@@ -5,9 +5,12 @@ import {BottomNavigation} from '../components';
 import {
   AddAttendance,
   Company,
+  DataPetugas,
   DetailPetugas,
   EditAttendance,
+  EditHistory,
   History,
+  HistoryDetail,
   Home,
   HomeCompany,
   Info,
@@ -25,7 +28,6 @@ import {
   SyncData,
   SyncSuccess,
 } from '../pages';
-import DataPetugas from '../pages/DataPetugas';
 
 const Stack = createStackNavigator();
 const Tab = createBottomTabNavigator();
@@ -137,6 +139,16 @@ const Router = () => {
       <Stack.Screen
         name="History"
         component={History}
+        options={{headerShown: false}}
+      />
+      <Stack.Screen
+        name="HistoryDetail"
+        component={HistoryDetail}
+        options={{headerShown: false}}
+      />
+      <Stack.Screen
+        name="EditHistory"
+        component={EditHistory}
         options={{headerShown: false}}
       />
     </Stack.Navigator>

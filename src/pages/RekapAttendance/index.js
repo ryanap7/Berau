@@ -55,7 +55,6 @@ const RekapAttendance = ({navigation}) => {
             },
           },
         ).then((res) => {
-          console.log({res});
           setAttendance(res.data.data);
           dispatch(setLoading(false));
         });

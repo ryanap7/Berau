@@ -64,15 +64,32 @@ const App = () => {
       });
 
     if (appStateVisible === 'active') {
-      Axios.post(`${API_HOST.url}/auth/refreshToken`, data).then((res) => {
-        storage.remove({
+      storage
+        .load({
           key: 'token',
+          autoSync: true,
+          syncInBackground: true,
+          syncParams: {
+            someFlag: true,
+          },
+        })
+        .then((res) => {
+          if (res) {
+            Axios.post(`${API_HOST.url}/auth/refreshToken`, data)
+              .then((result) => {
+                storage.save({
+                  key: 'token',
+                  data: res.data.data.token,
+                });
+              })
+              .catch((err) => {
+                console.log(err.response);
+              });
+          }
+        })
+        .catch((err) => {
+          console.log(err.message);
         });
-        storage.save({
-          key: 'token',
-          data: res.data.data.token,
-        });
-      });
     }
 
     AppState.addEventListener('change', _handleAppStateChange);

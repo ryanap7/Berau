@@ -19,6 +19,8 @@ const StepsKimia = () => {
     time_input: new Date(),
     chemical: 'Kapur',
     purity: '',
+    chemDose: '',
+    chemDose_unit: 'L',
     before: '',
     before_unit: 'L',
     current: '',
@@ -77,7 +79,11 @@ const StepsKimia = () => {
   };
 
   const onNextStep2 = () => {
-    if (form.before.length > 0 && form.current.length > 0) {
+    if (
+      form.before.length > 0 &&
+      form.current.length > 0 &&
+      form.chemDose.length > 0
+    ) {
       setErrors(false);
     } else {
       setErrors(true);
@@ -219,6 +225,34 @@ const StepsKimia = () => {
           <View style={styles.content}>
             <View style={styles.container}>
               <View style={styles.containerLabel}>
+                <Text style={styles.label}>Chem. Dose</Text>
+              </View>
+              <View style={styles.containerInput}>
+                <View style={styles.containerTimeInput}>
+                  <View style={styles.leftContainer}>
+                    <TextInput
+                      style={styles.timeInput}
+                      placeholder="Input"
+                      value={form.chemDose}
+                      onChangeText={(value) => setForm('chemDose', value)}
+                    />
+                  </View>
+                  <Gap width={20} />
+                  <View style={styles.rightContainer}>
+                    <Gap height={12} />
+                    <Select
+                      value={form.chemDose_unit}
+                      type="Dose"
+                      onSelectChange={(value) =>
+                        setForm('chemDose_unit', value)
+                      }
+                    />
+                  </View>
+                </View>
+              </View>
+            </View>
+            <View style={styles.container}>
+              <View style={styles.containerLabel}>
                 <Text style={styles.label}>Stock Shift Sebelumnya</Text>
               </View>
               <View style={styles.containerInput}>
@@ -245,7 +279,7 @@ const StepsKimia = () => {
             </View>
             <View style={styles.container}>
               <View style={styles.containerLabel}>
-                <Text style={styles.label}>Stock Berjalan</Text>
+                <Text style={styles.label}>Stock terpakai</Text>
               </View>
               <View style={styles.containerInput}>
                 <View style={styles.containerTimeInput}>
@@ -307,6 +341,12 @@ const StepsKimia = () => {
               <View style={styles.summary}>
                 <Text style={styles.labelSummary}>% Purity</Text>
                 <Text style={styles.value}>{form.purity}</Text>
+              </View>
+              <View style={styles.summary}>
+                <Text style={styles.labelSummary}>Stock Shift Sblm</Text>
+                <Text style={styles.value}>
+                  {form.chemDose} {form.chemDose_unit}
+                </Text>
               </View>
               <View style={styles.summary}>
                 <Text style={styles.labelSummary}>Stock Shift Sblm</Text>

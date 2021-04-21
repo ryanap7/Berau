@@ -22,7 +22,7 @@ import storage from '../../utils/storage';
 const InputData = ({navigation}) => {
   const [penugasan, setPenugasan] = useState('Area Tambang LMO');
   const [wmp, setWmp] = useState('1');
-  const [stepper, setStepper] = useState('ATT');
+  const [stepper, setStepper] = useState('AAT');
 
   useEffect(() => {
     storage
@@ -81,10 +81,10 @@ const InputData = ({navigation}) => {
         </View>
         {/* Content */}
         <View style={styles.contentMenu}>
-          {stepper === 'ATT' ? (
-            <ButtonList text="ATT" onPress={() => setStepper('ATT')} active />
+          {stepper === 'AAT' ? (
+            <ButtonList text="AAT" onPress={() => setStepper('AAT')} active />
           ) : (
-            <ButtonList text="ATT" onPress={() => setStepper('ATT')} />
+            <ButtonList text="AAT" onPress={() => setStepper('AAT')} />
           )}
           {stepper === 'Bahan Kimia' ? (
             <ButtonList
@@ -112,7 +112,7 @@ const InputData = ({navigation}) => {
           )}
         </View>
         <View style={styles.containerSteps}>
-          {stepper === 'ATT' && <Steps />}
+          {stepper === 'AAT' && <Steps />}
           {stepper === 'Bahan Kimia' && <StepsKimia />}
           {stepper === 'Perbaikan' && <StepsPerbaikan />}
         </View>

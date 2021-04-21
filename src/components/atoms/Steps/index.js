@@ -28,14 +28,12 @@ const Steps = () => {
     PH: '',
     TSS: '',
     TSS_unit: 'mg/L',
-    Fe: '',
+    Fe: '-',
     Fe_unit: 'mg/L',
-    Mn: '',
+    Mn: '-',
     Mn_unit: 'mg/L',
     Debit: '',
     Debit_unit: 'm3/detik',
-    ChemDose: '',
-    ChemDose_unit: 'mg/L',
   });
   const [errors, setErrors] = useState(false);
 
@@ -61,14 +59,13 @@ const Steps = () => {
   const [showTime, setShowTime] = useState(false);
 
   const onChange = (event, selectedDate) => {
-    console.log({selectedDate});
     const currentDate = selectedDate || form.date_input;
     setForm('date_input', currentDate);
     setShow(false);
   };
   const onChangeTime = (event, selectedDate) => {
     const currentTime = selectedDate || form.time_input;
-    setForm('time_input', new Date(currentTime));
+    setForm('time_input', currentTime);
     setShowTime(false);
   };
 
@@ -78,8 +75,7 @@ const Steps = () => {
       form.TSS.length > 0 &&
       form.Fe.length > 0 &&
       form.Mn.length > 0 &&
-      form.Debit.length > 0 &&
-      form.ChemDose.length > 0
+      form.Debit.length > 0
     ) {
       setErrors(false);
     } else {
@@ -220,7 +216,7 @@ const Steps = () => {
           <View style={styles.content}>
             <View style={styles.container}>
               <View style={styles.containerLabel}>
-                <Text style={styles.label}>PH</Text>
+                <Text style={styles.label}>pH</Text>
               </View>
               <View style={styles.containerInput}>
                 <View style={styles.containerTimeInput}>
@@ -340,34 +336,6 @@ const Steps = () => {
                 </View>
               </View>
             </View>
-            <View style={styles.container}>
-              <View style={styles.containerLabel}>
-                <Text style={styles.label}>Chem. Dose</Text>
-              </View>
-              <View style={styles.containerInput}>
-                <View style={styles.containerTimeInput}>
-                  <View style={styles.leftContainer}>
-                    <TextInput
-                      style={styles.timeInput}
-                      placeholder="Input"
-                      value={form.ChemDose}
-                      onChangeText={(value) => setForm('ChemDose', value)}
-                    />
-                  </View>
-                  <Gap width={20} />
-                  <View style={styles.rightContainer}>
-                    <Gap height={12} />
-                    <Select
-                      value={form.ChemDose_unit}
-                      type="Dose"
-                      onSelectChange={(value) =>
-                        setForm('ChemDose_unit', value)
-                      }
-                    />
-                  </View>
-                </View>
-              </View>
-            </View>
           </View>
         </ProgressStep>
         <ProgressStep
@@ -420,25 +388,19 @@ const Steps = () => {
               <View style={styles.summary}>
                 <Text style={styles.labelSummary}>Fe</Text>
                 <Text style={styles.value}>
-                  {form.Fe} {form.Fe_unit}
+                  {form.Fe === '-' ? '-' : form.Fe + ' ' + form.Fe_unit}
                 </Text>
               </View>
               <View style={styles.summary}>
                 <Text style={styles.labelSummary}>Mn</Text>
                 <Text style={styles.value}>
-                  {form.Mn} {form.Mn_unit}
+                  {form.Mn === '-' ? '-' : form.Mn + ' ' + form.Mn_unit}
                 </Text>
               </View>
               <View style={styles.summary}>
                 <Text style={styles.labelSummary}>Debit</Text>
                 <Text style={styles.value}>
                   {form.Debit} {form.Debit_unit}
-                </Text>
-              </View>
-              <View style={styles.summary}>
-                <Text style={styles.labelSummary}>Chem. Dose</Text>
-                <Text style={styles.value}>
-                  {form.ChemDose} {form.ChemDose_unit}
                 </Text>
               </View>
             </View>

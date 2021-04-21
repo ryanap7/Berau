@@ -1,21 +1,51 @@
-import React from 'react';
+import Axios from 'axios';
+import React, {useEffect, useState} from 'react';
 import {ScrollView, StyleSheet, View} from 'react-native';
 import normalize from 'react-native-normalize';
 import {Header, InfoList} from '../../components';
+import storage from '../../utils/storage';
 
 const Info = ({navigation}) => {
+  const [data, setData] = useState([]);
+  const API_HOST = {
+    url: 'https://berau.mogasacloth.com/api/v1',
+  };
+  useEffect(() => {
+    storage
+      .load({
+        key: 'token',
+        autoSync: true,
+        syncInBackground: true,
+        syncParams: {
+          someFlag: true,
+        },
+      })
+      .then((ret) => {
+        Axios.get(`${API_HOST.url}/notifikasi`, {
+          headers: {
+            Authorization: `Bearer ${ret}`,
+          },
+        }).then((res) => {
+          setData(res.data.notif);
+        });
+      });
+  }, []);
   return (
     <View style={styles.page}>
       <Header />
       <View style={styles.container}>
         <View style={styles.card}>
           <ScrollView showsVerticalScrollIndicator={false}>
-            <InfoList
-              text="Early warning dari sensor pH WMP 1 PT. Berau Coal"
-              active
-              onPress={() => navigation.navigate('InfoDetail')}
-            />
-            <InfoList text="Stock Kapur di WMP 4 telah Habis" />
+            {data.map((item) => {
+              console.log(item);
+              return (
+                <InfoList
+                  text={item.keterangan}
+                  active
+                  onPress={() => navigation.navigate('InfoDetail', item)}
+                />
+              );
+            })}
           </ScrollView>
         </View>
       </View>

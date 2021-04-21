@@ -4,18 +4,16 @@ import React, {useEffect, useState} from 'react';
 import {StyleSheet, Text, TextInput, View} from 'react-native';
 import normalize from 'react-native-normalize';
 import {useDispatch} from 'react-redux';
-import {Button, Gap, HeaderDetail, Select} from '../../components';
+import {Button, Gap, HeaderDetail} from '../../components';
 import {setLoading} from '../../redux/action';
 import {showMessage, useForm} from '../../utils';
 import storage from '../../utils/storage';
 
 const EditAttendance = ({navigation, route}) => {
-  const {id, nama, status, id_wmp} = route.params;
+  const {id, nama} = route.params;
   const [token, setToken] = useState('');
   const [form, setForm] = useForm({
     nama: nama,
-    status: status,
-    id_wmp: id_wmp,
   });
 
   const dispatch = useDispatch();
@@ -78,26 +76,6 @@ const EditAttendance = ({navigation, route}) => {
               onChangeText={(value) => setForm('nama', value)}
             />
           </View>
-        </View>
-        <View style={styles.form}>
-          <Text style={styles.label}>Status</Text>
-          <Select
-            value={form.status}
-            type="Status"
-            onSelectChange={(value) => {
-              setForm('status', value);
-            }}
-          />
-        </View>
-        <View style={styles.form}>
-          <Text style={styles.label}>WMP</Text>
-          <Select
-            value={form.id_wmp}
-            type="WMP"
-            onSelectChange={(value) => {
-              setForm('id_wmp', value);
-            }}
-          />
         </View>
         <View>
           <Button text="Save Changes" onPress={onSubmit} />

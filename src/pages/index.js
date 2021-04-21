@@ -20,6 +20,8 @@ import InfoDetail from './InfoDetail';
 import SyncData from './SyncData';
 import SyncSuccess from './SyncSuccess';
 import History from './History';
+import HistoryDetail from './HistoryDetail';
+import EditHistory from './EditHistory';
 
 export {
   SplashScreen,
@@ -44,4 +46,6 @@ export {
   SyncData,
   SyncSuccess,
   History,
+  HistoryDetail,
+  EditHistory,
 };
