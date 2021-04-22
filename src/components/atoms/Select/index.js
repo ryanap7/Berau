@@ -108,7 +108,6 @@ const Select = ({value, onSelectChange, type, enabled}) => {
             <Picker.Item label="Data Fe" value="Data Fe" />
             <Picker.Item label="Data Mn" value="Data Mn" />
             <Picker.Item label="Data Debit" value="Data Debit" />
-            <Picker.Item label="All" value="All" />
           </Picker>
         </View>
       )}
@@ -120,7 +119,6 @@ const Select = ({value, onSelectChange, type, enabled}) => {
             onValueChange={(itemValue) => onSelectChange(itemValue)}>
             <Picker.Item label="Pengerukan" value="Pengerukan" />
             <Picker.Item label="Alat Sparing" value="Alat Sparing" />
-            <Picker.Item label="All" value="All" />
           </Picker>
         </View>
       )}

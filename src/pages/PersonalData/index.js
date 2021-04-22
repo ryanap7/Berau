@@ -25,7 +25,7 @@ const ModalPopUp = ({visible, children}) => {
   const scaleValue = useRef(new Animated.Value(0)).current;
   useEffect(() => {
     toggleModal();
-  }, []);
+  }, [visible]);
   const toggleModal = () => {
     if (visible) {
       setShowModal(true);
@@ -281,9 +281,9 @@ const PersonalData = ({navigation}) => {
                       },
                     })
                       .then((result) => {
+                        setVisible(false);
                         dispatch(setLoading(false));
                         showMessage(result.data.meta.message, 'success');
-                        setVisible(false);
                       })
                       .catch((err) => {
                         dispatch(setLoading(false));

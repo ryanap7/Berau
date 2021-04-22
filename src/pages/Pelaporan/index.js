@@ -1,4 +1,5 @@
 import DateTimePicker from '@react-native-community/datetimepicker';
+import Axios from 'axios';
 import Moment from 'moment';
 import 'moment/locale/id';
 import React, {useEffect, useState} from 'react';
@@ -12,37 +13,45 @@ import storage from '../../utils/storage';
 
 const Pelaporan = ({navigation}) => {
   const [penugasan, setPenugasan] = useState('');
+  const [label, setLabel] = useState([]);
+  const [value, setValue] = useState([]);
 
   const [form, setForm] = useForm({
     wmp: '1',
     perbaikan: 'Pengerukan',
-    periode: 'Per Jam',
     from: new Date(),
     to: new Date(),
   });
 
+  const from = Moment(form.from).format('YYYY-MM-DD');
+  const to = Moment(form.to).format('YYYY-MM-DD');
+
   const [showFrom, setShowFrom] = useState(false);
   const [showTo, setShowTo] = useState(false);
 
-  const onChangeFrom = (selectedDate) => {
+  const onChangeFrom = (event, selectedDate) => {
     const currentDate = selectedDate || form.from;
     setForm('from', currentDate);
     setShowFrom(false);
   };
 
-  const onChangeTo = (selectedDate) => {
+  const onChangeTo = (event, selectedDate) => {
     const currentDate = selectedDate || form.to;
     setForm('to', currentDate);
     setShowTo(false);
   };
 
   const data = {
-    labels: ['Januari', 'Februari', 'Maret', 'April'],
+    labels: label,
     datasets: [
       {
-        data: [20, 45, 28, 80],
+        data: value,
       },
     ],
+  };
+
+  const API_HOST = {
+    url: 'https://berau.mogasacloth.com/api/v1',
   };
 
   useEffect(() => {
@@ -55,13 +64,45 @@ const Pelaporan = ({navigation}) => {
           someFlag: true,
         },
       })
-      .then((res) => {
+      .then(res => {
         setPenugasan(res.nama);
       })
-      .catch((err) => {
+      .catch(err => {
         console.error(err.response);
       });
   }, []);
+
+  const onFilter = () => {
+    storage
+      .load({
+        key: 'token',
+        autoSync: true,
+        syncInBackground: true,
+        syncParams: {
+          someFlag: true,
+        },
+      })
+      .then(ret => {
+        Axios.get(
+          `${API_HOST.url}/report/perbaikan?id_wmp=${form.wmp}&tipe=${form.perbaikan}&from=${from}&to=${to}`,
+          {
+            headers: {
+              Authorization: `Bearer ${ret}`,
+            },
+          },
+        )
+          .then(res => {
+            setLabel(res.data.data_field);
+            setValue(res.data.data_rows);
+          })
+          .catch(err => {
+            console.error(err.response);
+          });
+      })
+      .catch(err => {
+        console.error(err.response);
+      });
+  };
   return (
     <View style={styles.page}>
       <HeaderDetail
@@ -73,7 +114,7 @@ const Pelaporan = ({navigation}) => {
         <Select
           value={penugasan}
           type="Penugasan"
-          onSelectChange={(value) => setPenugasan(value)}
+          onSelectChange={item => setPenugasan(item)}
           enabled={false}
         />
       </View>
@@ -88,17 +129,12 @@ const Pelaporan = ({navigation}) => {
             <Select
               value={form.wmp}
               type="WMP"
-              onSelectChange={(value) => setForm('wmp', value)}
+              onSelectChange={item => setForm('wmp', item)}
             />
             <Select
               value={form.perbaikan}
               type="Jenis Perbaikan"
-              onSelectChange={(value) => setForm('perbaikan', value)}
-            />
-            <Select
-              value={form.periode}
-              type="Periode"
-              onSelectChange={(value) => setForm('periode', value)}
+              onSelectChange={item => setForm('perbaikan', item)}
             />
           </View>
           <View style={styles.filter}>
@@ -142,9 +178,12 @@ const Pelaporan = ({navigation}) => {
           </View>
           <View style={styles.generate}>
             <Gap width={15} />
-            <View style={styles.button}>
+            <TouchableOpacity
+              activeOpacity={0.7}
+              style={styles.button}
+              onPress={onFilter}>
               <Text style={styles.text}>Generate</Text>
-            </View>
+            </TouchableOpacity>
           </View>
         </View>
       </View>
@@ -155,11 +194,13 @@ const Pelaporan = ({navigation}) => {
           data={data}
           width={350}
           height={320}
+          fromZero={true}
           chartConfig={{
             backgroundColor: '#ffffff',
             backgroundGradientFrom: '#ffffff',
             backgroundGradientTo: '#ffffff',
             color: (opacity = 1) => `rgba(0, 0, 0, ${opacity})`,
+            barPercentage: 0.8,
           }}
           // verticalLabelRotation={30}
         />
