@@ -36,7 +36,7 @@ const EditAttendance = ({navigation, route}) => {
         setToken(ret);
       })
       .catch((err) => {
-        console.warn(err.message);
+        console.error(err.response);
       });
   }, []);
 
@@ -54,7 +54,7 @@ const EditAttendance = ({navigation, route}) => {
       })
       .catch((err) => {
         dispatch(setLoading(false));
-        console.log(err);
+        console.error(err.response);
       });
   };
 

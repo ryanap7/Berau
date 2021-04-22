@@ -42,7 +42,7 @@ export const signInAction = (form, navigation) => (dispatch) => {
     })
     .catch((err) => {
       dispatch(setLoading(false));
-      console.log(err.response);
+      console.error(err.response);
       showMessage(err?.response?.data?.meta?.message);
     });
 };

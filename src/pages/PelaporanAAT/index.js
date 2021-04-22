@@ -10,12 +10,13 @@ import {Gap, HeaderDetail, Select} from '../../components';
 import {useForm} from '../../utils';
 import storage from '../../utils/storage';
 
-const Pelaporan = ({navigation}) => {
+const PelaporanAAT = ({navigation}) => {
   const [penugasan, setPenugasan] = useState('');
 
   const [form, setForm] = useForm({
     wmp: '1',
-    perbaikan: 'Pengerukan',
+    kegiatan: 'Data pH',
+    sampling_point: 'Sebelum titik Pengapuran',
     periode: 'Per Jam',
     from: new Date(),
     to: new Date(),
@@ -62,6 +63,7 @@ const Pelaporan = ({navigation}) => {
         console.error(err.response);
       });
   }, []);
+
   return (
     <View style={styles.page}>
       <HeaderDetail
@@ -91,9 +93,14 @@ const Pelaporan = ({navigation}) => {
               onSelectChange={(value) => setForm('wmp', value)}
             />
             <Select
-              value={form.perbaikan}
-              type="Jenis Perbaikan"
-              onSelectChange={(value) => setForm('perbaikan', value)}
+              value={form.kegiatan}
+              type="Jenis Kegiatan"
+              onSelectChange={(value) => setForm('kegiatan', value)}
+            />
+            <Select
+              value={form.sampling_point}
+              type="SamplingPoint"
+              onSelectChange={(value) => setForm('sampling_point', value)}
             />
             <Select
               value={form.periode}
@@ -168,7 +175,7 @@ const Pelaporan = ({navigation}) => {
   );
 };
 
-export default Pelaporan;
+export default PelaporanAAT;
 
 const styles = StyleSheet.create({
   page: {

@@ -4,6 +4,7 @@ import React from 'react';
 import {BottomNavigation} from '../components';
 import {
   AddAttendance,
+  ChooseReport,
   Company,
   DataPetugas,
   DetailPetugas,
@@ -18,6 +19,8 @@ import {
   InputData,
   Login,
   Pelaporan,
+  PelaporanAAT,
+  PelaporanKimia,
   Penugasan,
   PersonalData,
   Profile,
@@ -45,7 +48,7 @@ const MainApp = () => {
 
 const Router = () => {
   return (
-    <Stack.Navigator initialRouteName="MainApp">
+    <Stack.Navigator initialRouteName="SplashScreen">
       <Stack.Screen
         name="SplashScreen"
         component={SplashScreen}
@@ -122,6 +125,16 @@ const Router = () => {
         options={{headerShown: false}}
       />
       <Stack.Screen
+        name="PelaporanAAT"
+        component={PelaporanAAT}
+        options={{headerShown: false}}
+      />
+      <Stack.Screen
+        name="PelaporanKimia"
+        component={PelaporanKimia}
+        options={{headerShown: false}}
+      />
+      <Stack.Screen
         name="InfoDetail"
         component={InfoDetail}
         options={{headerShown: false}}
@@ -149,6 +162,11 @@ const Router = () => {
       <Stack.Screen
         name="EditHistory"
         component={EditHistory}
+        options={{headerShown: false}}
+      />
+      <Stack.Screen
+        name="ChooseReport"
+        component={ChooseReport}
         options={{headerShown: false}}
       />
     </Stack.Navigator>

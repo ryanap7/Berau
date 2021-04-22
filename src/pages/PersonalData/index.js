@@ -16,16 +16,16 @@ import normalize from 'react-native-normalize';
 import {useDispatch} from 'react-redux';
 import {IcAddAttendance, IcEdit, IcTrashAttendance} from '../../assets';
 import {Button, Gap, HeaderDetail, Select, TextInput} from '../../components';
-import {setLoading} from '../../redux/action';
 import {showMessage, useForm} from '../../utils';
 import storage from '../../utils/storage';
+import {setLoading} from '../../redux/action/global';
 
 const ModalPopUp = ({visible, children}) => {
   const [showModal, setShowModal] = useState(visible);
   const scaleValue = useRef(new Animated.Value(0)).current;
   useEffect(() => {
     toggleModal();
-  }, [visible]);
+  }, []);
   const toggleModal = () => {
     if (visible) {
       setShowModal(true);
@@ -90,9 +90,11 @@ const PersonalData = ({navigation}) => {
         getDataEmployee();
       })
       .catch((err) => {
-        console.warn(err.message);
+        console.error(err.response);
       });
   });
+
+  const dispatch = useDispatch();
 
   const getDataEmployee = async () => {
     const response = await Axios.get(`${API_HOST.url}/pegawai`, {
@@ -124,8 +126,6 @@ const PersonalData = ({navigation}) => {
       })
       .catch((err) => console.log('Error: ', err));
   };
-
-  const dispatch = useDispatch();
 
   const openModal = (item) => {
     setVisible(true);
@@ -274,16 +274,21 @@ const PersonalData = ({navigation}) => {
                       status_pegawai: form.status,
                       id_wmp: form.wmp,
                     };
+                    dispatch(setLoading(true));
                     Axios.post(`${API_HOST.url}/absen`, dataForSubmit, {
                       headers: {
                         Authorization: `Bearer ${token}`,
                       },
                     })
                       .then((result) => {
+                        dispatch(setLoading(false));
                         showMessage(result.data.meta.message, 'success');
                         setVisible(false);
                       })
-                      .catch((err) => console.log('Error: ', err.response));
+                      .catch((err) => {
+                        dispatch(setLoading(false));
+                        console.err(err.response);
+                      });
                   }}
                 />
               </View>

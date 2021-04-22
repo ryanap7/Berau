@@ -60,7 +60,7 @@ const RekapAttendance = ({navigation}) => {
         });
       })
       .catch((err) => {
-        console.warn('+++==== ', err.response);
+        console.error(err.response);
       });
   }, []);
 

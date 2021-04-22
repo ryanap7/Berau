@@ -45,15 +45,14 @@ const EditHistory = ({navigation, route}) => {
           },
         })
           .then((res) => {
-            console.log(res.data.meta.message);
             showMessage(res.data.meta.message, 'success');
           })
           .catch((err) => {
-            console.log(err.response);
+            console.error(err.response);
           });
       })
       .catch((err) => {
-        console.warn(err.message);
+        console.error(err.response);
       });
   };
   return (

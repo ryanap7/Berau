@@ -4,10 +4,9 @@ import normalize from 'react-native-normalize';
 import {IcTrash} from '../../assets';
 import {Gap, Header} from '../../components';
 
-const InfoDetail = ({navigation, route}) => {
+const InfoDetail = ({route}) => {
   const data = route.params;
 
-  console.log('Data: ', data);
   return (
     <View style={styles.page}>
       <Header />
@@ -51,11 +50,11 @@ const InfoDetail = ({navigation, route}) => {
           </View>
         </View>
         <Gap height={11} />
-        <View style={styles.button}>
+        {/* <View style={styles.button}>
           <IcTrash />
           <Gap width={10} />
           <Text style={styles.text}>Hapus</Text>
-        </View>
+        </View> */}
       </View>
     </View>
   );

@@ -10,12 +10,12 @@ import {Gap, HeaderDetail, Select} from '../../components';
 import {useForm} from '../../utils';
 import storage from '../../utils/storage';
 
-const Pelaporan = ({navigation}) => {
+const PelaporanKimia = ({navigation}) => {
   const [penugasan, setPenugasan] = useState('');
 
   const [form, setForm] = useForm({
     wmp: '1',
-    perbaikan: 'Pengerukan',
+    kegiatan: 'Data Pemakaian Kapur',
     periode: 'Per Jam',
     from: new Date(),
     to: new Date(),
@@ -62,6 +62,7 @@ const Pelaporan = ({navigation}) => {
         console.error(err.response);
       });
   }, []);
+
   return (
     <View style={styles.page}>
       <HeaderDetail
@@ -78,11 +79,14 @@ const Pelaporan = ({navigation}) => {
         />
       </View>
       <View style={styles.containerMenu}>
-        <View activeOpacity={0.7} style={styles.menu}>
+        <TouchableOpacity
+          activeOpacity={0.7}
+          style={styles.menu}
+          onPress={() => navigation.navigate('Pelaporan')}>
           <IcRekapData />
           <Gap height={2} />
           <Text style={styles.menuText}>Pelaporan</Text>
-        </View>
+        </TouchableOpacity>
         <View style={styles.wmp}>
           <View style={styles.select}>
             <Select
@@ -91,9 +95,9 @@ const Pelaporan = ({navigation}) => {
               onSelectChange={(value) => setForm('wmp', value)}
             />
             <Select
-              value={form.perbaikan}
-              type="Jenis Perbaikan"
-              onSelectChange={(value) => setForm('perbaikan', value)}
+              value={form.kegiatan}
+              type="Jenis Data"
+              onSelectChange={(value) => setForm('kegiatan', value)}
             />
             <Select
               value={form.periode}
@@ -168,7 +172,7 @@ const Pelaporan = ({navigation}) => {
   );
 };
 
-export default Pelaporan;
+export default PelaporanKimia;
 
 const styles = StyleSheet.create({
   page: {

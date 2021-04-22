@@ -25,12 +25,10 @@ const SplashScreen = ({navigation}) => {
             someFlag: true,
           },
         })
-        .then((ret) => {
-          console.log(ret);
+        .then(() => {
           navigation.reset({index: 0, routes: [{name: 'MainApp'}]});
         })
-        .catch((err) => {
-          console.warn(err.message);
+        .catch(() => {
           navigation.replace('Login');
         });
     }, 2000);

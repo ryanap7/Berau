@@ -38,7 +38,7 @@ const InputData = ({navigation}) => {
         setPenugasan(ret.nama);
       })
       .catch((err) => {
-        console.warn(err.message);
+        console.error(err.response);
       });
   }, []);
 

@@ -42,7 +42,7 @@ const StepsPerbaikan = () => {
         setForm('wmp', ret);
       })
       .catch((err) => {
-        console.warn(err.message);
+        console.error(err.response);
       });
   }, []);
 

@@ -33,20 +33,19 @@ const SyncData = ({navigation}) => {
               },
             })
               .then((res) => {
-                console.log(res);
                 if (res.status === 200) {
                   storage.clearMapForKey('dataLocal');
                   navigation.replace('SyncSuccess');
                 }
               })
               .catch((err) => {
-                console.log(err.response);
+                console.error(err.response);
               });
           }
         });
       })
       .catch((err) => {
-        console.warn(err.message);
+        console.error(err.response);
       });
   }, []);
   return (

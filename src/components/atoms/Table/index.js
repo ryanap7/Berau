@@ -12,8 +12,6 @@ const Table = ({dataHeader, data, dataWidth}) => {
     setWidthArr(dataWidth);
   }, [dataHeader, dataWidth]);
 
-  console.log(dataHeader);
-
   if (tableHead.length > 0) {
     return (
       <View style={styles.table}>

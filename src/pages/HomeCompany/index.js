@@ -1,3 +1,4 @@
+import Axios from 'axios';
 import React, {useEffect, useState} from 'react';
 import {
   ScrollView,
@@ -22,21 +23,14 @@ import storage from '../../utils/storage';
 
 const HomeCompany = ({navigation}) => {
   const [penugasan, setPenugasan] = useState('');
-  const [tableHead] = useState([
-    'Bulan',
-    'Total Kapur(ton)',
-    'Total Kawas(ton)',
-    'Total Chemical',
-  ]);
-  const [widthArr] = useState([80, 80, 80, 80]);
-  const tableData = [];
-  for (let i = 0; i < 30; i += 1) {
-    const rowData = [];
-    for (let j = 0; j < 9; j += 1) {
-      rowData.push(`${i}${j}`);
-    }
-    tableData.push(rowData);
-  }
+  const [data, setData] = useState([]);
+  const [tableHead] = useState(['Bulan', 'Total Kapur', 'Total Tawas']);
+  const [widthArr, setWidthArr] = useState([110, 110, 110]);
+  const tableData = data;
+
+  const API_HOST = {
+    url: 'https://berau.mogasacloth.com/api/v1',
+  };
 
   useEffect(() => {
     storage
@@ -52,7 +46,33 @@ const HomeCompany = ({navigation}) => {
         setPenugasan(res.nama);
       })
       .catch((err) => {
-        console.warn(err.message);
+        console.error(err.response);
+      });
+    storage
+      .load({
+        key: 'token',
+        autoSync: true,
+        syncInBackground: true,
+        syncParams: {
+          someFlag: true,
+        },
+      })
+      .then((ret) => {
+        Axios.get(`${API_HOST.url}/report/rekaptulasi`, {
+          headers: {
+            Authorization: `Bearer ${ret}`,
+          },
+        })
+          .then((res) => {
+            setData(res.data.data_rows);
+            setWidthArr(res.data.data_width);
+          })
+          .catch((err) => {
+            console.error(err.response);
+          });
+      })
+      .catch((err) => {
+        console.error(err.response);
       });
   }, []);
   return (
@@ -98,7 +118,7 @@ const HomeCompany = ({navigation}) => {
           <TouchableOpacity
             activeOpacity={0.7}
             style={styles.menu}
-            onPress={() => navigation.navigate('Pelaporan')}>
+            onPress={() => navigation.navigate('ChooseReport')}>
             <IcLaporan />
             <Text style={styles.menuText}>Pelaporan</Text>
           </TouchableOpacity>

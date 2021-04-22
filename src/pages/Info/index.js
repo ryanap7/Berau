@@ -36,10 +36,10 @@ const Info = ({navigation}) => {
       <View style={styles.container}>
         <View style={styles.card}>
           <ScrollView showsVerticalScrollIndicator={false}>
-            {data.map((item) => {
-              console.log(item);
+            {data.map((item, index) => {
               return (
                 <InfoList
+                  key={index}
                   text={item.keterangan}
                   active
                   onPress={() => navigation.navigate('InfoDetail', item)}

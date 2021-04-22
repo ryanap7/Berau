@@ -21,7 +21,7 @@ const Select = ({value, onSelectChange, type, enabled}) => {
         setWmp(ret.wmp);
       })
       .catch((err) => {
-        console.warn(err.message);
+        console.error(err.response);
       });
   }, []);
 
@@ -97,6 +97,76 @@ const Select = ({value, onSelectChange, type, enabled}) => {
           </Picker>
         </View>
       )}
+      {type === 'Jenis Kegiatan' && (
+        <View style={styles.input}>
+          <Picker
+            selectedValue={value}
+            style={styles.select}
+            onValueChange={(itemValue) => onSelectChange(itemValue)}>
+            <Picker.Item label="Data pH" value="Data pH" />
+            <Picker.Item label="Data TSS" value="Data TSS" />
+            <Picker.Item label="Data Fe" value="Data Fe" />
+            <Picker.Item label="Data Mn" value="Data Mn" />
+            <Picker.Item label="Data Debit" value="Data Debit" />
+            <Picker.Item label="All" value="All" />
+          </Picker>
+        </View>
+      )}
+      {type === 'Jenis Perbaikan' && (
+        <View style={styles.input}>
+          <Picker
+            selectedValue={value}
+            style={styles.select}
+            onValueChange={(itemValue) => onSelectChange(itemValue)}>
+            <Picker.Item label="Pengerukan" value="Pengerukan" />
+            <Picker.Item label="Alat Sparing" value="Alat Sparing" />
+            <Picker.Item label="All" value="All" />
+          </Picker>
+        </View>
+      )}
+      {type === 'SamplingPoint' && (
+        <View style={styles.input}>
+          <Picker
+            selectedValue={value}
+            style={styles.select}
+            onValueChange={(itemValue) => onSelectChange(itemValue)}>
+            <Picker.Item
+              label="Sebelum titik Pengapuran"
+              value="Sebelum titik Pengapuran"
+            />
+            <Picker.Item
+              label="Sebelum Titik Penawasan"
+              value="Sebelum Titik Penawasan"
+            />
+            <Picker.Item
+              label="Pintu Masuk Sedement Pond"
+              value="Pintu Masuk Sedement Pond"
+            />
+            <Picker.Item
+              label="Titik Penataan (Pintu Effluent)"
+              value="Titik Penataan (Pintu Effluent)"
+            />
+            <Picker.Item
+              label="Titik Lainnya (diSPORING)"
+              value="Titik Lainnya (diSPORING)"
+            />
+          </Picker>
+        </View>
+      )}
+      {type === 'Periode' && (
+        <View style={styles.input}>
+          <Picker
+            selectedValue={value}
+            style={styles.select}
+            onValueChange={(itemValue) => onSelectChange(itemValue)}>
+            <Picker.Item label="Per Jam" value="Per Jam" />
+            <Picker.Item label="Per 3 Jam" value="Per 3 Jam" />
+            <Picker.Item label="Per 6 Jam" value="Per 6 Jam" />
+            <Picker.Item label="Per Hari" value="Per Hari" />
+            <Picker.Item label="Per Bulan" value="Per Bulan" />
+          </Picker>
+        </View>
+      )}
       {type === 'Jabatan' && (
         <View style={styles.input}>
           <Picker
@@ -141,11 +211,6 @@ const Select = ({value, onSelectChange, type, enabled}) => {
             selectedValue={value}
             style={styles.select}
             onValueChange={(itemValue) => onSelectChange(itemValue)}>
-            {/* {samplingPointReducer.sampling.sampling_point.map((data, index) => {
-              return (
-                <Picker.Item key={index} label={data.nama} value={data.id} />
-              );
-            })} */}
             <Picker.Item
               label="Sebelum titik Pengapuran"
               value="Sebelum titik Pengapuran"

@@ -25,7 +25,7 @@ const Header = () => {
         setPhoto({uri: res.user_photo});
       })
       .catch((err) => {
-        console.warn(err.message);
+        console.error(err.response);
       });
   }, []);
   return (

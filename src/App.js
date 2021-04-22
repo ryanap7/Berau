@@ -26,11 +26,6 @@ const App = () => {
   const [registerToken, setRegisterToken] = useState('');
   const appState = useRef(AppState.currentState);
   const [appStateVisible, setAppStateVisible] = useState(appState.current);
-  const [refreshToken, setRefreshToken] = useState('');
-
-  const data = {
-    refreshToken: refreshToken,
-  };
 
   const API_HOST = {
     url: 'https://berau.mogasacloth.com/api/v1',
@@ -47,26 +42,10 @@ const App = () => {
   const notif = new NotifService(onRegister, onNotif);
 
   useEffect(() => {
-    storage
-      .load({
-        key: 'refreshToken',
-        autoSync: true,
-        syncInBackground: true,
-        syncParams: {
-          someFlag: true,
-        },
-      })
-      .then((res) => {
-        setRefreshToken(res);
-      })
-      .catch((err) => {
-        console.warn(err.message);
-      });
-
     if (appStateVisible === 'active') {
       storage
         .load({
-          key: 'token',
+          key: 'refreshToken',
           autoSync: true,
           syncInBackground: true,
           syncParams: {
@@ -74,21 +53,24 @@ const App = () => {
           },
         })
         .then((res) => {
+          const data = {
+            refreshToken: res,
+          };
           if (res) {
             Axios.post(`${API_HOST.url}/auth/refreshToken`, data)
               .then((result) => {
                 storage.save({
                   key: 'token',
-                  data: res.data.data.token,
+                  data: result.data.data.token,
                 });
               })
               .catch((err) => {
-                console.log(err.response);
+                console.error(err.response);
               });
           }
         })
         .catch((err) => {
-          console.log(err.message);
+          console.error(err.response);
         });
     }
 
@@ -97,7 +79,7 @@ const App = () => {
     return () => {
       AppState.removeEventListener('change', _handleAppStateChange);
     };
-  }, []);
+  });
 
   const _handleAppStateChange = (nextAppState) => {
     if (

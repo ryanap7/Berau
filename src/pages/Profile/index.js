@@ -34,7 +34,7 @@ const Profile = ({navigation}) => {
         setPosition(res.jabatan.nama);
       })
       .catch((err) => {
-        console.warn(err.message);
+        console.error(err.response);
       });
   }, []);
 

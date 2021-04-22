@@ -44,7 +44,7 @@ const RekapData = ({navigation}) => {
         setPenugasan(res.nama);
       })
       .catch((err) => {
-        console.warn(err.message);
+        console.error(err.response);
       });
   }, []);
 
@@ -92,7 +92,7 @@ const RekapData = ({navigation}) => {
           });
       })
       .catch((err) => {
-        console.warn(err.response);
+        console.error(err.response);
       });
   };
 

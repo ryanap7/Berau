@@ -30,7 +30,7 @@ const Penugasan = ({navigation}) => {
         setWmp(res.wmp);
       })
       .catch((err) => {
-        console.warn(err.message);
+        console.error(err.response);
       });
   }, []);
 

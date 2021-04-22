@@ -14,7 +14,7 @@ export const samplingPoint = () => (dispatch) => {
       dispatch({type: 'GET_SAMPLING', value: res.data.data});
     })
     .catch((err) => {
-      console.log(err);
+      console.error(err.response);
     });
 };
 
@@ -54,7 +54,7 @@ export const storeAtt = (form, token) => (dispatch) => {
     })
     .catch((err) => {
       dispatch(setLoading(false));
-      console.log(err);
+      console.error(err.response);
     });
 };
 
@@ -87,7 +87,7 @@ export const storeChemical = (form, token) => (dispatch) => {
     })
     .catch((err) => {
       dispatch(setLoading(false));
-      console.log(err);
+      console.error(err.response);
     });
 };
 
@@ -105,8 +105,6 @@ export const storeService = (form, token) => (dispatch) => {
     note: form.note,
   };
 
-  console.log(data);
-
   dispatch(setLoading(true));
   Axios.post(`${API_HOST.url}/perbaikan`, data, {
     headers: {
@@ -119,6 +117,6 @@ export const storeService = (form, token) => (dispatch) => {
     })
     .catch((err) => {
       dispatch(setLoading(false));
-      console.log(err);
+      console.error(err.response);
     });
 };

@@ -16,12 +16,15 @@ import AddAttendance from './AddAttendance';
 import EditAttendance from './EditAttendance';
 import RekapAttendance from './RekapAttendance';
 import Pelaporan from './Pelaporan';
+import PelaporanAAT from './PelaporanAAT';
+import PelaporanKimia from './PelaporanKimia';
 import InfoDetail from './InfoDetail';
 import SyncData from './SyncData';
 import SyncSuccess from './SyncSuccess';
 import History from './History';
 import HistoryDetail from './HistoryDetail';
 import EditHistory from './EditHistory';
+import ChooseReport from './ChooseReport';
 
 export {
   SplashScreen,
@@ -42,10 +45,13 @@ export {
   EditAttendance,
   RekapAttendance,
   Pelaporan,
+  PelaporanAAT,
+  PelaporanKimia,
   InfoDetail,
   SyncData,
   SyncSuccess,
   History,
   HistoryDetail,
   EditHistory,
+  ChooseReport,
 };

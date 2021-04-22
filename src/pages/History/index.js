@@ -33,7 +33,7 @@ const History = ({navigation}) => {
         });
       })
       .catch((err) => {
-        console.warn(err.response);
+        console.error(err.response);
       });
   }, []);
   return (
@@ -54,7 +54,6 @@ const History = ({navigation}) => {
           <ScrollView>
             <Gap height={11} />
             {data.map((item) => {
-              console.log(item);
               const date = Moment(item.created_at).format('DD MMMM YYYY');
               const time = Moment(item.created_at).format('H:mm');
 

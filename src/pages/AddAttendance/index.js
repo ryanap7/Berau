@@ -35,7 +35,7 @@ const AddAttendance = ({navigation, route}) => {
         setToken(ret);
       })
       .catch((err) => {
-        console.warn(err.message);
+        console.error(err.response);
       });
   }, []);
 
@@ -53,7 +53,7 @@ const AddAttendance = ({navigation, route}) => {
       })
       .catch((err) => {
         dispatch(setLoading(false));
-        console.log(err);
+        console.error(err.response);
       });
   };
   return (
